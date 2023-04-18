@@ -20,8 +20,7 @@ React.js, TypeScript, HTML, CSS, MySQL, Django
 - 주식 조회 UI 구현
 - 주식 구매, 판매가 가능한 UI 구현
 
----
-### [git 규칙]
+### [git 컨벤션]
 - feat: 새 기능 추가
 - fix: 발생한 에러 수정
 - style: 코드 포맷팅, css 코드 추가 및 수정
@@ -29,7 +28,7 @@ React.js, TypeScript, HTML, CSS, MySQL, Django
 
 ### [Commit 메시지 규칙]
 ##### 형태 : git commit -m '[git 컨벤션]: [작업내용] (#[깃이슈/pr 번호])'
-##### 예시 : git commit -m '#feat: 새로운 기능 추가(#1)'
+##### 예시 : git commit -m 'feat: 새로운 기능 추가(#1)'
 
 ### [코드 규칙]
 - 변수/ 함수: camelCalse
