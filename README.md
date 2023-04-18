@@ -26,11 +26,11 @@ React.js, TypeScript, HTML, CSS, MySQL, Django
 - style: 코드 포맷팅, css 코드 추가 및 수정
 - refactor: 성능 개선을 위한 코드 수정
 
-### [Commit 메시지 규칙]
+### [Commit 메시지 컨벤션]
 ##### 형태 : git commit -m '[git 컨벤션]: [작업내용] (#[깃이슈/pr 번호])'
 ##### 예시 : git commit -m 'feat: 새로운 기능 추가(#1)'
 
-### [코드 규칙]
+### [코딩 컨벤션]
 - 변수/ 함수: camelCalse
 - 컴포넌트/ 타입(인터페이스 등): PascalCase
 - 상수: UPPER_SNAKE_CASE
