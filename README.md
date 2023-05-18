@@ -1,24 +1,21 @@
-## [React.js를 활용한 개인 사이드 프로젝트] 실시간 주식 거래 사이트
+## [NUMBLE 딥다이브] 클론코딩의 정석_TypeScript + React 로 소개팅 앱 만들어보기
 
-###### pull request 학습을 위해 혼자서 pull request를 진행하는 중 입니다.
+###### https://www.numble.it/deepdive/50 해당 딥다이브를 진행한 결과물입니다.
 
-### [인원]
-
-- 1명
 
 ### [사용 기술]
 
-React.js, TypeScript, HTML, CSS, MySQL, Django
+React.js, TypeScript, HTML, CSS
 
-### [구현 예정 기능]
-##### 계속 추가될 수 있으며 기능 구현이 끝났으면 취소선으로 표시
+### [와이어프레임]
+<img width="2351" alt="와이어프레임" src="https://github.com/Growing-Jiwoo/NumbleDeepDIve/assets/115076308/d8d2014d-872f-44e4-af71-94fd7e4bb59c">
 
-- JWT를 활용한 모든 API의 JWT 검증 방식 적용
-- 로그인, 로그아웃 기능 구현
-- 최초 로그인 시 전 날엔 보유중이지 않는 주식 중에서 10퍼이상 증가하여 구매를 유도하는 팝업 구현
-- 내 정보를 들어가면 구매한 주식들의 리스트와 사용자의 수익 정보를 볼 수 있는 UI 구현
-- 주식 조회 UI 구현
-- 주식 구매, 판매가 가능한 UI 구현
+### [구현된 기능]
+- 회원가입 및 로그인
+- 좋아요 / 싫어요 구현
+- 내가 좋아요를 한 사람 / 나에게 좋아요를 한 사람 구현
+- 회원 정보 변경 구현 (이미지 업로드 -> aws s3 사용)
+- 나에게 좋아요를 한 사람과 채팅 기능 구현 (express.js 사용)
 
 ### [git 컨벤션]
 - feat: 새 기능 추가
@@ -34,3 +31,19 @@ React.js, TypeScript, HTML, CSS, MySQL, Django
 - 변수/ 함수: camelCalse
 - 컴포넌트/ 타입(인터페이스 등): PascalCase
 - 상수: UPPER_SNAKE_CASE
+
+### [사용 라이브러리]
+`aws-sdk@2.1377.0`   
+`axios@1.4.0`   
+`react-async@10.0.1`   
+`react-cookie@4.1.1`   
+`react-dom@18.2.0`   
+`react-hook-form@7.43.9`   
+`react-modal@3.16.1`      
+`react-router-dom@6.11.1`   
+`socket.io-client@4.6.1`
+`styled-components@5.3.10`   
+`typescript@4.9.5`   
+`cors@2.8.5`   
+`express@4.18.2`   
+`socket.io@4.6.1`   
