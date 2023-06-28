@@ -1,4 +1,4 @@
-## [React.js를 활용한 개인 사이드 프로젝트] 실시간 주식 거래 사이트
+## 실시간 주식 거래 사이트
 
 ###### pull request 학습을 위해 혼자서 pull request를 진행하는 중 입니다.
 
@@ -6,7 +6,11 @@
 - 1명
 
 ### [사용 기술]
-React.js, TypeScript, HTML, CSS, MySQL, Django
+
+#### * Client
+React.js, TypeScript, JSX, CSS
+#### * Server
+MySQL, Django
 
 ### [구현 예정 기능]
 ##### 계속 추가될 수 있으며 기능 구현이 끝났으면 취소선으로 표시
