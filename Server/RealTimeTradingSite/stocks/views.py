@@ -1,18 +1,53 @@
-from rest_framework import status
-from datetime import date, timedelta
+from .models import StockInfo, User
+from datetime import datetime, timedelta
+from rest_framework.permissions import BasePermission, AllowAny
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+import random
+from .authentication import authenticate_request
+from .serializers import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import StockInfo
-from .serializers import StockInfoSerializer
-from datetime import datetime, timedelta
+from rest_framework import status
+from rest_framework_jwt.settings import api_settings
 
 
-class HiView(APIView):
-    def get(self, request, format=None):
-        data = {"hi": "Hello World!"}
-        return Response(data, status=status.HTTP_200_OK)
+class IsTokenValid(BasePermission):
+    authentication_classes = (JSONWebTokenAuthentication)
 
-import random
+    def has_permission(self, request, view):
+        try:
+            return request.user.is_authenticated
+        except AuthenticationFailed:
+            return False
+
+class UserSigninAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = User.objects.filter(username=username, password=password).first()
+        if user:
+            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+            return Response({'token': token})
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserSignupAPIView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            response_data = {
+                'success': True,
+                'message': 'Sign-up successful!'
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class StockInfoList(APIView):
 
@@ -20,6 +55,12 @@ class StockInfoList(APIView):
         current_date = datetime.now().date()
         yesterday_date = current_date - timedelta(days=1)
         stocks = []
+        try:
+            payload = authenticate_request(request)
+        except AuthenticationFailed as e:
+            return Response(e.detail, status=e.status_code)
+        except StockInfo.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         for i in range(10):
             name = f"Stock {i+1}"
             try:
