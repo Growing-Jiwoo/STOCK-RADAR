@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Column, useTable } from 'react-table';
 import { TableStyle } from './styled';
-import { getStockInfo } from '../../../api/stockinfo';
+import { getStockInfo } from '../../api/stockinfo';
 
 interface StockInfomation {
   current_price: number;
