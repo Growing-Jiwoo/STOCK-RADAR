@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_jwt.settings import api_settings
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class IsTokenValid(BasePermission):
     authentication_classes = (JSONWebTokenAuthentication)
@@ -20,7 +20,6 @@ class IsTokenValid(BasePermission):
             return request.user.is_authenticated
         except AuthenticationFailed:
             return False
-
 class UserSigninAPIView(APIView):
     permission_classes = [AllowAny]
 
@@ -29,11 +28,10 @@ class UserSigninAPIView(APIView):
         password = request.data.get('password')
         user = User.objects.filter(username=username, password=password).first()
         if user:
-            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-            payload = jwt_payload_handler(user)
-            token = jwt_encode_handler(payload)
-            return Response({'token': token})
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            refresh_token = str(refresh)
+            return Response({'access_token': access_token, 'refresh_token': refresh_token})
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
