@@ -4,12 +4,28 @@ from rest_framework.permissions import BasePermission, AllowAny
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 import random
-from .authentication import authenticate_request
+from .authentication import authenticate_request, generate_refresh_token
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_jwt.settings import api_settings
+
+class RefreshTokenAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        try:
+            payload = authenticate_request(request)
+            user_id = payload['user_id']
+            user = User.objects.get(pk=user_id)
+        except AuthenticationFailed as e:
+            return Response(e.detail, status=e.status_code)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        refresh_token = generate_refresh_token(user)
+        return Response({'refresh_token': refresh_token})
 
 
 class IsTokenValid(BasePermission):
