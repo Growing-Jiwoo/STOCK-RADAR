@@ -1,14 +1,16 @@
-## [React.js를 활용한 개인 사이드 프로젝트] 실시간 주식 거래 사이트
+## 실시간 주식 거래 사이트
 
 ###### pull request 학습을 위해 혼자서 pull request를 진행하는 중 입니다.
 
 ### [인원]
-
 - 1명
 
 ### [사용 기술]
 
-React.js, TypeScript, HTML, CSS, MySQL, Django
+#### * Client
+React.js, TypeScript, JSX, CSS
+#### * Server
+MySQL, Django
 
 ### [구현 예정 기능]
 ##### 계속 추가될 수 있으며 기능 구현이 끝났으면 취소선으로 표시
@@ -24,12 +26,12 @@ React.js, TypeScript, HTML, CSS, MySQL, Django
 - feat: 새 기능 추가
 - fix: 발생한 에러 수정
 - style: 코드 포맷팅, css 코드 추가 및 수정
-- refactor: 성능 개선을 위한 코드 수정
-
+- refactor: 성능 개선을 위한 코드 수정   
+   
 ### [Commit 메시지 컨벤션]
 ##### 형태 : git commit -m '[git 컨벤션]: [작업내용] (#[깃이슈/pr 번호])'
 ##### 예시 : git commit -m 'feat: 새로운 기능 추가(#1)'
-
+   
 ### [코딩 컨벤션]
 - 변수/ 함수: camelCalse
 - 컴포넌트/ 타입(인터페이스 등): PascalCase
