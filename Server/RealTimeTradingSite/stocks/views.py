@@ -51,12 +51,20 @@ class UserSigninAPIView(APIView):
             token = jwt_encode_handler(payload)
             return Response({'token': token})
         else:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            raise AuthenticationFailed({'error': '잘못된 ID나 PW를 입력하셨습니다.', 'code': 400})
 
 class UserSignupAPIView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+            username = serializer.validated_data.get('username')
+            if User.objects.filter(username=username).exists():
+                response_data = {
+                    'success': False,
+                    'message': '중복되는 ID가 존재합니다. 다른 ID를 입력하십시오.',
+                    'code': 409
+                }
+                return Response(response_data, status=status.HTTP_409_CONFLICT)
             serializer.save()
             response_data = {
                 'success': True,
