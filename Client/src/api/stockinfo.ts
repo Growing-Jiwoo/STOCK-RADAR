@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { ApiUrl } from './ApiUrl';
+import { instance } from './axios';
 
 export const getStockInfo = async () => {
   try {
-    const response = await axios.get(ApiUrl.stockinfo);
+    const response = await instance.get(ApiUrl.stockinfo);
     return response.data;
   } catch (error) {
     console.log(error);
