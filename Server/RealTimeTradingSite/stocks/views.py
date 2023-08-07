@@ -74,7 +74,6 @@ class UserSignupAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class StockInfoList(APIView):
-
     def get(self, request):
         current_date = datetime.now().date()
         yesterday_date = current_date - timedelta(days=1)
@@ -89,22 +88,22 @@ class StockInfoList(APIView):
             name = f"Stock {i+1}"
             try:
                 stock = StockInfo.objects.get(name=name, timestamp__date=current_date)
-                volatility = random.uniform(-0.05, 0.05)
-                stock.current_price = round(stock.current_price * (1 + volatility) + 0.01, 2)
+                volatility = random.uniform(-0.005, 0.005)
+                stock.current_price = round(stock.current_price * (1 + volatility), 2)
                 stock.rate_of_change = round((stock.current_price - stock.start_price) / stock.start_price * 100, 2)
                 stock.save()
             except StockInfo.DoesNotExist:
                 if StockInfo.objects.filter(name=name, timestamp__date=yesterday_date).exists():
                     yesterday_stock = StockInfo.objects.get(name=name, timestamp__date=yesterday_date)
-                    volatility = random.uniform(-0.05, 0.05)
-                    start_price = round(yesterday_stock.current_price * (1 + volatility) + 0.01, 2)
+                    volatility = random.uniform(-0.005, 0.005)
+                    start_price = round(yesterday_stock.current_price * (1 + volatility), 2)
                     stock = StockInfo.objects.create(name=name, start_price=start_price, yesterday_price=yesterday_stock.current_price,
                                                      current_price=start_price, rate_of_change=0, percentage_diff=0)
                     if yesterday_date != current_date:
-                        stock.percentage_diff = round((stock.yesterday_price - stock.start_price) / stock.start_price * 100, 2)
+                        stock.percentage_diff = round((stock.start_price - stock.yesterday_price) / stock.start_price * 100, 2)
                         stock.save()
                 else:
-                    start_price = round(random.uniform(100, 500) + 0.01, 2)
+                    start_price = round(random.uniform(100, 500), 2)
                     stock = StockInfo.objects.create(name=name, start_price=start_price, yesterday_price=start_price,
                                                      current_price=start_price, rate_of_change=0, percentage_diff=0)
 
