@@ -1,11 +1,20 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Column, useTable } from 'react-table';
-import { TableStyle } from '../component/StockInfo/styled';
-import { StockInfomation } from '../@types/stock';
-import { useGetStockInfo } from '../services/stockInfo';
+import { TableStyle } from './styled';
+import { getStockInfo } from '../../api/stockinfo';
+
+interface StockInfomation {
+  current_price: number;
+  name: string;
+  percentage_diff: number;
+  rate_of_change: number;
+  start_price: number;
+  timestamp: string;
+  yesterday_price: number;
+}
 
 export default function StockInfo() {
-  const { data, isLoading, error } = useGetStockInfo();
+  const [data, setData] = useState<StockInfomation[]>([]);
   const columns = useMemo<Column<StockInfomation>[]>(
     () => [
       {
@@ -36,6 +45,12 @@ export default function StockInfo() {
     columns,
     data: data,
   });
+
+  useEffect(() => {
+    getStockInfo().then((res) => {
+      setData(res);
+    });
+  }, []);
 
   return (
     <TableStyle>
