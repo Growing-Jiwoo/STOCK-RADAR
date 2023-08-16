@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class StockInfo(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -7,7 +8,7 @@ class StockInfo(models.Model):
     start_price = models.FloatField()
     current_price = models.FloatField()
     rate_of_change = models.FloatField()
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(default=timezone.now)
     percentage_diff = models.FloatField(blank=True, null=True)
 
     class Meta:
