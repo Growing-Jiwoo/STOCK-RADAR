@@ -52,26 +52,26 @@ class UserSigninAPIView(APIView):
             token = jwt_encode_handler(payload)
             return Response({'token': token})
         else:
-            raise AuthenticationFailed({'error': '잘못된 ID나 PW를 입력하셨습니다.', 'code': 400})
+            response_data = {
+                'success': False,
+                'message': '잘못된 ID나 PW를 입력하셨습니다.'
+            }
+            return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
 
 class UserSignupAPIView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
+
+        username = request.data.get('username')
+
+        if User.objects.filter(username=username).exists():
+            return Response({'code': 401, 'message': '중복되는 ID가 존재합니다.'}, status=status.HTTP_409_CONFLICT)
+
+
         if serializer.is_valid():
-            username = serializer.validated_data.get('username')
-            if User.objects.filter(username=username).exists():
-                response_data = {
-                    'success': False,
-                    'message': '중복되는 ID가 존재합니다. 다른 ID를 입력하십시오.',
-                    'code': 409
-                }
-                return Response(response_data, status=status.HTTP_409_CONFLICT)
             serializer.save()
-            response_data = {
-                'success': True,
-                'message': 'Sign-up successful!'
-            }
-            return Response(response_data, status=status.HTTP_201_CREATED)
+            return Response({'code': 201, 'message': '회원가입에 성공하였습니다.'}, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class StockInfoList(APIView):
@@ -156,7 +156,7 @@ class UserStocksCreate(APIView):
         except AuthenticationFailed as e:
             return Response({'code': 401, 'data': e.detail}, status=e.status_code)
         except UserStocks.DoesNotExist:
-            return Response({'code': 404, 'data': {'error': 'UserStocks not found'}}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'code': 404, 'message': 'UserStocks not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request, format=None):
         serializer = UserStocksSerializer(data=request.data)
@@ -194,11 +194,8 @@ class UserStocksCreate(APIView):
                         current_purchase_price = stock_info.current_price
                         serializer.validated_data['purchase_price'] = Decimal(current_purchase_price) * quantity
                     except StockInfo.DoesNotExist:
-                        response_data = {
-                            'code': 404,
-                            'data': {'error': 'Stock with the provided ID does not exist'}
-                        }
-                        return Response(response_data, status=status.HTTP_404_NOT_FOUND)
+                        return Response({'code': 404, 'message': 'Stock with the provided ID does not exist'},
+                                    status=status.HTTP_404_NOT_FOUND)
 
                     serializer.validated_data['purchase_date'] = datetime.now()
                     serializer.save()
@@ -210,20 +207,18 @@ class UserStocksCreate(APIView):
 
                     data = serializer.data
                     data['result'] = result
-                    response_data = {
+                    return Response({
                         'code': 201,
                         'data': data
-                    }
-                    return Response(response_data, status=status.HTTP_201_CREATED)
+                    }, status=status.HTTP_201_CREATED)
 
             except UserStocks.DoesNotExist:
                 pass
 
-        response_data = {
+        return Response({
             'code': 400,
             'data': serializer.errors
-        }
-        return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 from decimal import Decimal, ROUND_HALF_UP
@@ -236,36 +231,32 @@ class SellStocksAPIView(APIView):
         user_id = payload['user_id']
 
         if not stock_id or not quantity_to_sell:
-            response_data = {
+            return Response({
                 'code': 400,
-                'data': {'error': 'stock_id and quantity fields are required'}
-            }
-            return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+                'message': 'stock_id and quantity fields are required'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             stock_info = StockInfo.objects.get(pk=stock_id)
         except StockInfo.DoesNotExist:
-            response_data = {
+            return Response({
                 'code': 404,
-                'data': {'error': 'Stock with the provided ID does not exist'}
-            }
-            return Response(response_data, status=status.HTTP_404_NOT_FOUND)
+                'message': 'Stock with the provided ID does not exist'
+            }, status=status.HTTP_404_NOT_FOUND)
 
         try:
             user_stock = UserStocks.objects.get(user=user_id, stock=stock_info)
         except UserStocks.DoesNotExist:
-            response_data = {
+            return Response({
                 'code': 400,
-                'data': {'error': 'You do not have any stocks of this type to sell'}
-            }
-            return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+                'message': 'You do not have any stocks of this type to sell'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         if user_stock.quantity < quantity_to_sell:
-            response_data = {
+            return Response({
                 'code': 400,
-                'data': {'error': 'You do not have enough stocks to sell this quantity'}
-            }
-            return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+                'message': 'You do not have enough stocks to sell this quantity'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         selling_price = stock_info.current_price
         total_selling_amount = selling_price * quantity_to_sell
@@ -283,7 +274,6 @@ class SellStocksAPIView(APIView):
         response_data = {
             'code': 200,
             'data': {
-                'message': 'Successfully sold stocks',
                 'stock_name': stock_info.name,
                 'quantity_sold': quantity_to_sell,
                 'current_price': round(selling_price, 2),
@@ -292,4 +282,8 @@ class SellStocksAPIView(APIView):
                 'date': current_date.strftime('%Y-%m-%d')
             }
         }
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response({
+                'code': 400,
+                'message': 'You do not have any stocks of this type to sell',
+                'data' : response_data
+            }, status=status.HTTP_200_OK)
