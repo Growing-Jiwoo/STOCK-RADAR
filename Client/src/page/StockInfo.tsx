@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import { Column, useTable } from 'react-table';
 import { TableStyle } from '../component/StockInfo/styled';
-import { StockInfomation } from '../@types/stock';
+import { StockInformation } from '../@types/stock';
 import { useGetStockInfo } from '../services/stockInfo';
 
 export default function StockInfo() {
-  const { data, isLoading, error } = useGetStockInfo();
-  const columns = useMemo<Column<StockInfomation>[]>(
+  const { data } = useGetStockInfo();
+
+  const columns = useMemo<Column<StockInformation>[]>(
     () => [
       {
         Header: '주식명',
