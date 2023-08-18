@@ -1,8 +1,8 @@
 import axios, { InternalAxiosRequestConfig, AxiosError } from 'axios';
-import token from '../util/token';
-import storage from '../util/localStorage';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../util/constants';
-import { APIError } from '../@types/api';
+import token from '../utils/token';
+import storage from '../utils/localStorage';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants';
+import { APIError } from '../types/api';
 import { ApiUrl } from './ApiUrl';
 
 const host =
@@ -64,9 +64,9 @@ instance.interceptors.response.use(
 export const createDefaultAPIError = (error: unknown): APIError => {
   if (error instanceof AxiosError) {
     return {
-      isSuccess: false,
+      code: 400,
       message: error.response?.data.message,
     };
   }
-  return { isSuccess: false, message: '알 수 없는 에러입니다.' };
+  return { code: 400, message: '알 수 없는 에러입니다.' };
 };
