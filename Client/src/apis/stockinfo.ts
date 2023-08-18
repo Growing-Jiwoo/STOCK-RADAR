@@ -1,4 +1,4 @@
-import { StockInformation } from '../@types/stock';
+import { StockInformation } from '../types/stock';
 import { ApiUrl } from './ApiUrl';
 import { instance } from './axios';
 

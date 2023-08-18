@@ -1,4 +1,4 @@
-import { Auth } from '../@types/auth';
+import { Auth } from '../types/auth';
 import { ApiUrl } from './ApiUrl';
 import { instance } from './axios';
 
