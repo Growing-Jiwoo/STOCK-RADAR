@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { Container } from '../components/Auth/styled';
 import { SignInButton } from '../components/Auth/Button';
 import { SignUpForm } from '../components/Auth/SignUpForm';
 import { Auth } from '../types/auth';
