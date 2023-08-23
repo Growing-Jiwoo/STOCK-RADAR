@@ -1,46 +1,12 @@
-import { useMemo } from 'react';
-import { Column, useTable } from 'react-table';
-import { TableStyle } from '../components/StockInfo/styled';
-import { StockInformation } from '../types/stock';
-import { useGetStockInfo } from '../services/stockInfo';
+import { StockTableContainer } from '../components/StockInfo/styled';
+import { useStockTableInstance } from '../hooks/useStockTableInstance';
 
 export default function StockInfo() {
-  const { data } = useGetStockInfo();
-
-  const columns = useMemo<Column<StockInformation>[]>(
-    () => [
-      {
-        Header: '주식명',
-        accessor: 'name',
-      },
-      {
-        Header: '시가',
-        accessor: 'start_price',
-      },
-      {
-        Header: '현재 가격',
-        accessor: 'current_price',
-      },
-      {
-        Header: '+-%',
-        accessor: 'rate_of_change',
-      },
-      {
-        Header: '어제 종가',
-        accessor: 'yesterday_price',
-      },
-    ],
-    []
-  );
-
-  const tableInstance = useTable({
-    columns,
-    data: data,
-  });
+  const tableInstance = useStockTableInstance();
 
   return (
-    <TableStyle>
-      <table {...tableInstance.getTableProps()}>
+    <StockTableContainer>
+      <table className="stock-table" {...tableInstance.getTableProps()}>
         <thead>
           {tableInstance.headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -63,6 +29,6 @@ export default function StockInfo() {
           })}
         </tbody>
       </table>
-    </TableStyle>
+    </StockTableContainer>
   );
 }
