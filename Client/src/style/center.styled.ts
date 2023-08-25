@@ -5,9 +5,9 @@ const Center = styled.div`
   height: 100vh;
   width: 80%;
   margin: 0 auto;
-  // justify-content: center;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
 `;
 
 export const S = {

@@ -3,6 +3,7 @@ import {
   StyledCommonContainer,
   StyledCommonButton,
 } from '../style/common.styled';
+import { ReactComponent as TitleLogo } from '../assets/icons/titleLogo_small.svg';
 
 const Container = styled(StyledCommonContainer)`
   box-shadow: 0 0px 70px rgba(0, 0, 0, 0.1);
@@ -24,21 +25,12 @@ const Title = styled.h2`
   cursor: pointer;
 `;
 
-const SmallButton = styled(StyledCommonButton)`
+const Button = styled(StyledCommonButton)`
   margin-bottom: 20px;
   height: 50px;
   width: 15%;
   border: none;
   border-radius: 10px;
-`;
-
-const NormalButton = styled(StyledCommonButton)`
-  margin-bottom: 20px;
-  height: 50px;
-  width: 15%;
-  border: none;
-  border-radius: 10px;
-  background-color: gainsboro;
 `;
 
 const ContentWrapper = styled.div`
@@ -48,11 +40,16 @@ const ContentWrapper = styled.div`
   justify-content: center;
 `;
 
+const TitleLogoImg = styled(TitleLogo)`
+  width: 40%;
+  height: 40%;
+`;
+
 export const S = {
   MainContainer,
   Title,
   Container,
-  SmallButton,
-  NormalButton,
+  Button,
   ContentWrapper,
+  TitleLogoImg,
 };
