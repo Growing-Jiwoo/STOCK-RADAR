@@ -125,6 +125,32 @@ class StockInfoList(APIView):
             stocks.append(stock_data)
         return Response(stocks)
 
+class StockInfoDetail(APIView):
+    def get(self, request, pk):
+        try:
+            payload = authenticate_request(request)
+        except AuthenticationFailed as e:
+            return Response(e.detail, status=e.status_code)
+
+        current_date = datetime.now().date()
+
+        try:
+            stock = StockInfo.objects.get(pk=pk, timestamp__date=current_date)
+        except StockInfo.DoesNotExist:
+            return Response({"detail": "Stock information does not exist for the specified ID."}, status=404)
+
+        stock_data = {
+            "id": stock.id,
+            'name': stock.name,
+            'start_price': stock.start_price,
+            'yesterday_price': stock.yesterday_price,
+            'current_price': stock.current_price,
+            'rate_of_change': stock.rate_of_change,
+            'percentage_diff': stock.percentage_diff,
+            'timestamp': stock.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+        return Response(stock_data)
 
 class UserStocksCreate(APIView):
     def get(self, request):
