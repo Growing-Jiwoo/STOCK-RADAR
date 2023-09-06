@@ -27,9 +27,8 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    // console.log('get response', response)
+    // 2xx 범위 내에 있는 모든 상태 코드는 이 함수를 트리거하게 합니다
+    // response 데이터로 작업하기 -> console.log("get response", response)
     return response;
   },
   async (error) => {
@@ -37,15 +36,12 @@ instance.interceptors.response.use(
       config,
       response: { status },
     } = error;
-    console.log(status);
     // 만료된 토큰일 경우
-    if (status === 419) {
+    if (status === 419 || status === 401) {
       const originalRequest = config;
-      console.log(config);
       const refreshToken = storage.get(REFRESH_TOKEN);
       // refresh token Post API 호출
       return await instance.post(ApiUrl.refreshToken).then((res) => {
-        console.log(res.data.refresh_token);
         if (res.status === 200) {
           storage.set(ACCESS_TOKEN, res.data.refresh_token);
           Object.assign(config.headers, {
