@@ -1,3 +1,4 @@
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import StockInfo, User, UserStocks
 from datetime import datetime, timedelta
 from rest_framework.permissions import BasePermission, AllowAny
@@ -9,7 +10,6 @@ from .serializers import UserSerializer, UserStocksSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_jwt.settings import api_settings
 from django.db.models import Sum
 
 class RefreshTokenAPIView(APIView):
@@ -45,12 +45,16 @@ class UserSigninAPIView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = User.objects.filter(username=username, password=password).first()
-        if user:
-            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-            payload = jwt_payload_handler(user)
-            token = jwt_encode_handler(payload)
-            return Response({'token': token})
+
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            refresh_token = str(refresh)
+
+            return Response({
+                'access_token': access_token,
+                'refresh_token': refresh_token,
+            })
         else:
             response_data = {
                 'success': False,
