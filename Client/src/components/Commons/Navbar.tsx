@@ -2,10 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { S } from './styled';
 import useLogout from '../../hooks/useLogout';
+import { useStockData } from '../../services/stockInfo';
 
 function NavBar() {
   const navigate = useNavigate();
   const { logout } = useLogout();
+
+  useStockData();
 
   return (
     <>

@@ -1,3 +1,4 @@
+import { RecoilRoot } from 'recoil'; // RecoilRoot 추가
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -11,11 +12,13 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ToastContainer position="top-center" autoClose={1500} />
-        <S.Center>
-          <RouterProvider router={router} />
-        </S.Center>
-        <ReactQueryDevtools />
+        <RecoilRoot>
+          <ToastContainer position="top-center" autoClose={1500} />
+          <S.Center>
+            <RouterProvider router={router} />
+          </S.Center>
+          <ReactQueryDevtools />
+        </RecoilRoot>
       </QueryClientProvider>
     </>
   );
