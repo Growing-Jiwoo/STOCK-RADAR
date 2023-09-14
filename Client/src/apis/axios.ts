@@ -16,8 +16,9 @@ export const instance = axios.create({
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const accesstoken = token.get(ACCESS_TOKEN);
-    if (accesstoken !== null)
+    if (accesstoken !== null) {
       Object.assign(config.headers, { authorization: `bearer ${accesstoken}` });
+    }
     return config;
   },
   (error) => {
@@ -39,7 +40,9 @@ instance.interceptors.response.use(
     // 만료된 토큰일 경우
     if (status === 419 || status === 401) {
       const originalRequest = config;
-      const refreshToken = storage.get(REFRESH_TOKEN);
+      const refreshToken: string = storage.get(REFRESH_TOKEN) as string;
+      storage.set(ACCESS_TOKEN, refreshToken);
+
       // refresh token Post API 호출
       return await instance.post(ApiUrl.refreshToken).then((res) => {
         if (res.status === 200) {
