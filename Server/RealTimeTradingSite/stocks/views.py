@@ -100,9 +100,8 @@ class StockInfoList(APIView):
             except StockInfo.DoesNotExist:
                 if StockInfo.objects.filter(name=name, timestamp__date=yesterday_date).exists():
                     yesterday_stock = StockInfo.objects.get(name=name, timestamp__date=yesterday_date)
-                    volatility = random.uniform(-0.005, 0.005)
-                    start_price = round(yesterday_stock.current_price * (1 + volatility), 2)
-                    stock = StockInfo.objects.create(name=name, start_price=start_price, yesterday_price=yesterday_stock.current_price,
+                    start_price = yesterday_stock.current_price
+                    stock = StockInfo.objects.create(name=name, start_price=start_price, yesterday_price=start_price,
                                                      current_price=start_price, rate_of_change=0, percentage_diff=0)
                     if yesterday_date != current_date:
                         stock.percentage_diff = round((stock.start_price - stock.yesterday_price) / stock.start_price * 100, 2)
@@ -128,6 +127,7 @@ class StockInfoList(APIView):
             }
             stocks.append(stock_data)
         return Response(stocks)
+
 
 class StockInfoDetail(APIView):
     def get(self, request, pk):
