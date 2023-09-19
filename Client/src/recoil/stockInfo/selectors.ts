@@ -8,10 +8,10 @@ export const selectedStockDataState = selectorFamily({
     ({ get }) => {
       const stockData = get(stockDataState);
       const stockIndex = Number(index);
-      if (stockIndex >= 0 && stockIndex < stockData.length) {
-        return stockData[stockIndex];
+      if (stockIndex >= 0 && stockIndex <= stockData.length) {
+        return stockData[stockIndex - 1];
       }
 
-      return [];
+      return null;
     },
 });
