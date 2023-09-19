@@ -14,22 +14,21 @@ function NavBar() {
     <>
       <S.Header bg="light" variant="light">
         <Container>
-          <Navbar.Brand href="/main">home</Navbar.Brand>
+          <Navbar.Brand
+            onClick={() => {
+              navigate('/stock');
+            }}
+          >
+            home
+          </Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link
+            {/* <Nav.Link
               onClick={() => {
                 navigate('/trade');
               }}
             >
               trade
-            </Nav.Link>
-            <Nav.Link
-              onClick={() => {
-                navigate('/trade');
-              }}
-            >
-              trade
-            </Nav.Link>
+            </Nav.Link> */}
           </Nav>
         </Container>
         <S.LogoutButton onClick={logout}>Logout</S.LogoutButton>

@@ -6,7 +6,7 @@ type FetchDataFunction = () => Promise<StockInformation>;
 function useContinuousStockDetail(
   queryKey: string,
   fetchDataFunction: FetchDataFunction,
-  IntervalTime: number
+  IntervalTime?: number
 ) {
   const { data } = useQuery<StockInformation>([queryKey], fetchDataFunction, {
     refetchInterval: IntervalTime,
