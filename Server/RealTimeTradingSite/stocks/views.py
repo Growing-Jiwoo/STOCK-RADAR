@@ -1,16 +1,19 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import StockInfo, User, UserStocks
-from datetime import datetime, timedelta
 from rest_framework.permissions import BasePermission, AllowAny
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-import random
 from .authentication import authenticate_request, generate_refresh_token
 from .serializers import UserSerializer, UserStocksSerializer
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Sum
+import pytz
+import random
+from datetime import datetime, timedelta
+from django.utils.timezone import make_aware
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.status import HTTP_404_NOT_FOUND
+from rest_framework.exceptions import AuthenticationFailed
 
 class RefreshTokenAPIView(APIView):
     permission_classes = [AllowAny]
@@ -80,15 +83,19 @@ class UserSignupAPIView(APIView):
 
 class StockInfoList(APIView):
     def get(self, request):
-        current_date = datetime.now().date()
+        korean_timezone = pytz.timezone('Asia/Seoul')
+        current_time = make_aware(datetime.now(), timezone=korean_timezone)
+        current_date = current_time.date()
         yesterday_date = current_date - timedelta(days=1)
         stocks = []
+
         try:
             payload = authenticate_request(request)
         except AuthenticationFailed as e:
             return Response(e.detail, status=e.status_code)
         except StockInfo.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=HTTP_404_NOT_FOUND)
+
         for i in range(10):
             name = f"Stock {i+1}"
             try:
@@ -101,15 +108,27 @@ class StockInfoList(APIView):
                 if StockInfo.objects.filter(name=name, timestamp__date=yesterday_date).exists():
                     yesterday_stock = StockInfo.objects.get(name=name, timestamp__date=yesterday_date)
                     start_price = yesterday_stock.current_price
-                    stock = StockInfo.objects.create(name=name, start_price=start_price, yesterday_price=start_price,
-                                                     current_price=start_price, rate_of_change=0, percentage_diff=0)
+                    stock = StockInfo.objects.create(
+                        name=name,
+                        start_price=start_price,
+                        yesterday_price=start_price,
+                        current_price=start_price,
+                        rate_of_change=0,
+                        percentage_diff=0
+                    )
                     if yesterday_date != current_date:
                         stock.percentage_diff = round((stock.start_price - stock.yesterday_price) / stock.start_price * 100, 2)
                         stock.save()
                 else:
                     start_price = round(random.uniform(100, 500), 2)
-                    stock = StockInfo.objects.create(name=name, start_price=start_price, yesterday_price=start_price,
-                                                     current_price=start_price, rate_of_change=0, percentage_diff=0)
+                    stock = StockInfo.objects.create(
+                        name=name,
+                        start_price=start_price,
+                        yesterday_price=start_price,
+                        current_price=start_price,
+                        rate_of_change=0,
+                        percentage_diff=0
+                    )
 
             if yesterday_date != current_date and stock.percentage_diff == 0:
                 stock.percentage_diff = round((stock.yesterday_price - stock.start_price) / stock.start_price * 100, 2)
@@ -126,6 +145,7 @@ class StockInfoList(APIView):
                 'timestamp': stock.timestamp.strftime("%Y-%m-%d %H:%M:%S")
             }
             stocks.append(stock_data)
+
         return Response(stocks)
 
 
