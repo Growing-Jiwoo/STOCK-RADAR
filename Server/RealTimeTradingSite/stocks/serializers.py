@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StockInfo, User, UserStocks
+from .models import StockInfo, User, UserStocks, StockPriceHistory
 
 class StockInfoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,5 +14,10 @@ class UserSerializer(serializers.ModelSerializer):
 class UserStocksSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserStocks
-        fields = ['user', 'stock', 'quantity']  # Remove 'purchase_date' from the fields list
+        fields = ['user', 'stock', 'quantity']
         read_only_fields = ('purchase_price',)
+
+class StockPriceHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StockPriceHistory
+        fields = '__all__'

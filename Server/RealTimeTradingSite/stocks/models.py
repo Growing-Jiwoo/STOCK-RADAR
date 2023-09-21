@@ -35,3 +35,12 @@ class UserStocks(models.Model):
     class Meta:
         managed = False
         db_table = 'user_stocks'
+
+class StockPriceHistory(models.Model):
+    stock = models.ForeignKey(StockInfo, on_delete=models.CASCADE)
+    current_price = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField()
+
+    class Meta:
+        ordering = ['-timestamp']
+

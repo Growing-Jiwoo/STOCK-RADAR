@@ -1,19 +1,21 @@
+from django.utils.timezone import make_aware
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import StockInfo, User, UserStocks
 from rest_framework.permissions import BasePermission, AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .authentication import authenticate_request, generate_refresh_token
-from .serializers import UserSerializer, UserStocksSerializer
+from .serializers import UserSerializer, UserStocksSerializer, StockPriceHistorySerializer
 from rest_framework import status
 from django.db.models import Sum
-import pytz
-import random
+from rest_framework.status import HTTP_404_NOT_FOUND
+from django.utils import timezone
 from datetime import datetime, timedelta
-from django.utils.timezone import make_aware
+import pytz
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_404_NOT_FOUND
 from rest_framework.exceptions import AuthenticationFailed
+from .models import StockInfo, StockPriceHistory
+import random
 
 class RefreshTokenAPIView(APIView):
     permission_classes = [AllowAny]
@@ -81,7 +83,55 @@ class UserSignupAPIView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class AllStockPriceHistory(APIView):
+    def get(self, request):
+        try:
+            try:
+                payload = authenticate_request(request)
+            except AuthenticationFailed as e:
+                return Response(e.detail, status=e.status_code)
+
+            current_date = timezone.now().date()
+            all_stock_price_history = StockPriceHistory.objects.filter(timestamp__date=current_date)
+            serializer = StockPriceHistorySerializer(all_stock_price_history, many=True)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            error_message = f"An error occurred: {str(e)}"
+            return Response({'error': error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class StockInfoList(APIView):
+    def update_stock_prices(self):
+        korean_timezone = pytz.timezone('UTC')
+        current_time = timezone.localtime(timezone.now(), timezone=korean_timezone)
+        current_time += timedelta(hours=9)
+        current_minute = current_time.minute
+        current_date = current_time.date()
+
+        if current_minute % 5 == 0:
+            for i in range(1, 11):
+                name = f"Stock {i}"
+                try:
+                    stock = StockInfo.objects.filter(name=name).first()
+                    stock_data = StockInfo.objects.get(name=name, timestamp__date=current_date)
+                    stock_price_history = StockPriceHistory.objects.filter(stock__name=name,
+                                                                           timestamp__date=current_date).first()
+
+                    if stock_price_history.timestamp.minute == current_minute:
+                        stock_price_history.timestamp = current_time.replace(second=0)
+                        stock_price_history.current_price = stock_data.current_price
+                        stock_price_history.save()
+                    else:
+                        stock_price_history = StockPriceHistory.objects.create(
+                            stock=stock,
+                            timestamp=current_time.replace(second=0),
+                            current_price=stock_data.current_price
+                        )
+                        stock_price_history.save()
+                except StockInfo.DoesNotExist:
+                    pass
+
     def get(self, request):
         korean_timezone = pytz.timezone('Asia/Seoul')
         current_time = make_aware(datetime.now(), timezone=korean_timezone)
@@ -146,6 +196,9 @@ class StockInfoList(APIView):
             }
             stocks.append(stock_data)
 
+
+        self.update_stock_prices()
+
         return Response(stocks)
 
 
@@ -184,7 +237,7 @@ class UserStocksCreate(APIView):
             user_stocks = UserStocks.objects.filter(user_id=user_id)
 
             stock_data = []
-            total_value = Decimal('0')  # Initialize total_value to 0
+            total_value = Decimal('0')
 
             for user_stock in user_stocks:
                 total_value += user_stock.purchase_price
