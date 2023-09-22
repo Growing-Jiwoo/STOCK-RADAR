@@ -8,7 +8,7 @@ class StockInfo(models.Model):
     start_price = models.FloatField()
     current_price = models.FloatField()
     rate_of_change = models.FloatField()
-    timestamp = models.DateTimeField(default=timezone.now)
+    timestamp = models.DateTimeField()
     percentage_diff = models.FloatField(blank=True, null=True)
 
     class Meta:
