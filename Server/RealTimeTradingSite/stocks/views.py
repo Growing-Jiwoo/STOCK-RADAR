@@ -133,12 +133,12 @@ class StockInfoList(APIView):
                     pass
 
     def get(self, request):
-        korean_timezone = pytz.timezone('Asia/Seoul')
-        current_time = make_aware(datetime.now(), timezone=korean_timezone)
+        korean_timezone = pytz.timezone('UTC')
+        current_time = timezone.localtime(timezone.now(), timezone=korean_timezone)
+        current_time += timedelta(hours=9)
         current_date = current_time.date()
         yesterday_date = current_date - timedelta(days=1)
         stocks = []
-
         try:
             payload = authenticate_request(request)
         except AuthenticationFailed as e:
@@ -164,7 +164,8 @@ class StockInfoList(APIView):
                         yesterday_price=start_price,
                         current_price=start_price,
                         rate_of_change=0,
-                        percentage_diff=0
+                        percentage_diff=0,
+                        timestamp=current_time.replace(second=0),
                     )
                     if yesterday_date != current_date:
                         stock.percentage_diff = round((stock.start_price - stock.yesterday_price) / stock.start_price * 100, 2)
@@ -177,7 +178,8 @@ class StockInfoList(APIView):
                         yesterday_price=start_price,
                         current_price=start_price,
                         rate_of_change=0,
-                        percentage_diff=0
+                        percentage_diff=0,
+                        timestamp=current_time.replace(second=0),
                     )
 
             if yesterday_date != current_date and stock.percentage_diff == 0:
