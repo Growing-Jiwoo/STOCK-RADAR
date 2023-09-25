@@ -131,17 +131,18 @@ class StockInfoList(APIView):
                     stock_price_history = StockPriceHistory.objects.filter(stock__name=name,
                                                                            timestamp__date=current_date).first()
 
-                    if stock_price_history.timestamp.minute == current_minute:
+                    if stock_price_history and stock_price_history.timestamp.minute == current_minute:
                         stock_price_history.timestamp = current_time.replace(second=0)
                         stock_price_history.current_price = stock_data.current_price
                         stock_price_history.save()
-                    else:
+                    elif not stock_price_history or stock_price_history.timestamp.minute != current_minute:
                         stock_price_history = StockPriceHistory.objects.create(
                             stock=stock,
                             timestamp=current_time.replace(second=0),
                             current_price=stock_data.current_price
                         )
                         stock_price_history.save()
+
                 except StockInfo.DoesNotExist:
                     pass
 
