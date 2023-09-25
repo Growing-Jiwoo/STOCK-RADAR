@@ -1,6 +1,5 @@
-from django.utils.timezone import make_aware
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import StockInfo, User, UserStocks
+from .models import User, UserStocks
 from rest_framework.permissions import BasePermission, AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .authentication import authenticate_request, generate_refresh_token
@@ -16,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from .models import StockInfo, StockPriceHistory
 import random
+from django.core.exceptions import ObjectDoesNotExist
 
 class RefreshTokenAPIView(APIView):
     permission_classes = [AllowAny]
@@ -32,7 +32,6 @@ class RefreshTokenAPIView(APIView):
 
         refresh_token = generate_refresh_token(user)
         return Response({'refresh_token': refresh_token})
-
 
 class IsTokenValid(BasePermission):
     authentication_classes = (JSONWebTokenAuthentication)
@@ -76,16 +75,14 @@ class UserSignupAPIView(APIView):
         if User.objects.filter(username=username).exists():
             return Response({'code': 401, 'message': '중복되는 ID가 존재합니다.'}, status=status.HTTP_409_CONFLICT)
 
-
         if serializer.is_valid():
             serializer.save()
             return Response({'code': 201, 'message': '회원가입에 성공하였습니다.'}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class AllStockPriceHistory(APIView):
-    def get(self, request):
+class StockPriceHistory(APIView):
+    def get(self, request, stock_id, days):
         try:
             try:
                 payload = authenticate_request(request)
@@ -93,8 +90,24 @@ class AllStockPriceHistory(APIView):
                 return Response(e.detail, status=e.status_code)
 
             current_date = timezone.now().date()
-            all_stock_price_history = StockPriceHistory.objects.filter(timestamp__date=current_date)
-            serializer = StockPriceHistorySerializer(all_stock_price_history, many=True)
+
+            start_date = current_date - timedelta(days=days)
+
+            if stock_id.isdigit():
+                stock_id = int(stock_id)
+                try:
+                    stock_price_history = StockPriceHistory.objects.filter(
+                        stock__id=stock_id,
+                        timestamp__date__range=[start_date, current_date]
+                    )
+                except ObjectDoesNotExist:
+                    return Response({'error': 'Stock not found'}, status=status.HTTP_404_NOT_FOUND)
+            elif stock_id == 'all':
+                stock_price_history = StockPriceHistory.objects.filter(
+                    timestamp__date__range=[start_date, current_date]
+                )
+
+            serializer = StockPriceHistorySerializer(stock_price_history, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
