@@ -81,7 +81,7 @@ class UserSignupAPIView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class StockPriceHistory(APIView):
+class StockPriceHistoryDays(APIView):
     def get(self, request, stock_id, days):
         try:
             try:
@@ -142,7 +142,6 @@ class StockInfoList(APIView):
                             current_price=stock_data.current_price
                         )
                         stock_price_history.save()
-
                 except StockInfo.DoesNotExist:
                     pass
 
