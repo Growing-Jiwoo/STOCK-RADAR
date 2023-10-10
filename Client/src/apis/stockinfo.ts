@@ -1,4 +1,4 @@
-import { StockInformation } from '../types/stock';
+import { StockInformation, StockPriceHistory } from '../types/stock';
 import { ApiUrl } from './ApiUrl';
 import { instance } from './axios';
 
@@ -20,6 +20,21 @@ export const getStockDetailInfo = async (
     return response.data;
   } catch (error) {
     console.error(error);
-    throw error;
+    throw new Error('Failed to fetch stock detail info');
+  }
+};
+
+export const getStockPriceHistory = async (
+  stockId: number,
+  day: string
+): Promise<StockPriceHistory[]> => {
+  try {
+    const response = await instance.get(
+      `${ApiUrl.stockPriceHistory}/${stockId}/${day}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 };

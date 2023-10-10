@@ -13,3 +13,10 @@ export interface StockDetailParams extends Record<string, string> {
   stockNumber: string;
   stockDetailId: string;
 }
+
+export interface StockPriceHistory {
+  id: string;
+  current_price: number;
+  timestamp: string;
+  stock: number;
+}
