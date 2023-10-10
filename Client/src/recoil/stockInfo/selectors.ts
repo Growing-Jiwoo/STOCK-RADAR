@@ -1,5 +1,6 @@
-import { selectorFamily } from 'recoil';
-import { stockDataState } from './atoms';
+import { selector, selectorFamily } from 'recoil';
+import { StockPriceHistory } from '../../types/stock';
+import { stockDataState, stockPriceHistoryState } from './atoms';
 
 export const selectedStockDataState = selectorFamily({
   key: 'selectedStockData',
@@ -14,4 +15,26 @@ export const selectedStockDataState = selectorFamily({
 
       return null;
     },
+});
+
+export const stockPricesSelector = selector<number[]>({
+  key: 'stockPricesSelector',
+  get: ({ get }) => {
+    const stockPriceHistory = get(stockPriceHistoryState);
+    const stockPrices: number[] = stockPriceHistory.map(
+      (item: StockPriceHistory) => item.current_price
+    );
+    return stockPrices;
+  },
+});
+
+export const timeStampsSelector = selector<string[]>({
+  key: 'timeStampsSelector',
+  get: ({ get }) => {
+    const stockPriceHistory = get(stockPriceHistoryState);
+    const timeStamps: string[] = stockPriceHistory.map(
+      (item: StockPriceHistory) => item.timestamp
+    );
+    return timeStamps;
+  },
 });
