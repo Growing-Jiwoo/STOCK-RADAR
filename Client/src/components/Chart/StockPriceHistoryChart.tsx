@@ -1,10 +1,20 @@
 import ECharts from 'echarts-for-react';
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import {
+  stockPricesSelector,
+  timeStampsSelector,
+} from '../../recoil/stockInfo/selectors';
 
-interface ChartProps {
-  priceData: number[];
-}
+const ChartContainer = styled.div`
+  width: 100%;
+  height: 300px;
+`;
 
-export function StockPriceHistoryChart({ priceData }: ChartProps) {
+export function StockPriceHistoryChart() {
+  const currentPrices = useRecoilValue(stockPricesSelector);
+  const timeStamps = useRecoilValue(timeStampsSelector);
+
   const options = {
     xAxis: {
       type: 'category',
@@ -19,18 +29,18 @@ export function StockPriceHistoryChart({ priceData }: ChartProps) {
     },
     series: [
       {
-        data: priceData,
+        data: currentPrices,
         type: 'line',
       },
     ],
   };
 
   return (
-    <>
+    <ChartContainer>
       <ECharts
         option={options}
         opts={{ renderer: 'svg', width: 500, height: 500 }}
       />
-    </>
+    </ChartContainer>
   );
 }
