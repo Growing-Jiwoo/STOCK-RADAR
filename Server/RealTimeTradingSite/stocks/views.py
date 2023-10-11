@@ -90,8 +90,10 @@ class StockPriceHistoryDays(APIView):
                 return Response(e.detail, status=e.status_code)
 
             current_date = timezone.now().date()
+            print(f"Current Date: {current_date}")
 
             start_date = current_date - timedelta(days=days)
+            print(f"Start Date: {start_date}")
 
             if stock_id.isdigit():
                 stock_id = int(stock_id)
@@ -109,10 +111,11 @@ class StockPriceHistoryDays(APIView):
 
             serializer = StockPriceHistorySerializer(stock_price_history, many=True)
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data[::-1], status=status.HTTP_200_OK)
         except Exception as e:
             error_message = f"An error occurred: {str(e)}"
             return Response({'error': error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class StockInfoList(APIView):
     def update_stock_prices(self):
