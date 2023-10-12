@@ -110,7 +110,6 @@ class StockPriceHistoryDays(APIView):
                 )
 
             serializer = StockPriceHistorySerializer(stock_price_history, many=True)
-
             return Response(serializer.data[::-1], status=status.HTTP_200_OK)
         except Exception as e:
             error_message = f"An error occurred: {str(e)}"
