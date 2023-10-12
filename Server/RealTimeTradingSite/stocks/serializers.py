@@ -18,6 +18,9 @@ class UserStocksSerializer(serializers.ModelSerializer):
         read_only_fields = ('purchase_price',)
 
 class StockPriceHistorySerializer(serializers.ModelSerializer):
+    timestamp = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
+    current_price = serializers.FloatField()
+
     class Meta:
         model = StockPriceHistory
         fields = '__all__'
