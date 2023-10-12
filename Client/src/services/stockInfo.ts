@@ -37,13 +37,14 @@ export const useStockPriceHistory = (stockId: number, day: string) => {
     [`${QUERY_KEYS.STOCK_PRICE_HISTORY}/${stockId}/${day}`],
     () => getStockPriceHistory(stockId, day),
     {
-      initialData: recoilStockData,
       refetchInterval: 1000,
     }
   );
 
   useEffect(() => {
-    setRecoilStockData(stockPrice);
+    if (stockPrice) {
+      setRecoilStockData(stockPrice);
+    }
   }, [stockPrice, setRecoilStockData]);
 
   return { stockPriceHisData: recoilStockData };

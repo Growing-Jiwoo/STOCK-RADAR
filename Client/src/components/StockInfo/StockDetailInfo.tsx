@@ -11,13 +11,11 @@ function StockDetailInfo(): JSX.Element {
     selectedStockDataState(stockNumber as string)
   );
 
-  useStockPriceHistory(Number(stockNumber), '1');
+  useStockPriceHistory(Number(stockNumber), '30');
 
   return (
     <>
-      <h2>Stock Detail Page</h2>
-      <p>Displaying content for ID: {stockDetailId}</p>
-      <p>{recoilData?.current_price}</p>
+      <p>현재 가격 ${recoilData?.current_price}</p>
       <StockPriceHistoryChart />
     </>
   );
