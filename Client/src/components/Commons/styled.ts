@@ -23,7 +23,15 @@ const LogoutButton = styled.button`
   }
 `;
 
+const SpinnerWrapper = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 export const S = {
   Header,
   LogoutButton,
+  SpinnerWrapper,
 };

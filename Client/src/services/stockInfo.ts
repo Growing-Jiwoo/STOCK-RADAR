@@ -25,7 +25,7 @@ export const useStockData = () => {
     setRecoilStockData(stockData);
   }, [stockData, setRecoilStockData]);
 
-  return { stockData: recoilStockData };
+  return { stockData };
 };
 
 export const useStockPriceHistory = (stockId: number, day: string) => {
