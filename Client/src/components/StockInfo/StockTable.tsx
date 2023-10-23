@@ -1,13 +1,10 @@
-// StockTable.js
-
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStockTableInstance } from '../../hooks/useStockTableInstance';
 
 function StockTable() {
   const tableInstance = useStockTableInstance();
   const navigate = useNavigate();
-  console.log(tableInstance.data);
+
   return (
     <table className="stock-table" {...tableInstance.getTableProps()}>
       <thead>

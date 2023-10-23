@@ -1,12 +1,10 @@
 import { useMemo } from 'react';
 import { Column, useTable } from 'react-table';
 import { StockInformation } from '../types/stock';
-import { useRecoilState } from 'recoil';
-import { stockDataState } from '../recoil/stockInfo/atoms';
+import { useStockData } from '../services/stockInfo';
 
 export const useStockTableInstance = () => {
-  const stockData = useRecoilState(stockDataState);
-
+  const data = useStockData();
   const columns = useMemo<Column<StockInformation>[]>(
     () => [
       {
@@ -35,7 +33,7 @@ export const useStockTableInstance = () => {
 
   const tableInstance = useTable({
     columns,
-    data: stockData[0],
+    data: data.stockData,
   });
 
   return tableInstance;

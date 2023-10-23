@@ -8,8 +8,6 @@ function NavBar() {
   const navigate = useNavigate();
   const { logout } = useLogout();
 
-  useStockData();
-
   return (
     <>
       <S.Header bg="light" variant="light">

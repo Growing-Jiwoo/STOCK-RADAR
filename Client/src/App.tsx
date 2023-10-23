@@ -7,19 +7,23 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { queryClient } from './react-query/queryClient';
 import { S } from './style/center.styled';
+import React from 'react';
+import LoadingSpinner from './components/Commons/Spinner';
 
 function App() {
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <ToastContainer position="top-center" autoClose={1500} />
-          <S.Center>
-            <RouterProvider router={router} />
-          </S.Center>
-          <ReactQueryDevtools />
-        </RecoilRoot>
-      </QueryClientProvider>
+      <React.Suspense fallback={<LoadingSpinner />}>
+        <QueryClientProvider client={queryClient}>
+          <RecoilRoot>
+            <ToastContainer position="top-center" autoClose={1500} />
+            <S.Center>
+              <RouterProvider router={router} />
+            </S.Center>
+            <ReactQueryDevtools />
+          </RecoilRoot>
+        </QueryClientProvider>
+      </React.Suspense>
     </>
   );
 }

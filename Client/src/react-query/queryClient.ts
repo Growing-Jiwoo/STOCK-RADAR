@@ -13,6 +13,11 @@ export function queryErrorHandler(error: unknown): void {
 }
 
 export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
   queryCache: new QueryCache({
     onError: queryErrorHandler,
   }),
