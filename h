@@ -1,0 +1,396 @@
+[33mcommit 6d292fe5ea40e0fa527495ecd3fef5950062fb1b[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: b731911 4afa92b
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Mon Aug 14 15:19:40 2023 +0900
+
+    Merge branch 'main' of https://github.com/Growing-Jiwoo/RealTime-Trading-Site
+
+[33mcommit b731911eb9b9ca1c986821b64ac8e046ffcb0199[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Mon Aug 14 15:19:05 2023 +0900
+
+    fix: StockInfo 파일 경로 변경 (#23)
+
+[33mcommit 4afa92bda2d694e1872bf746732bb62e636457d9[m
+Merge: 7610125 c2af85b
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Mon Aug 7 19:25:05 2023 +0900
+
+    Merge pull request #22 from Growing-Jiwoo/back
+    
+    feat: 주식 구매, 판매 api 구현 및 보유중인 주식 api 구현
+
+[33mcommit c2af85bb46518071c2254c1f164885a286bf7525[m[33m ([m[1;31morigin/back[m[33m)[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Mon Aug 7 19:22:33 2023 +0900
+
+    feat: 주식 구매, 판매 api 구현 및 보유중인 주식 api 구현
+
+[33mcommit 7610125c85e48d0a60f8a22f8e5f2bb81cde5015[m
+Merge: 020813e e50e4cb
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Mon Aug 7 11:21:59 2023 +0900
+
+    Merge pull request #21 from Growing-Jiwoo/back
+    
+    fix: 주식 정보 api 난수 퍼센트 수정 (#21)
+
+[33mcommit e50e4cb2c37f07923203010ca8d843b28dd34370[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Mon Aug 7 11:20:56 2023 +0900
+
+    fix: 주식 정보 api 난수 퍼센트 수정 (#21)
+
+[33mcommit 020813e100ce028fc5c6021ee9c584257fa09705[m
+Merge: 20081fa e41db10
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Fri Aug 4 11:39:27 2023 +0900
+
+    Merge pull request #20 from Growing-Jiwoo/front
+    
+    feat: react-query, react-toastify 셋팅 (#20)
+
+[33mcommit e41db10d631c6f994a7af7111c4adccd3d6a87cd[m[33m ([m[1;31morigin/front[m[33m)[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Fri Aug 4 11:38:21 2023 +0900
+
+    feat: react-query, react-toastify 셋팅 (#20)
+
+[33mcommit 20081fa39d02ebce47df2471fdee032edc1270e7[m
+Merge: ed825f5 c967185
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Fri Aug 4 11:24:09 2023 +0900
+
+    Merge pull request #19 from Growing-Jiwoo/front
+    
+    feat: 로그인, 회원가입, axios interceptor api 기능 구현, 주식 정보 api 수정 (#19)
+
+[33mcommit c967185a36e11de7c984d604a9c85a7913d5de13[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Fri Aug 4 11:23:11 2023 +0900
+
+    feat: 로그인, 회원가입, axios interceptor api 기능 구현, 주식 정보 api 수정 (#19)
+
+[33mcommit ed825f5f2c65a996758c010cae80ad725aef6b42[m
+Merge: 5549165 47da912
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu Aug 3 17:38:27 2023 +0900
+
+    Merge pull request #18 from Growing-Jiwoo/back
+    
+    feat: 회원가입 중복 ID 검사 로직 구현 및 response error code 추가 (#18)
+
+[33mcommit 47da91220a2bfc6c96ea66759417cb11b323d42c[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Aug 3 17:36:57 2023 +0900
+
+    feat: 회원가입 중복 ID 검사 로직 구현 및 response error code 추가 (#18)
+
+[33mcommit 5549165bd631369e6d1ad4113379ad734b6eefe7[m
+Merge: 9e1fcd5 ef94e5d
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Aug 2 20:11:10 2023 +0900
+
+    Merge pull request #17 from Growing-Jiwoo/back
+    
+    feat: refreshToken 발급 기능 구현 (#17)
+
+[33mcommit ef94e5d8fb33dc5cc8b0966a29059928047a12fd[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Aug 2 20:10:33 2023 +0900
+
+    feat: refreshToken 발급 기능 구현 (#17)
+
+[33mcommit 9e1fcd524cf2accdb8436d9b07d7c727bc43d705[m
+Merge: 05d2912 2e8a525
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Aug 2 19:55:06 2023 +0900
+
+    Merge branch 'main' of https://github.com/Growing-Jiwoo/RealTime-Trading-Site
+
+[33mcommit 05d2912f022fa829a05fcc28e445c26791687fef[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Aug 2 19:54:28 2023 +0900
+
+    Remove existing .pyc files
+
+[33mcommit 2e8a525dd4d316a5022a05de8d05a7623511b17d[m
+Merge: dc222c1 b8e0433
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Aug 2 19:50:40 2023 +0900
+
+    Merge pull request #16 from Growing-Jiwoo/back
+    
+    Add .gitignore to exclude .pyc files
+
+[33mcommit b8e0433ea40749e2de81fbdad13001688716c7b5[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Aug 2 19:50:09 2023 +0900
+
+    Add .gitignore to exclude .pyc files
+
+[33mcommit dc222c17fbe0f85fdfa914a70208878b2c0304e7[m
+Merge: 17d4dc3 570f5fa
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Aug 2 19:47:45 2023 +0900
+
+    Merge pull request #15 from Growing-Jiwoo/back
+    
+    Merge branch 'back'
+
+[33mcommit 570f5fa8b6d57687caedb131b787dfff8a5e00db[m
+Merge: 2fa7c9c c624670
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Aug 2 12:04:11 2023 +0900
+
+    Merge branch 'back'
+
+[33mcommit 17d4dc356323a80c2fa9d1b1fdabad924feaa9dd[m
+Merge: e6ae5e2 2fa7c9c
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Tue Aug 1 19:26:54 2023 +0900
+
+    Merge pull request #13 from Growing-Jiwoo/front
+    
+    feat: localStorage, token 기능 구현 및 상수 보관 파일 생성 (#13)
+
+[33mcommit 2fa7c9c846e82eeeb06189d81144519c5510e397[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Tue Aug 1 19:25:00 2023 +0900
+
+    feat: localStorage, token 기능 구현 및 상수 보관 파일 생성 (#13)
+
+[33mcommit e6ae5e2d1b414652e3a4e5177d936cfb442a7a70[m
+Merge: bdb50dc c624670
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu Jun 29 19:28:10 2023 +0900
+
+    Merge pull request #12 from Growing-Jiwoo/back
+    
+    feat: 로그인, 회원가입, jwt 발급 및 인증 기능 구현 (#12)
+
+[33mcommit c6246707ff3e757ea34f95b78dd79486db5b9edb[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Jun 29 19:26:45 2023 +0900
+
+    feat: 로그인, 회원가입, jwt 발급 및 인증 기능 구현 (#12)
+
+[33mcommit bdb50dc15a87984e0cb7e65e23b8fb18d6fc43d6[m
+Merge: 6a55ad6 7a09424
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu Jun 29 17:02:21 2023 +0900
+
+    Merge pull request #11 from Growing-Jiwoo/front
+    
+    feat: react-table을 활용한 주식 정보 데이터 가져오기 기능 구현 (#11)
+
+[33mcommit 7a09424806bac281306a2e8a742a81c10d689da6[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Jun 29 16:59:29 2023 +0900
+
+    feat: react-table을 활용한 주식 정보 데이터 가져오기 기능 구현 (#11)
+
+[33mcommit 6a55ad65e5fa567c4a61de2d54c7102112b6f727[m
+Merge: 1c14438 64310de
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu Jun 29 16:56:18 2023 +0900
+
+    Merge pull request #10 from Growing-Jiwoo/front
+    
+    fix: 디렉토리 구조 변경 및 일부 라이브러리 제거 (#10)
+
+[33mcommit 64310de5e2d5f0be7268c0529506bad9310230ef[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Jun 29 16:54:05 2023 +0900
+
+    fix: 디렉토리 구조 변경 및 일부 라이브러리 제거 (#10)
+
+[33mcommit 1c144389b5875676a539b12fe09c23f94a825451[m
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Jun 28 21:21:30 2023 +0900
+
+    Update README.md
+
+[33mcommit 57a7d3a55403ffc2ff2bc6148050b7b2bd4e99d2[m
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu May 18 19:38:52 2023 +0900
+
+    Update README.md
+
+[33mcommit 53fa411243b505f87da39cd34ac112ccb4537592[m
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu May 18 19:36:21 2023 +0900
+
+    Update README.md
+
+[33mcommit 8d5144e32a0263b3886e4513305768cc7926c52b[m
+Merge: ce32c14 366bbe7
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Apr 20 16:09:20 2023 +0900
+
+    Merge branch 'main' of https://github.com/Growing-Jiwoo/RealTime-Trading-Site
+
+[33mcommit ce32c14a8a5553075031d85538d9a4759084def3[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Apr 20 16:09:01 2023 +0900
+
+    delete
+
+[33mcommit 366bbe7b6642ca176d090d6a39581f5afac197cf[m
+Merge: 4264d9e 00600bd
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu Apr 20 16:03:00 2023 +0900
+
+    Merge pull request #9 from Growing-Jiwoo/front-end
+    
+    feat: twin.macro, @emotion/styled 설치 및 환경설정 (#9)
+
+[33mcommit 00600bdc75cadf3e6f66177d860480f4822aba8b[m[33m ([m[1;31morigin/front-end[m[33m)[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Apr 20 16:00:40 2023 +0900
+
+    feat: twin.macro, @emotion/styled 설치 및 환경설정(#8)
+
+[33mcommit 4264d9ea8c98ee9b20eb5fe5e89a7df6a62d6ebd[m
+Merge: 8848ef5 7a81005
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Thu Apr 20 10:09:01 2023 +0900
+
+    Merge pull request #8 from Growing-Jiwoo/front-end
+    
+    feat: tailwindcss 라이브러리 설치(#8)
+
+[33mcommit 7a81005fadc2d792a1a96529e129b717daf4cbb7[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Thu Apr 20 10:07:03 2023 +0900
+
+    feat: tailwindcss 라이브러리 설치(#8)
+
+[33mcommit 8848ef5dc2deabff8e755b0dc19be0db0e587fee[m
+Merge: 9d56c33 b57965a
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Apr 19 18:05:52 2023 +0900
+
+    Merge pull request #7 from Growing-Jiwoo/front-end
+    
+    feat: StoryBook 라이브러리 설치 (#7)
+
+[33mcommit b57965a7e690b001e284c813b6c154ef6587f534[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Apr 19 18:04:39 2023 +0900
+
+    feat: StoryBook 라이브러리 설치(#7)
+
+[33mcommit 9d56c3345ea8a53b67da7eea34f149b9dbfa44bb[m
+Merge: a119698 618d5a8
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Apr 19 18:02:30 2023 +0900
+
+    Merge pull request #6 from Growing-Jiwoo/front-end
+    
+    fix: 경로 수정 및 에러 해결을 위한 초기화 후 재셋팅 (#6)
+
+[33mcommit 618d5a8ceb3ce096aece80939d8784e9ead8362c[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Apr 19 18:00:58 2023 +0900
+
+    fix: 경로 수정 및 에러 해결을 위한  초기화 후 재셋팅 (#6)
+
+[33mcommit a1196982c3e37a2266f51237c8b90effb5e0bc3e[m
+Merge: b0b3dee 8036277
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Apr 19 16:38:37 2023 +0900
+
+    Merge pull request #5 from Growing-Jiwoo/front-end
+    
+    fix: 버전 충돌로 인한 초기화 후 재셋팅 (#5)
+
+[33mcommit 803627795d0ca268a51fb4a8603a68aa17d6a47f[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Apr 19 16:37:02 2023 +0900
+
+    fix: 버전 충돌로 인한 초기화 후 재셋팅 (#5)
+
+[33mcommit b0b3deeb94ad500e4876bf0f860c702a3d560fbf[m
+Merge: 3e4d636 d719e70
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Wed Apr 19 11:09:59 2023 +0900
+
+    Merge pull request #4 from Growing-Jiwoo/front-end
+    
+    feat: BootStrap 셋팅 및 NavBar UI 구현 (#4)
+
+[33mcommit d719e70203e695f5e5b4fccbdcdd857c78ab3d6e[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Wed Apr 19 10:51:29 2023 +0900
+
+    feat: BootStrap 셋팅 및 NavBar UI 구현 (#4)
+
+[33mcommit 3e4d636acfa1faf123cda2ffda68bc5a30ca51ab[m
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Tue Apr 18 20:40:26 2023 +0900
+
+    Update README.md
+
+[33mcommit 32bce2e1690c2af2e7386bb996da8aa997d73f48[m
+Merge: 83a071b 5581b5b
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Tue Apr 18 19:53:41 2023 +0900
+
+    Merge pull request #3 from Growing-Jiwoo/front-end
+    
+    feat: React.js(CRA) & TypeScript 초기 셋팅 (#3)
+
+[33mcommit 5581b5ba520ed1384c4cc3f9a50a4a09852c583e[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Tue Apr 18 19:51:37 2023 +0900
+
+    feat: React.js(CRA) & TypeScript 초기 셋팅 (#3)
+
+[33mcommit 83a071bcb66461c76f3b43596d5ec15c6aaeb58a[m
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Tue Apr 18 19:46:43 2023 +0900
+
+    Update README.md
+
+[33mcommit 13b6678aaeda15bf4b83d5d8cbe99ce0e55f2a23[m
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Tue Apr 18 19:45:27 2023 +0900
+
+    Update README.md
+
+[33mcommit 375a5c571d8aa5604e4ca84d0c6697ee61fb11d0[m
+Merge: d16f5db 21ddfc7
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Tue Apr 18 19:30:45 2023 +0900
+
+    Merge pull request #2 from Growing-Jiwoo/back-end
+    
+    feat: Stock information get api 구현 (#2)
+
+[33mcommit 21ddfc72891a0a2564e50dcee5cf6a54acb7df26[m[33m ([m[1;31morigin/back-end[m[33m)[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Tue Apr 18 19:00:45 2023 +0900
+
+    feat: Stock information get api 구현 (#2)
+
+[33mcommit d16f5dbc69a95081ef23e134db607ac0cda8325f[m
+Merge: 5a3c748 2ca5640
+Author: Junior - FE Developer <115076308+Growing-Jiwoo@users.noreply.github.com>
+Date:   Tue Apr 18 18:54:56 2023 +0900
+
+    Merge pull request #1 from Growing-Jiwoo/back-end
+    
+    feat: Django 기초 셋팅 (#1)
+
+[33mcommit 2ca5640c1e0f792e0cc4ad95ef5c298dc25e331e[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Tue Apr 18 18:53:55 2023 +0900
+
+    feat: Django 기초 셋팅 (#1)
+
+[33mcommit 5a3c74831861afa68d7417117c428d341596d180[m
+Author: Growing-Jiwoo <fbaa4412@naver.com>
+Date:   Tue Apr 18 18:52:59 2023 +0900
+
+    add README.md
