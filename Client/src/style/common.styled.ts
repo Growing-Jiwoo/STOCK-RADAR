@@ -38,3 +38,9 @@ export const StyledCommonButton = styled.button`
   width: 100%;
   height: 50px;
 `;
+
+export const StyledCommonflexCenter = `
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

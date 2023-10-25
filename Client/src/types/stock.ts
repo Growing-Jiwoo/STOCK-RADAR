@@ -20,3 +20,7 @@ export interface StockPriceHistory {
   timestamp: string;
   stock: number;
 }
+
+export type StockPriceProps = {
+  isLower: boolean;
+};
