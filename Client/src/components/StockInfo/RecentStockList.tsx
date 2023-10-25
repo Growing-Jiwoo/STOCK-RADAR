@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import storage from '../../utils/localStorage';
+import { RateOfChange } from './RateOfChange';
+import {
+  Container,
+  DeleteBtn,
+  DeleteButton,
+  RecentListContainer,
+  StockContainer,
+  StockNameContainer,
+} from './styled';
 
 export function RecentStockList() {
   const [recentStockItem, setRecentStockItem] = useState(
@@ -22,14 +31,21 @@ export function RecentStockList() {
   };
 
   return (
-    <div>
+    <Container>
       최근 본 주식 리스트
-      {keys.map((key) => (
-        <div key={key}>
-          <span onClick={() => handleKeyClick(key)}>{key}</span>
-          <button onClick={() => handleRemoveClick(key)}>x</button>
-        </div>
-      ))}
-    </div>
+      <RecentListContainer>
+        {keys.map((key, index) => (
+          <StockContainer key={key}>
+            <StockNameContainer>
+              <span onClick={() => handleKeyClick(key)}>{key} </span>
+              <DeleteButton onClick={() => handleRemoveClick(key)}>
+                <DeleteBtn />
+              </DeleteButton>
+            </StockNameContainer>
+            <RateOfChange keys={keys[index]} />
+          </StockContainer>
+        ))}
+      </RecentListContainer>
+    </Container>
   );
 }
