@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
-import { StockDetailParams } from '../../types/stock';
+import { StockDetailParams } from '../types/stock';
 import { useRecoilValue } from 'recoil';
-import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
-import { useStockData, useStockPriceHistory } from '../../services/stockInfo';
-import { StockPriceHistoryChart } from '../Chart/StockPriceHistoryChart';
+import { selectedStockDataState } from '../recoil/stockInfo/selectors';
+import { useStockData, useStockPriceHistory } from '../services/stockInfo';
+import { StockPriceHistoryChart } from '../components/Chart/StockPriceHistoryChart';
 import { Suspense } from 'react';
-import LoadingSpinner from '../Commons/Spinner';
-import { RateOfChange } from './RateOfChange';
+import LoadingSpinner from '../components/Commons/Spinner';
+import { RateOfChange } from '../components/StockInfo/RateOfChange';
 
 function StockDetailInfo(): JSX.Element {
   const { stockNumber } = useParams<StockDetailParams>();
@@ -26,7 +26,6 @@ function StockDetailInfo(): JSX.Element {
       <Suspense fallback={<LoadingSpinner />}>
         <p>현재 가격</p>
         <RateOfChange keys={recoilData.name} />
-
         <StockPriceHistoryChart />
       </Suspense>
     </>
