@@ -165,7 +165,7 @@ class StockInfoList(APIView):
             name = f"Stock {i+1}"
             try:
                 stock = StockInfo.objects.get(name=name, timestamp__date=current_date)
-                volatility = random.uniform(-0.005, 0.005)
+                volatility = random.uniform(-0.001, 0.001)
                 stock.current_price = round(stock.current_price * (1 + volatility), 2)
                 stock.rate_of_change = round((stock.current_price - stock.start_price) / stock.start_price * 100, 2)
                 stock.save()
