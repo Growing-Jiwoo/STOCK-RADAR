@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import StockDetailInfo from '../components/StockInfo/StockDetailInfo';
+import StockDetailInfo from '../pages/StockDetailInfo';
 import Main from '../pages/Main';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';

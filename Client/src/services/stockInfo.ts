@@ -10,13 +10,12 @@ import {
 } from '../recoil/stockInfo/atoms';
 
 export const useStockData = () => {
-  const [recoilStockData, setRecoilStockData] = useRecoilState(stockDataState);
+  const [, setRecoilStockData] = useRecoilState(stockDataState);
 
-  const { data: stockData } = useQuery<StockInformation[]>(
+  const { data: stockData = [] } = useQuery<StockInformation[]>(
     [QUERY_KEYS.STOCK_INFO],
     getStockInfo,
     {
-      initialData: recoilStockData,
       refetchInterval: 1000,
     }
   );
