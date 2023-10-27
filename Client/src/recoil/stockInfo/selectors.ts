@@ -8,12 +8,9 @@ export const selectedStockDataState = selectorFamily({
     (index: string) =>
     ({ get }) => {
       const stockData = get(stockDataState);
-      const stockIndex = Number(index);
-      if (stockIndex >= 0 && stockIndex <= stockData.length) {
-        return stockData[stockIndex - 1];
-      }
 
-      return null;
+      const selectedStock = stockData.find((stock) => stock.name === index);
+      return selectedStock || null;
     },
 });
 

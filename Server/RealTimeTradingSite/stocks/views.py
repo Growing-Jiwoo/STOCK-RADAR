@@ -88,26 +88,20 @@ class StockPriceHistoryDays(APIView):
                 payload = authenticate_request(request)
             except AuthenticationFailed as e:
                 return Response(e.detail, status=e.status_code)
-
+            print(stock_id)
             current_date = timezone.now().date()
             print(f"Current Date: {current_date}")
 
             start_date = current_date - timedelta(days=days)
             print(f"Start Date: {start_date}")
 
-            if stock_id.isdigit():
-                stock_id = int(stock_id)
-                try:
-                    stock_price_history = StockPriceHistory.objects.filter(
-                        stock__id=stock_id,
-                        timestamp__date__range=[start_date, current_date]
-                    )
-                except ObjectDoesNotExist:
-                    return Response({'error': 'Stock not found'}, status=status.HTTP_404_NOT_FOUND)
-            elif stock_id == 'all':
+            try:
                 stock_price_history = StockPriceHistory.objects.filter(
+                    stock__name=stock_id,
                     timestamp__date__range=[start_date, current_date]
                 )
+            except ObjectDoesNotExist:
+                return Response({'error': 'Stock not found'}, status=status.HTTP_404_NOT_FOUND)
 
             serializer = StockPriceHistorySerializer(stock_price_history, many=True)
             return Response(serializer.data[::-1], status=status.HTTP_200_OK)
@@ -115,8 +109,11 @@ class StockPriceHistoryDays(APIView):
             error_message = f"An error occurred: {str(e)}"
             return Response({'error': error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 class StockInfoList(APIView):
+    STOCK_NAMES = ["QuantumCorp", "NebulaTech", "CyberVista", "BioSynth", "SynthoDynamics",
+                   "FutureNet", "StellarTronics", "TitanInvest", "QuantumHorizon",
+                   "BioGen"]
+
     def update_stock_prices(self):
         korean_timezone = pytz.timezone('UTC')
         current_time = timezone.localtime(timezone.now(), timezone=korean_timezone)
@@ -125,8 +122,7 @@ class StockInfoList(APIView):
         current_date = current_time.date()
 
         if current_minute % 5 == 0:
-            for i in range(1, 11):
-                name = f"Stock {i}"
+            for name in self.STOCK_NAMES:
                 try:
                     stock = StockInfo.objects.filter(name=name).first()
                     stock_data = StockInfo.objects.get(name=name, timestamp__date=current_date)
@@ -154,6 +150,10 @@ class StockInfoList(APIView):
         current_date = current_time.date()
         yesterday_date = current_date - timedelta(days=1)
         stocks = []
+        stock_names = ["QuantumCorp", "NebulaTech", "CyberVista", "BioSynth", "SynthoDynamics",
+                       "FutureNet", "StellarTronics", "TitanInvest", "QuantumHorizon",
+                       "BioGen"]
+
         try:
             payload = authenticate_request(request)
         except AuthenticationFailed as e:
@@ -161,8 +161,7 @@ class StockInfoList(APIView):
         except StockInfo.DoesNotExist:
             return Response(status=HTTP_404_NOT_FOUND)
 
-        for i in range(10):
-            name = f"Stock {i+1}"
+        for i, name in enumerate(stock_names):
             try:
                 stock = StockInfo.objects.get(name=name, timestamp__date=current_date)
                 volatility = random.uniform(-0.001, 0.001)
@@ -183,7 +182,8 @@ class StockInfoList(APIView):
                         timestamp=current_time.replace(second=0),
                     )
                     if yesterday_date != current_date:
-                        stock.percentage_diff = round((stock.start_price - stock.yesterday_price) / stock.start_price * 100, 2)
+                        stock.percentage_diff = round(
+                            (stock.start_price - stock.yesterday_price) / stock.start_price * 100, 2)
                         stock.save()
                 else:
                     start_price = round(random.uniform(100, 500), 2)
@@ -212,7 +212,6 @@ class StockInfoList(APIView):
                 'timestamp': stock.timestamp.strftime("%Y-%m-%d %H:%M:%S")
             }
             stocks.append(stock_data)
-
 
         self.update_stock_prices()
 

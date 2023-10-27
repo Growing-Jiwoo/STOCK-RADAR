@@ -6,10 +6,10 @@ import { StockDetailParams, StockPriceHistory } from '../../types/stock';
 import { ChartContainer, ChartWrapper } from './styled';
 
 export function StockPriceHistoryChart() {
-  const { stockNumber } = useParams<StockDetailParams>();
+  const { stockName } = useParams<StockDetailParams>();
   const [prices, setPrices] = useState<number[]>([]);
   const [timeStamp, setTimeStamp] = useState<string[]>([]);
-  const queryKey = [`stockPriceHis/${Number(stockNumber)}/30`]; // days값은 테스트를 위한 임의의 값
+  const queryKey = [`stockPriceHis/${stockName}/30`]; // days값은 테스트를 위한 임의의 값
   const queryClient = useQueryClient();
   const minData: number = Math.min(...prices);
   const maxData: number = Math.max(...prices);

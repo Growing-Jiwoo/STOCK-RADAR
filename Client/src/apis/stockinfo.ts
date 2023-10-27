@@ -25,12 +25,12 @@ export const getStockDetailInfo = async (
 };
 
 export const getStockPriceHistory = async (
-  stockId: number,
+  stockName: string,
   day: string
 ): Promise<StockPriceHistory[]> => {
   try {
     const response = await instance.get(
-      `${ApiUrl.stockPriceHistory}/${stockId}/${day}`
+      `${ApiUrl.stockPriceHistory}/${stockName}/${day}`
     );
     return response.data;
   } catch (error) {
