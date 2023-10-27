@@ -9,16 +9,18 @@ import LoadingSpinner from '../components/Commons/Spinner';
 import { RateOfChange } from '../components/StockInfo/RateOfChange';
 
 function StockDetailInfo(): JSX.Element {
-  const { stockNumber } = useParams<StockDetailParams>();
+  const { stockName } = useParams<StockDetailParams>();
   const recoilData = useRecoilValue(
-    selectedStockDataState(stockNumber as string)
+    selectedStockDataState(stockName as string)
   );
+
+  console.log(stockName);
 
   if (!recoilData) {
     return <p>Error: Stock data is undefined.</p>;
   }
 
-  useStockPriceHistory(Number(stockNumber), '30');
+  useStockPriceHistory(stockName as string, '30');
   useStockData();
 
   return (

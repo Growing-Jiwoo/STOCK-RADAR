@@ -7,10 +7,10 @@ import { useParams } from 'react-router-dom';
 import { StockDetailParams } from '../types/stock';
 
 const Auth = () => {
-  const { stockNumber, stockDetailId } = useParams<StockDetailParams>();
+  const { stockName, stockDetailId } = useParams<StockDetailParams>();
   const PRIVATE_ROUTES = [
     PATH_NAME.STOCK_INFO,
-    `${PATH_NAME.STOCK_INFO}/${stockNumber}/${stockDetailId}`,
+    `${PATH_NAME.STOCK_INFO}/${stockName}/${stockDetailId}`,
   ];
   const PUBLIC_ROUTES = [PATH_NAME.MAIN, PATH_NAME.SIGN_IN, PATH_NAME.SIGN_UP];
   const { pathname } = useLocation();

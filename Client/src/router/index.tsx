@@ -21,7 +21,7 @@ const router = createBrowserRouter([
         element: <StockInfo />,
       },
       {
-        path: `${PATH_NAME.STOCK_INFO}/:stockNumber/:stockDetailId`,
+        path: `${PATH_NAME.STOCK_INFO}/:stockName/:stockDetailId`,
         element: <StockDetailInfo />,
       },
       {

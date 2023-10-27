@@ -5,9 +5,12 @@ import storage from '../../utils/localStorage';
 function StockTable() {
   const tableInstance = useStockTableInstance();
   const navigate = useNavigate();
-
+  console.log(tableInstance);
   const handleClick = (key: string, value: string) => {
     const MAX_VIEWS = 5;
+
+    console.log(key);
+    console.log(value);
 
     const storedData: string | null = storage.get('views');
     const previousViews = storedData ? JSON.parse(storedData) : {};
@@ -42,13 +45,13 @@ function StockTable() {
             <tr
               onClick={() => {
                 navigate(
-                  `/stock/${tableInstance.data[row.index].name.split(' ')[1]}/${
+                  `/stock/${tableInstance.data[row.index].name}/${
                     tableInstance.data[row.index].id
                   }`
                 );
                 handleClick(
-                  `stock${tableInstance.data[row.index].name.split(' ')[1]}`,
-                  `/stock/${tableInstance.data[row.index].name.split(' ')[1]}/${
+                  `${tableInstance.data[row.index].name}`,
+                  `/stock/${tableInstance.data[row.index].name}/${
                     tableInstance.data[row.index].id
                   }`
                 );

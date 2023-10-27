@@ -27,14 +27,14 @@ export const useStockData = () => {
   return { stockData };
 };
 
-export const useStockPriceHistory = (stockId: number, day: string) => {
+export const useStockPriceHistory = (stockName: string, day: string) => {
   const [recoilStockData, setRecoilStockData] = useRecoilState(
     stockPriceHistoryState
   );
 
   const { data: stockPrice } = useQuery<StockPriceHistory[]>(
-    [`${QUERY_KEYS.STOCK_PRICE_HISTORY}/${stockId}/${day}`],
-    () => getStockPriceHistory(stockId, day),
+    [`${QUERY_KEYS.STOCK_PRICE_HISTORY}/${stockName}/${day}`],
+    () => getStockPriceHistory(stockName, day),
     {
       refetchInterval: 1000,
     }

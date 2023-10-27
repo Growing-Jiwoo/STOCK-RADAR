@@ -10,7 +10,7 @@ export interface StockInformation {
 }
 
 export interface StockDetailParams extends Record<string, string> {
-  stockNumber: string;
+  stockName: string;
   stockDetailId: string;
 }
 

@@ -10,23 +10,37 @@ export function RateOfChange(keys: KeysProps) {
   const [recoilStockData] = useRecoilState(stockDataState);
 
   const getStockPrice = (key: string) => {
-    const stockIndex = parseInt(key.replace(/\D/g, '')) - 1;
-    const currentPrice = recoilStockData[stockIndex]?.current_price;
-    const startPrice = recoilStockData[stockIndex]?.start_price;
-    const rateOfChange = recoilStockData[stockIndex]?.rate_of_change;
+    const stockName = key;
+
+    const selectedStock = recoilStockData.find(
+      (stock) => stock.name === stockName
+    );
+
+    if (selectedStock) {
+      const currentPrice = selectedStock.current_price;
+      const startPrice = selectedStock.start_price;
+      const rateOfChange = selectedStock.rate_of_change;
+
+      return {
+        currentPrice,
+        isLower: currentPrice < startPrice,
+        rateOfChange,
+      };
+    }
 
     return {
-      currentPrice,
-      isLower: currentPrice < startPrice,
-      rateOfChange,
+      currentPrice: 0,
+      isLower: false,
+      rateOfChange: 0,
     };
   };
 
+  const stockPriceData = getStockPrice(keys.keys);
+
   return (
-    <StockPrice isLower={getStockPrice(keys.keys).isLower}>
-      {getStockPrice(keys.keys).currentPrice}{' '}
-      {getStockPrice(keys.keys).rateOfChange}%
-      {getStockPrice(keys.keys).isLower ? <DownArrowIcon /> : <UpArrowIcon />}
+    <StockPrice isLower={stockPriceData.isLower}>
+      ${stockPriceData.currentPrice} / {stockPriceData.rateOfChange}%
+      {stockPriceData.isLower ? <DownArrowIcon /> : <UpArrowIcon />}
     </StockPrice>
   );
 }
