@@ -1,6 +1,6 @@
 from django.urls import include, path
 from .views import StockInfoList, UserSigninAPIView, UserSignupAPIView, RefreshTokenAPIView, UserStocksCreate, \
-    SellStocksAPIView, StockInfoDetail, StockPriceHistoryDays
+    SellStocksAPIView, StockInfoDetail, StockPriceHistoryDays, StocksCommentInfo
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -15,4 +15,8 @@ urlpatterns = [
     path('signin', UserSigninAPIView.as_view(), name='user-signin'),
     path('signup', UserSignupAPIView.as_view(), name='user-signup'),
     path('refreshToken', RefreshTokenAPIView.as_view(), name='refresh-token'),
+    path('stocks_comments', StocksCommentInfo.as_view(), name='stocks-comments-info'),
+    path('stocks_comments/<str:stock_id>', StocksCommentInfo.as_view(), name='stocks-comments-info-stock'),
+    path('stocks_comments/delete/<int:comment_id>', StocksCommentInfo.as_view(), name='stocks-comments-info-comment'),
 ]
+

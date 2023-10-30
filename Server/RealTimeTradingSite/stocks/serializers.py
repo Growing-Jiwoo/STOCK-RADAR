@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StockInfo, User, UserStocks, StockPriceHistory
+from .models import StockInfo, User, UserStocks, StockPriceHistory, StocksComment
 
 class StockInfoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,4 +23,9 @@ class StockPriceHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StockPriceHistory
+        fields = '__all__'
+
+class StocksCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StocksComment
         fields = '__all__'
