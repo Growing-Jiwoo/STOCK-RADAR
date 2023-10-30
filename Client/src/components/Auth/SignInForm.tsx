@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Auth } from '../../types/auth';
 import { useSignIn } from '../../services/auth';
 import { useRecoilState } from 'recoil';
-import { usernameState } from '../../recoil/stockInfo/auth/atoms';
+import { usernameState } from '../../recoil/auth/atoms';
 
 export function SignInForm() {
   const signInMutation = useSignIn();
