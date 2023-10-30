@@ -3,9 +3,12 @@ import { InputField } from './Input';
 import { useForm } from 'react-hook-form';
 import { Auth } from '../../types/auth';
 import { useSignIn } from '../../services/auth';
+import { useRecoilState } from 'recoil';
+import { usernameState } from '../../recoil/stockInfo/auth/atoms';
 
 export function SignInForm() {
   const signInMutation = useSignIn();
+  const [, setUsernameRecoil] = useRecoilState(usernameState);
 
   const {
     register,
@@ -19,6 +22,7 @@ export function SignInForm() {
 
   const onSubmit = async (values: Auth) => {
     await signInMutation.mutateAsync(values);
+    setUsernameRecoil(watch('username') ?? '');
   };
 
   return (
