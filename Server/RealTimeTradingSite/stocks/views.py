@@ -1,9 +1,9 @@
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User, UserStocks
+from .models import User, UserStocks, StocksComment
 from rest_framework.permissions import BasePermission, AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .authentication import authenticate_request, generate_refresh_token
-from .serializers import UserSerializer, UserStocksSerializer, StockPriceHistorySerializer
+from .serializers import UserSerializer, UserStocksSerializer, StockPriceHistorySerializer, StocksCommentSerializer
 from rest_framework import status
 from django.db.models import Sum
 from rest_framework.status import HTTP_404_NOT_FOUND
@@ -405,4 +405,70 @@ class SellStocksAPIView(APIView):
                 'code': 400,
                 'message': 'You do not have any stocks of this type to sell',
                 'data' : response_data
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StocksCommentInfo(APIView):
+    def get(self, request, stock_id=None, format=None):
+        try:
+            if stock_id:
+                comments = StocksComment.objects.filter(stock_id=stock_id)
+            else:
+                comments = StocksComment.objects.all()
+
+            serializer = StocksCommentSerializer(comments, many=True)
+
+            return Response({
+                'code': 200,
+                'data': serializer.data
             }, status=status.HTTP_200_OK)
+
+        except StocksComment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request, format=None):
+        try:
+            comment_text = request.data.get('comment_text')
+            stock_id = request.data.get('stock_id')
+            user_id = request.data.get('user_id')
+
+            if not all([comment_text, stock_id, user_id]):
+                return Response({'error': 'Missing required parameters'}, status=status.HTTP_400_BAD_REQUEST)
+
+            comment = StocksComment.objects.create(
+                comment_text=comment_text,
+                stock_id=stock_id,
+                user_id=user_id
+            )
+
+            return Response({
+                'code': 200,
+                'message': 'Comment created successfully'
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request, comment_id=None, stock_id=None, format=None):
+        try:
+            if comment_id is not None:
+                comment = StocksComment.objects.get(comment_id=comment_id)
+                comment.delete()
+
+                return Response({
+                    'code': 200,
+                    'message': 'Comment deleted successfully'
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    'code': 400,
+                    'message': 'Comment ID is required for delete operation'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        except StocksComment.DoesNotExist:
+            return Response({
+                'code': 404,
+                'message': 'Comment not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
