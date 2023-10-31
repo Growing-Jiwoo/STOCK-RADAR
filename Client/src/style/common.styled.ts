@@ -44,3 +44,19 @@ export const StyledCommonflexCenter = `
   justify-content: center;
   align-items: center;
 `;
+
+export const Colors = {
+  lightBlue: '#e9eeff',
+  grayBlue: '#a4aebf',
+  blue: '#406bf8',
+  pastelBlue: '#3497fd',
+  black: '#141414',
+  green: '#05e1aa',
+  purple: '#c840e9',
+  yellow: '#ffcc00',
+  gray: '#c4c4c4',
+  lightGray: '#e5e5eb',
+  deepGray: '#90909e',
+  vDeepGray: '#2b2b2b',
+  white: '#fff',
+};
