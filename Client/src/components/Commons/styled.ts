@@ -43,7 +43,7 @@ export const AgreeButton = styled.button<ButtonProps>`
   border: transparent;
   background-color: ${Colors.blue};
 
-  font-family: var(--font-NS);
+  font-family: var(--font-nanumfont);
   font-size: 16px;
   font-weight: 900;
   color: ${Colors.white};
@@ -63,7 +63,7 @@ export const DisagreeButton = styled.button<ButtonProps>`
   border: transparent;
   background-color: ${Colors.grayBlue};
 
-  font-family: var(--font-NS);
+  font-family: var(--font-nanumfont);
   font-size: 16px;
   font-weight: 900;
   color: ${Colors.white};
