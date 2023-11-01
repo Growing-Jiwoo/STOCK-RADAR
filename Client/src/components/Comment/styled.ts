@@ -24,7 +24,7 @@ export const CommentInfoContainer = styled.div`
 `;
 
 export const CommentName = styled.p`
-  font-family: var(--font-NS);
+  font-family: var(--font-nanumfont);
   font-size: 16px;
   font-weight: 700;
   color: ${Colors.vDeepGray};
@@ -134,7 +134,7 @@ export const CloseBtn = styled(CloseBtnImg)`
 `;
 
 export const Title = styled.div`
-  font-family: var(--font-NS);
+  font-family: var(--font-nanumfont);
   font-size: 22px;
   font-weight: 900;
   color: ${Colors.vDeepGray};
@@ -151,7 +151,7 @@ export const SubMentContainer = styled.div`
   border-top: 1px solid #e5e5eb;
   border-bottom: 1px solid #e5e5eb;
   padding: 20px;
-  font-family: var(--font-NS);
+  font-family: var(--font-nanumfont);
   font-size: 17px;
   color: ${Colors.vDeepGray};
 `;
