@@ -1,3 +1,4 @@
+# dependencies
 __pycache__/
 *.pyc
-**/Server/RealTimeTradingSite/stocks/migrations/
+/Server/RealTimeTradingSite/stocks/migrations/*.py
