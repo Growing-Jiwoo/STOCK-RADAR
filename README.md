@@ -7,6 +7,7 @@
 
 #### * Client
 React.js, TypeScript, JSX, CSS
+
 #### * Server
 MySQL, Django
 
@@ -28,7 +29,7 @@ MySQL, Django
 - style: 코드 스타일 변경 (코드 포맷 변경, 세미콜론 누락 등)
 - refactor: 코드 리팩토링
 - perf: 성능 개선을 위한 코드 수정
-- chore: 빌드, 패키지 관련 업데이트
+- chore: 빌드, 패키지 관련 업데이트
 - rename: 파일 혹은 폴더명을 수정만 한 경우
 - remove: 파일을 삭제만 한 경우
 ###### 2023. 11. 01 수정 이전에는 잘못된 컨벤션이 존재할 수 있음
