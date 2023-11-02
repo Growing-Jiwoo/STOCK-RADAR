@@ -11,4 +11,5 @@ export const PATH_NAME = {
 export const QUERY_KEYS = {
   STOCK_INFO: 'stock',
   STOCK_PRICE_HISTORY: 'stockPriceHis',
+  CREATE_COMMENT: 'createComment',
 };
