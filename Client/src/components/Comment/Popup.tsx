@@ -9,6 +9,7 @@ import {
   BtnContainer,
   ClosePopupButton,
 } from './styled';
+import { useDeleteComment } from '../../services/board';
 
 Modal.setAppElement('#root');
 
@@ -33,11 +34,18 @@ const customStyles: Styles = {
   },
 };
 
-const Popup = () => {
+function Popup() {
   console.log('popup 렌더링');
   const [modal, setModal] = useRecoilState(modalState);
   const closeModal = () => {
     setModal({ isOpen: false });
+  };
+
+  const deleteCommentMutation = useDeleteComment();
+
+  const handleDeleteComment = (commentId: number) => {
+    deleteCommentMutation.mutate(commentId);
+    closeModal();
   };
 
   return (
@@ -61,13 +69,21 @@ const Popup = () => {
           <ClosePopupButton width="80px" height="38px" onClick={closeModal}>
             취소
           </ClosePopupButton>
-          <AgreeButton width="80px" height="38px">
+          <AgreeButton
+            width="80px"
+            height="38px"
+            onClick={() => {
+              handleDeleteComment(3);
+              // to do list
+              // 이후에 인자값을 commentId로 변경
+            }}
+          >
             확인
           </AgreeButton>
         </BtnContainer>
       </Modal>
     </>
   );
-};
+}
 
 export default Popup;
