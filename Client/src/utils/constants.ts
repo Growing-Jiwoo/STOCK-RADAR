@@ -12,4 +12,5 @@ export const QUERY_KEYS = {
   STOCK_INFO: 'stock',
   STOCK_PRICE_HISTORY: 'stockPriceHis',
   CREATE_COMMENT: 'createComment',
+  DELETE_COMMENT: 'deleteComment',
 };
