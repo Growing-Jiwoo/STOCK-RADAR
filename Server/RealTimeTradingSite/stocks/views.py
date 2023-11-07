@@ -28,7 +28,10 @@ class RefreshTokenAPIView(APIView):
         except AuthenticationFailed as e:
             return Response(e.detail, status=e.status_code)
         except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({
+                'code': 404,
+                'message': 'User not found'
+            }, status=status.HTTP_404_NOT_FOUND)
 
         refresh_token = generate_refresh_token(user)
         return Response({'refresh_token': refresh_token})
@@ -101,7 +104,10 @@ class StockPriceHistoryDays(APIView):
                     timestamp__date__range=[start_date, current_date]
                 )
             except ObjectDoesNotExist:
-                return Response({'error': 'Stock not found'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({
+                    'code': 404,
+                    'message': 'Stock not found'
+                }, status=status.HTTP_404_NOT_FOUND)
 
             serializer = StockPriceHistorySerializer(stock_price_history, many=True)
             return Response(serializer.data[::-1], status=status.HTTP_200_OK)
@@ -159,7 +165,10 @@ class StockInfoList(APIView):
         except AuthenticationFailed as e:
             return Response(e.detail, status=e.status_code)
         except StockInfo.DoesNotExist:
-            return Response(status=HTTP_404_NOT_FOUND)
+            return Response({
+                'code': 404,
+                'message': 'Stock not found'
+            }, status=status.HTTP_404_NOT_FOUND)
 
         for i, name in enumerate(stock_names):
             try:
@@ -230,7 +239,10 @@ class StockInfoDetail(APIView):
         try:
             stock = StockInfo.objects.get(pk=pk, timestamp__date=current_date)
         except StockInfo.DoesNotExist:
-            return Response({"detail": "Stock information does not exist for the specified ID."}, status=404)
+            return Response({
+                'code': 404,
+                'message': 'Stock information does not exist for the specified ID'
+            }, status=status.HTTP_404_NOT_FOUND)
 
         stock_data = {
             "id": stock.id,
@@ -275,7 +287,10 @@ class UserStocksCreate(APIView):
         except AuthenticationFailed as e:
             return Response({'code': 401, 'data': e.detail}, status=e.status_code)
         except UserStocks.DoesNotExist:
-            return Response({'code': 404, 'message': 'UserStocks not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({
+                'code': 404,
+                'message': 'UserStocks not found.'
+            }, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request, format=None):
         serializer = UserStocksSerializer(data=request.data)
@@ -313,8 +328,10 @@ class UserStocksCreate(APIView):
                         current_purchase_price = stock_info.current_price
                         serializer.validated_data['purchase_price'] = Decimal(current_purchase_price) * quantity
                     except StockInfo.DoesNotExist:
-                        return Response({'code': 404, 'message': 'Stock with the provided ID does not exist'},
-                                    status=status.HTTP_404_NOT_FOUND)
+                        return Response({
+                            'code': 404,
+                            'message': 'Stock with the provided ID does not exist'
+                        },status=status.HTTP_404_NOT_FOUND)
 
                     serializer.validated_data['purchase_date'] = datetime.now()
                     serializer.save()
@@ -404,7 +421,7 @@ class SellStocksAPIView(APIView):
         return Response({
                 'code': 400,
                 'message': 'You do not have any stocks of this type to sell',
-                'data' : response_data
+                'data': response_data
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -424,7 +441,10 @@ class StocksCommentInfo(APIView):
             }, status=status.HTTP_200_OK)
 
         except StocksComment.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({
+                'code': 400,
+                'message': f'No comments found for stock with ID {stock_id}'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request, format=None):
         try:
@@ -447,7 +467,7 @@ class StocksCommentInfo(APIView):
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def delete(self, request, comment_id=None, stock_id=None, format=None):
         try:
