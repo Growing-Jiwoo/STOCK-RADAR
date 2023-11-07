@@ -26,12 +26,10 @@ function StockDetailInfo(): JSX.Element {
     <>
       <Suspense fallback={<LoadingSpinner />}>
         <p>현재 가격</p>
-        {/* <RateOfChange keys={recoilData.name} />
-        <StockPriceHistoryChart /> */}
+        <RateOfChange keys={recoilData.name} />
+        <StockPriceHistoryChart />
 
         <CommentInput stockName={stockName as string} />
-        <Comment />
-        <Comment />
         <Comment />
       </Suspense>
     </>

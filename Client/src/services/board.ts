@@ -1,13 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
+import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { createComment, deleteComment } from '../apis/board';
+import { createComment, deleteComment, getCommentList } from '../apis/board';
 import { APIResponse } from '../types/api';
-import { CommentData } from '../types/board';
+import { CommentData, CreateComment } from '../types/board';
 import { QUERY_KEYS } from '../utils/constants';
 
 export const useCreateComment = () => {
-  return useMutation<CommentData, AxiosError, CommentData>(
-    (commentContent: CommentData) => createComment(commentContent),
+  return useMutation<CreateComment, AxiosError, CreateComment>(
+    (commentContent: CreateComment) => createComment(commentContent),
     {
       mutationKey: [QUERY_KEYS.CREATE_COMMENT],
     }
@@ -21,4 +21,22 @@ export const useDeleteComment = () => {
       mutationKey: [QUERY_KEYS.DELETE_COMMENT],
     }
   );
+};
+
+export const useCommentList = (stockName: string) => {
+  const { data: commentList } = useQuery<
+    CommentData[],
+    AxiosError,
+    CommentData[],
+    QueryKey
+  >(
+    [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
+    () => getCommentList(stockName),
+    {
+      staleTime: 2 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
+    }
+  );
+
+  return commentList;
 };

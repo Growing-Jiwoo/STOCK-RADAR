@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCreateComment } from '../../services/board';
+import { CreateComment } from '../../types/board';
 import {
   CommentInputContainer,
   CommentTextarea,
@@ -15,7 +16,7 @@ function CommentInput({ stockName }: CommentInputProps) {
 
   console.log('CommentInput 렌더링');
 
-  const commentContent = {
+  const commentContent: CreateComment = {
     comment_text: commentText,
     stock_id: stockName,
     user_id: 'test',
