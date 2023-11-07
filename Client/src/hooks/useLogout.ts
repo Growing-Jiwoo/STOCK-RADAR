@@ -9,6 +9,7 @@ const useLogout = () => {
   const logout = () => {
     storage.remove(REFRESH_TOKEN);
     storage.remove(ACCESS_TOKEN);
+    storage.remove('username');
     toast.success('로그아웃 완료');
     navigate(PATH_NAME.MAIN);
   };
