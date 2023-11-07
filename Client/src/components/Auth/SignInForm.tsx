@@ -5,6 +5,7 @@ import { Auth } from '../../types/auth';
 import { useSignIn } from '../../services/auth';
 import { useRecoilState } from 'recoil';
 import { usernameState } from '../../recoil/auth/atoms';
+import storage from '../../utils/localStorage';
 
 export function SignInForm() {
   const signInMutation = useSignIn();
@@ -23,6 +24,7 @@ export function SignInForm() {
   const onSubmit = async (values: Auth) => {
     await signInMutation.mutateAsync(values);
     setUsernameRecoil(watch('username') ?? '');
+    storage.set('username', watch('username'));
   };
 
   return (
