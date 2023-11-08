@@ -446,6 +446,35 @@ class StocksCommentInfo(APIView):
                 'message': f'No comments found for stock with ID {stock_id}'
             }, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request, comment_id=None, format=None):
+        try:
+            if comment_id is not None:
+                comment = StocksComment.objects.get(comment_id=comment_id)
+
+                comment_text = request.data.get('comment_text')
+                if not comment_text:
+                    return Response({'error': 'Missing comment_text parameter'}, status=status.HTTP_400_BAD_REQUEST)
+
+                comment.comment_text = comment_text
+                comment.save()
+
+                return Response({
+                    'code': 200,
+                    'message': 'Comment updated successfully'
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    'code': 400,
+                    'message': 'Comment ID is required for update operation'
+                }, status=status.HTTP_400_BAD_REQUEST)
+        except StocksComment.DoesNotExist:
+            return Response({
+                'code': 404,
+                'message': 'Comment not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def post(self, request, format=None):
         try:
             comment_text = request.data.get('comment_text')
