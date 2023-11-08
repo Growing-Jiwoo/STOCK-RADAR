@@ -1,8 +1,13 @@
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { createComment, deleteComment, getCommentList } from '../apis/board';
+import {
+  createComment,
+  deleteComment,
+  editComment,
+  getCommentList,
+} from '../apis/board';
 import { APIResponse } from '../types/api';
-import { CommentData, CreateComment } from '../types/board';
+import { CommentData, CreateComment, EditComment } from '../types/board';
 import { QUERY_KEYS } from '../utils/constants';
 
 export const useCreateComment = () => {
@@ -10,6 +15,19 @@ export const useCreateComment = () => {
     (commentContent: CreateComment) => createComment(commentContent),
     {
       mutationKey: [QUERY_KEYS.CREATE_COMMENT],
+    }
+  );
+};
+
+export const useEditComment = () => {
+  return useMutation<
+    APIResponse<unknown>,
+    AxiosError,
+    { commentId: number; editCommentText: EditComment }
+  >(
+    ({ commentId, editCommentText }) => editComment(commentId, editCommentText),
+    {
+      mutationKey: [QUERY_KEYS.EDIT_COMMENT],
     }
   );
 };

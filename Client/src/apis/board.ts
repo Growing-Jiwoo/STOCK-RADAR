@@ -1,5 +1,5 @@
 import { APIResponse } from '../types/api';
-import { CommentData, CreateComment } from '../types/board';
+import { CommentData, CreateComment, EditComment } from '../types/board';
 import { ApiUrl } from './ApiUrl';
 import { instance } from './axios';
 
@@ -8,6 +8,23 @@ export const createComment = async (
 ): Promise<CreateComment> => {
   try {
     const response = await instance.post(`${ApiUrl.comment}`, commentContent);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const editComment = async (
+  commentId: number,
+  editCommentText: EditComment
+): Promise<APIResponse<unknown>> => {
+  try {
+    const response = await instance.put(
+      `${ApiUrl.comment}/update/${commentId}`,
+      editCommentText
+    );
+
     return response.data;
   } catch (error) {
     console.error(error);

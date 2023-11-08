@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { usernameState } from '../../recoil/auth/atoms';
 import { modalState } from '../../recoil/board/atoms';
-import { useCommentList } from '../../services/board';
-import { CommentData } from '../../types/board';
+import { useCommentList, useEditComment } from '../../services/board';
+import { CommentData, EditComment } from '../../types/board';
 import { StockDetailParams } from '../../types/stock';
 import storage from '../../utils/localStorage';
 import Popup from './Popup';
@@ -51,9 +51,14 @@ function Comment() {
     setIsModifyBtnClicked(null);
   };
 
-  const handleModifySuccessBtnClick = () => {
-    // 서버에서 댓글 업데이트 로직 수행
-    console.log(commentText);
+  const editCommentMutation = useEditComment();
+
+  const handleModifySuccessBtnClick = (commentId: number) => {
+    const editCommentText: EditComment = {
+      comment_text: commentText,
+    };
+
+    editCommentMutation.mutate({ commentId, editCommentText });
     setIsModifyBtnClicked(null);
   };
 
@@ -97,7 +102,9 @@ function Comment() {
                     isClicked={isModifyBtnClicked === index}
                   >
                     <CommentModifySuccessBtn
-                      onClick={handleModifySuccessBtnClick}
+                      onClick={() => {
+                        handleModifySuccessBtnClick(comment_id);
+                      }}
                     >
                       완료
                     </CommentModifySuccessBtn>
