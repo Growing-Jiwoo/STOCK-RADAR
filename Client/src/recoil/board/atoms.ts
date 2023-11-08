@@ -6,3 +6,8 @@ export const modalState = atom({
     isOpen: false,
   },
 });
+
+export const commentIdState = atom({
+  key: 'commentIdState',
+  default: 0,
+});

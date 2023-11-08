@@ -1,7 +1,7 @@
 import Modal, { Styles } from 'react-modal';
 import { AgreeButton } from '../Commons/styled';
-import { useRecoilState } from 'recoil';
-import { modalState } from '../../recoil/board/atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { commentIdState, modalState } from '../../recoil/board/atoms';
 import {
   Title,
   CloseBtn,
@@ -37,13 +37,15 @@ const customStyles: Styles = {
 function Popup() {
   console.log('popup 렌더링');
   const [modal, setModal] = useRecoilState(modalState);
+  const commentId = useRecoilValue(commentIdState);
+
   const closeModal = () => {
     setModal({ isOpen: false });
   };
 
   const deleteCommentMutation = useDeleteComment();
 
-  const handleDeleteComment = (commentId: number) => {
+  const handleDeleteComment = () => {
     deleteCommentMutation.mutate(commentId);
     closeModal();
   };
@@ -54,7 +56,6 @@ function Popup() {
         isOpen={modal.isOpen}
         contentLabel="Popup Modal"
         style={customStyles}
-        shouldCloseOnOverlayClick={true} // 모달 외부 클릭 시 닫힘
       >
         <Title>
           삭제하기
@@ -73,9 +74,7 @@ function Popup() {
             width="80px"
             height="38px"
             onClick={() => {
-              handleDeleteComment(3);
-              // to do list
-              // 이후에 인자값을 commentId로 변경
+              handleDeleteComment();
             }}
           >
             확인
