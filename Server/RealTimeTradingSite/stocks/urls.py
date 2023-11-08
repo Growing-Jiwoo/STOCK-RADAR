@@ -18,5 +18,6 @@ urlpatterns = [
     path('stocks_comments', StocksCommentInfo.as_view(), name='stocks-comments-info'),
     path('stocks_comments/<str:stock_id>', StocksCommentInfo.as_view(), name='stocks-comments-info-stock'),
     path('stocks_comments/delete/<int:comment_id>', StocksCommentInfo.as_view(), name='stocks-comments-info-comment'),
+    path('stocks_comments/update/<int:comment_id>', StocksCommentInfo.as_view(), name='stocks-comments-info-update-comment'),
 ]
 
