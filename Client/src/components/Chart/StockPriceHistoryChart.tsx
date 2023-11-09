@@ -2,7 +2,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import ECharts from 'echarts-for-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { currentPriceState } from '../../recoil/stockInfo/atoms';
+import { stockPricesSelector } from '../../recoil/stockInfo/selectors';
 import { StockDetailParams, StockPriceHistory } from '../../types/stock';
+import { addMinutesAndFormat } from '../../utils/addMinutesAndFormat';
 import { ChartContainer, ChartWrapper } from './styled';
 
 export function StockPriceHistoryChart() {
@@ -14,19 +18,27 @@ export function StockPriceHistoryChart() {
   const minData: number = Math.min(...prices);
   const maxData: number = Math.max(...prices);
   const cachedData = queryClient.getQueryData<StockPriceHistory[]>(queryKey);
+  const stockCurrentPrice = useRecoilValue(currentPriceState);
 
   useEffect(() => {
     if (cachedData) {
-      const stockPrices: number[] = cachedData.map(
+      const stockPrices = cachedData.map(
         (item: StockPriceHistory) => item.current_price
       );
-      const stockTimestamp: string[] = cachedData.map(
+      const stockTimestamp = cachedData.map(
         (item: StockPriceHistory) => item.timestamp
       );
-      setPrices(stockPrices);
-      setTimeStamp(stockTimestamp);
+      const lastTimestamp = stockTimestamp[stockTimestamp.length - 1];
+
+      const convertTimeStampString = addMinutesAndFormat(lastTimestamp, 5);
+
+      const toDatePrices = [...stockPrices, stockCurrentPrice];
+      const toDateTimeStamp = [...stockTimestamp, convertTimeStampString];
+
+      setPrices(toDatePrices);
+      setTimeStamp(toDateTimeStamp);
     }
-  }, [cachedData]);
+  }, [cachedData, stockCurrentPrice]);
 
   const options = {
     xAxis: {
@@ -41,7 +53,6 @@ export function StockPriceHistoryChart() {
       formatter: function (params: { value: number; dataIndex: number }[]) {
         const priceValue = params[0].value;
         const timeStampValue = timeStamp[params[0].dataIndex];
-
         if (priceValue !== null && priceValue !== undefined) {
           return `<div style="font-size: 14px; color: black; text-align: center; font-weight: bold;">
               <span style="font-size: 11px; color: gray; ">${timeStampValue}</span>
