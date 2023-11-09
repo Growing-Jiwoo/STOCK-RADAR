@@ -2,11 +2,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import ECharts from 'echarts-for-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { currentPriceState } from '../../recoil/stockInfo/atoms';
-import { stockPricesSelector } from '../../recoil/stockInfo/selectors';
 import { StockDetailParams, StockPriceHistory } from '../../types/stock';
-import { addMinutesAndFormat } from '../../utils/addMinutesAndFormat';
+import { getCurrentTimeStamp } from '../../utils/addMinutesAndFormat';
 import { ChartContainer, ChartWrapper } from './styled';
 
 export function StockPriceHistoryChart() {
@@ -28,12 +27,10 @@ export function StockPriceHistoryChart() {
       const stockTimestamp = cachedData.map(
         (item: StockPriceHistory) => item.timestamp
       );
-      const lastTimestamp = stockTimestamp[stockTimestamp.length - 1];
 
-      const convertTimeStampString = addMinutesAndFormat(lastTimestamp, 5);
-
+      const currentTimeStamp = getCurrentTimeStamp();
       const toDatePrices = [...stockPrices, stockCurrentPrice];
-      const toDateTimeStamp = [...stockTimestamp, convertTimeStampString];
+      const toDateTimeStamp = [...stockTimestamp, currentTimeStamp];
 
       setPrices(toDatePrices);
       setTimeStamp(toDateTimeStamp);
