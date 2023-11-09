@@ -1,5 +1,8 @@
-import { useRecoilState } from 'recoil';
-import { stockDataState } from '../../recoil/stockInfo/atoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  currentPriceState,
+  stockDataState,
+} from '../../recoil/stockInfo/atoms';
 import { StockPrice, DownArrowIcon, UpArrowIcon } from './styled';
 
 type KeysProps = {
@@ -8,6 +11,7 @@ type KeysProps = {
 
 export function RateOfChange(keys: KeysProps) {
   const [recoilStockData] = useRecoilState(stockDataState);
+  const setCurrentPriceState = useSetRecoilState(currentPriceState);
 
   const getStockPrice = (key: string) => {
     const stockName = key;
@@ -21,6 +25,7 @@ export function RateOfChange(keys: KeysProps) {
       const startPrice = selectedStock.start_price;
       const rateOfChange = selectedStock.rate_of_change;
 
+      setCurrentPriceState(currentPrice);
       return {
         currentPrice,
         isLower: currentPrice < startPrice,
@@ -36,7 +41,6 @@ export function RateOfChange(keys: KeysProps) {
   };
 
   const stockPriceData = getStockPrice(keys.keys);
-
   return (
     <StockPrice isLower={stockPriceData.isLower}>
       ${stockPriceData.currentPrice} / {stockPriceData.rateOfChange}%

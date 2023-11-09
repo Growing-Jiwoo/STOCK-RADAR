@@ -10,3 +10,8 @@ export const stockPriceHistoryState = atom<StockPriceHistory[]>({
   key: 'stockPriceHis',
   default: [],
 });
+
+export const currentPriceState = atom<number>({
+  key: 'currentPrice',
+  default: 0,
+});
