@@ -27,9 +27,9 @@ import {
 // 1. 조회한 주식 정보에 해당하는 댓글 갯수만큼 댓글 컴포넌트 생성 (ok)
 // 2. 댓글 생성 시 댓글 생성한 user와 접속한 user가 동일한 댓글에만 수정, 삭제 버튼 보여줌 (ok)
 // 3. 댓글 수정 기능 구현 (ok)
-// 4. 댓글 생성, 수정, 삭제 시 변경된 서버데이터가 컴포넌트에 바로 반영될 수 있게끔 하기
-// 5. 댓글 수정 버튼 클릭 시 모든 input이 동시에 움직이는 문제 해결 (ok)
-// 6. 댓글 삭제 popup 하드코딩 된 부분 comment_id 들어갈 수 있게끔 하기
+// 4. 댓글 수정 버튼 클릭 시 모든 input이 동시에 움직이는 문제 해결 (ok)
+// 5. 댓글 삭제 popup 하드코딩 된 부분 comment_id 들어갈 수 있게끔 하기 (ok)
+// 6. 댓글 생성, 수정, 삭제에 대해서 낙관적 업데이트 적용 (수정만 ok)
 
 function Comment() {
   const username = storage.get('username');
@@ -41,6 +41,7 @@ function Comment() {
   const getCommentList = useCommentList(stockName as string);
   const [, setModal] = useRecoilState(modalState);
   const [, setCommentId] = useRecoilState(commentIdState);
+  const editCommentMutation = useEditComment(stockName || '');
 
   const handleModifyBtnClick = (index: number, initialText: string) => {
     setIsModifyBtnClicked(index);
@@ -52,18 +53,15 @@ function Comment() {
   };
 
   const handleModifySuccessBtnClick = (commentId: number) => {
-    const editCommentMutation = useEditComment();
-
-    const editCommentText: EditComment = {
-      comment_text: commentText,
-    };
-
-    editCommentMutation.mutate({ commentId, editCommentText });
+    editCommentMutation.mutate({
+      commentId,
+      commentText,
+    });
     setIsModifyBtnClicked(null);
   };
 
-  const openPopup = (comment_id: number) => {
-    setCommentId(comment_id);
+  const openPopup = (commentId: number) => {
+    setCommentId(commentId);
     setModal({ isOpen: true });
   };
 
@@ -75,29 +73,34 @@ function Comment() {
     <>
       <Popup />
       {getCommentList?.map((commentData: CommentData, index: number) => {
-        const { comment_id, user, create_time, comment_text } = commentData;
+        const {
+          comment_id: commentId,
+          user,
+          create_time: createTime,
+          comment_text: comment,
+        } = commentData;
         const isCurrentUser = user === username;
 
         return (
-          <CommentContainer key={comment_id}>
+          <CommentContainer key={commentId}>
             <CommentInfo>
               <CommentInfoContainer>
                 <CommentName>{user}</CommentName>
                 <CommentDate>
-                  작성 {formatCreateTime(create_time as string)}
+                  작성 {formatCreateTime(createTime as string)}
                 </CommentDate>
               </CommentInfoContainer>
               {isCurrentUser && (
                 <>
                   <CommentBtnContainer isClicked={isModifyBtnClicked === index}>
                     <CommentModifyBtn
-                      onClick={() => handleModifyBtnClick(index, comment_text)}
+                      onClick={() => handleModifyBtnClick(index, comment)}
                     >
                       수정
                     </CommentModifyBtn>
                     <CommentDeleteBtn
                       onClick={() => {
-                        openPopup(comment_id);
+                        openPopup(commentId);
                       }}
                     >
                       삭제
@@ -108,7 +111,7 @@ function Comment() {
                   >
                     <CommentModifySuccessBtn
                       onClick={() => {
-                        handleModifySuccessBtnClick(comment_id);
+                        handleModifySuccessBtnClick(commentId);
                       }}
                     >
                       완료
@@ -129,7 +132,7 @@ function Comment() {
                 onChange={(e) => setCommentText(e.target.value)}
               />
             ) : (
-              <CommentText>{comment_text}</CommentText>
+              <CommentText>{comment}</CommentText>
             )}
           </CommentContainer>
         );
