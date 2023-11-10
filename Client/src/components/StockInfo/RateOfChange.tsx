@@ -4,6 +4,7 @@ import {
   stockDataState,
 } from '../../recoil/stockInfo/atoms';
 import { StockPrice, DownArrowIcon, UpArrowIcon } from './styled';
+import { useEffect } from 'react';
 
 type KeysProps = {
   keys: string;
@@ -25,7 +26,6 @@ export function RateOfChange(keys: KeysProps) {
       const startPrice = selectedStock.start_price;
       const rateOfChange = selectedStock.rate_of_change;
 
-      setCurrentPriceState(currentPrice);
       return {
         currentPrice,
         isLower: currentPrice < startPrice,
@@ -39,8 +39,12 @@ export function RateOfChange(keys: KeysProps) {
       rateOfChange: 0,
     };
   };
-
   const stockPriceData = getStockPrice(keys.keys);
+
+  useEffect(() => {
+    setCurrentPriceState(stockPriceData.currentPrice);
+  }, [keys, setCurrentPriceState]);
+
   return (
     <StockPrice isLower={stockPriceData.isLower}>
       ${stockPriceData.currentPrice} / {stockPriceData.rateOfChange}%
