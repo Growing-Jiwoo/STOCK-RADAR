@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RecentStockListItem } from '../../types/stock';
 import storage from '../../utils/localStorage';
 import { RateOfChange } from './RateOfChange';
 import {
@@ -12,12 +13,15 @@ import {
 } from './styled';
 
 export function RecentStockList() {
-  const [recentStockItem, setRecentStockItem] = useState(
-    JSON.parse(storage.get('views') as string)
+  const [recentStockItem, setRecentStockItem] = useState<RecentStockListItem>(
+    () => {
+      const storedViews = storage.get('views') as string;
+      return storedViews ? JSON.parse(storedViews) : {};
+    }
   );
+
   const keys = Object.keys(recentStockItem);
   const navigate = useNavigate();
-
   const handleKeyClick = (key: string) => {
     navigate(recentStockItem[key]);
   };

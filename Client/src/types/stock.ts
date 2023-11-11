@@ -24,3 +24,7 @@ export interface StockPriceHistory {
 export type StockPriceProps = {
   isLower: boolean;
 };
+
+export interface RecentStockListItem {
+  [key: string]: string;
+}
