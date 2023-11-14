@@ -15,3 +15,8 @@ export const currentPriceState = atom<number>({
   key: 'currentPrice',
   default: 0,
 });
+
+export const selectedStockAtom = atom<string>({
+  key: 'selectedStock',
+  default: '',
+});
