@@ -1,23 +1,21 @@
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { useStockTableInstance } from '../../hooks/useStockTableInstance';
+import { selectedStockAtom } from '../../recoil/stockInfo/atoms';
 import storage from '../../utils/localStorage';
 
 function StockTable() {
   const tableInstance = useStockTableInstance();
   const navigate = useNavigate();
-  console.log(tableInstance);
+  const setSelectedStock = useSetRecoilState(selectedStockAtom);
+
   const handleClick = (key: string, value: string) => {
     const MAX_VIEWS = 5;
-
-    console.log(key);
-    console.log(value);
-
     const storedData: string | null = storage.get('views');
     const previousViews = storedData ? JSON.parse(storedData) : {};
-
     const newData = { ...previousViews, [key]: value };
-
     const keys = Object.keys(newData);
+
     if (keys.length > MAX_VIEWS) {
       const oldestKey = keys.shift();
       if (oldestKey) {
@@ -25,6 +23,8 @@ function StockTable() {
       }
     }
     storage.set('views', JSON.stringify(newData));
+
+    setSelectedStock(key);
   };
 
   return (
