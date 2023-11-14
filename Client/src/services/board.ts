@@ -1,5 +1,6 @@
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useParams } from 'react-router-dom';
 import {
   createComment,
   deleteComment,
@@ -9,6 +10,7 @@ import {
 import { queryClient } from '../react-query/queryClient';
 import { APIResponse } from '../types/api';
 import { CommentData, CreateComment } from '../types/board';
+import { StockDetailParams } from '../types/stock';
 import { QUERY_KEYS } from '../utils/constants';
 
 export const useCreateComment = () => {
@@ -78,9 +80,52 @@ export const useEditComment = (stockName: string) => {
 };
 
 export const useDeleteComment = () => {
+  const { stockName } = useParams<StockDetailParams>();
+
   return useMutation<APIResponse<unknown>, AxiosError, number>(
     [QUERY_KEYS.DELETE_COMMENT],
-    (commentId: number) => deleteComment(commentId)
+    (commentId: number) => deleteComment(commentId),
+    {
+      onMutate: async (commentId: number) => {
+        // 현재 요청을 취소하고 이전 쿼리 데이터를 백업.
+        await queryClient.cancelQueries({
+          queryKey: [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
+        });
+
+        // 이전 댓글 목록 데이터를 가져오기
+        const previousTodos: CommentData[] =
+          queryClient.getQueryData<CommentData[]>([
+            `${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`,
+          ]) || [];
+
+        // 삭제하려는 댓글을 찾아서 제거
+        const updatedTodos: CommentData[] = previousTodos.filter(
+          (todo) => todo.comment_id !== commentId
+        );
+        // 수정된 데이터로 쿼리 데이터를 업데이트
+        queryClient.setQueryData(
+          [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
+          updatedTodos
+        );
+
+        // 이전 데이터를 반환하여 나중에 롤백할 때 사용.
+        return { previousTodos };
+      },
+      onError: (err, commentId, context) => {
+        // onError시 이전 데이터로 롤백
+        const { previousTodos } = context as { previousTodos: CommentData[] };
+        queryClient.setQueryData<CommentData[]>(
+          [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
+          () => previousTodos
+        );
+      },
+      onSettled: () => {
+        // mutation이 완료되면 해당 쿼리를 무효화하여 최신 데이터를 다시 불러옴.
+        queryClient.invalidateQueries([
+          `${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`,
+        ]);
+      },
+    }
   );
 };
 
