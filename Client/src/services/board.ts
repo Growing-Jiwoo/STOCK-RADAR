@@ -9,12 +9,7 @@ import {
 } from '../apis/board';
 import { queryClient } from '../react-query/queryClient';
 import { APIResponse } from '../types/api';
-import {
-  CommentData,
-  CommentListData,
-  CreateComment,
-  CommentMutationContext,
-} from '../types/board';
+import { CommentData, CreateComment } from '../types/board';
 import { StockDetailParams } from '../types/stock';
 import { QUERY_KEYS } from '../utils/constants';
 
@@ -29,27 +24,29 @@ export const useEditComment = (stockName: string) => {
   return useMutation<
     APIResponse<unknown>,
     AxiosError,
-    { commentId: number; commentText: string },
-    CommentMutationContext
+    { commentId: number; commentText: string }
   >(
     [QUERY_KEYS.EDIT_COMMENT],
     ({ commentId, commentText }) =>
       editComment(commentId, { comment_text: commentText }),
     {
-      onMutate: async (newTodo: { commentId: number; commentText: string }) => {
-        // 현재 요청을 취소하고 이전 쿼리 데이터를 백업.
+      onMutate: async (newTodo) => {
+        // 현재 요청을 취소하고 이전 쿼리 데이터를 백업합니다.
         await queryClient.cancelQueries({
           queryKey: [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
         });
 
         // 이전 댓글 목록 데이터를 가져오기
-        const previousTodos: CommentData[] =
-          queryClient.getQueryData<CommentData[]>([
+        const previousTodos: Array<{
+          comment_id: number;
+          comment_text: string;
+        }> =
+          queryClient.getQueryData([
             `${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`,
           ]) || [];
 
         // 수정된 댓글이 있으면 해당 데이터를 업데이트
-        const updatedData = previousTodos.map((comment: CommentData) => {
+        const updatedData = previousTodos.map((comment) => {
           if (comment.comment_id === newTodo.commentId) {
             return { ...comment, comment_text: newTodo.commentText };
           }
@@ -57,7 +54,7 @@ export const useEditComment = (stockName: string) => {
         });
 
         // 수정된 데이터로 쿼리 데이터를 업데이트.
-        queryClient.setQueryData<CommentData[]>(
+        queryClient.setQueryData(
           [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
           updatedData
         );
@@ -65,14 +62,13 @@ export const useEditComment = (stockName: string) => {
         // 이전 데이터를 반환하여 나중에 롤백할 때 사용.
         return { previousTodos };
       },
-      onError: (err, newTodo, context) => {
+      onError: (err, newTodo, context: any) => {
         // onError시 이전 데이터로 롤백
-        queryClient.setQueryData<CommentListData[]>(
+        queryClient.setQueryData(
           [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
-          context?.previousTodos
+          context.previousTodos
         );
       },
-
       onSettled: () => {
         // mutation이 완료되면 해당 쿼리를 무효화하여 최신 데이터를 다시 불러옴.
         queryClient.invalidateQueries([
@@ -86,12 +82,7 @@ export const useEditComment = (stockName: string) => {
 export const useDeleteComment = () => {
   const { stockName } = useParams<StockDetailParams>();
 
-  return useMutation<
-    APIResponse<unknown>,
-    AxiosError,
-    number,
-    CommentMutationContext
-  >(
+  return useMutation<APIResponse<unknown>, AxiosError, number>(
     [QUERY_KEYS.DELETE_COMMENT],
     (commentId: number) => deleteComment(commentId),
     {
@@ -122,9 +113,10 @@ export const useDeleteComment = () => {
       },
       onError: (err, commentId, context) => {
         // onError시 이전 데이터로 롤백
-        queryClient.setQueryData<CommentListData[]>(
+        const { previousTodos } = context as { previousTodos: CommentData[] };
+        queryClient.setQueryData<CommentData[]>(
           [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
-          context?.previousTodos
+          () => previousTodos
         );
       },
       onSettled: () => {
