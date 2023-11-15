@@ -47,9 +47,10 @@ class StockPriceHistory(models.Model):
 class StocksComment(models.Model):
     comment_id = models.BigAutoField(primary_key=True)
     comment_text = models.TextField()
-    create_time = models.DateTimeField(auto_now_add=True)
+    create_time = models.DateTimeField()
     stock_id = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user_id', to_field='username')
 
     class Meta:
+        managed = False
         db_table = 'stockscomment'

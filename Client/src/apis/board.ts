@@ -1,11 +1,11 @@
 import { APIResponse } from '../types/api';
-import { CommentData, CreateComment, EditComment } from '../types/board';
+import { CommentData, EditComment } from '../types/board';
 import { ApiUrl } from './ApiUrl';
 import { instance } from './axios';
 
 export const createComment = async (
-  commentContent: CreateComment
-): Promise<CreateComment> => {
+  commentContent: CommentData
+): Promise<CommentData> => {
   try {
     const response = await instance.post(`${ApiUrl.comment}`, commentContent);
     return response.data;
