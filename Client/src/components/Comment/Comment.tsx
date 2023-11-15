@@ -23,14 +23,6 @@ import {
   CommentTextInput,
 } from './styled';
 
-// to do list
-// 1. 조회한 주식 정보에 해당하는 댓글 갯수만큼 댓글 컴포넌트 생성 (ok)
-// 2. 댓글 생성 시 댓글 생성한 user와 접속한 user가 동일한 댓글에만 수정, 삭제 버튼 보여줌 (ok)
-// 3. 댓글 수정 기능 구현 (ok)
-// 4. 댓글 수정 버튼 클릭 시 모든 input이 동시에 움직이는 문제 해결 (ok)
-// 5. 댓글 삭제 popup 하드코딩 된 부분 comment_id 들어갈 수 있게끔 하기 (ok)
-// 6. 댓글 생성, 수정, 삭제에 대해서 낙관적 업데이트 적용 (수정만 ok)
-
 function Comment() {
   const username = storage.get('username');
   const { stockName } = useParams<StockDetailParams>();
@@ -52,17 +44,25 @@ function Comment() {
     setIsModifyBtnClicked(null);
   };
 
-  const handleModifySuccessBtnClick = (commentId: number) => {
-    editCommentMutation.mutate({
-      commentId,
-      commentText,
-    });
-    setIsModifyBtnClicked(null);
+  const handleModifySuccessBtnClick = (commentId: number | undefined) => {
+    if (commentId !== undefined) {
+      editCommentMutation.mutate({
+        commentId,
+        commentText,
+      });
+      setIsModifyBtnClicked(null);
+    } else {
+      console.error('Comment ID is undefined');
+    }
   };
 
-  const openPopup = (commentId: number) => {
-    setCommentId(commentId);
-    setModal({ isOpen: true });
+  const openPopup = (commentId: number | undefined) => {
+    if (commentId !== undefined) {
+      setCommentId(commentId);
+      setModal({ isOpen: true });
+    } else {
+      console.error('Comment ID is undefined');
+    }
   };
 
   const formatCreateTime = (createTime: string) => {

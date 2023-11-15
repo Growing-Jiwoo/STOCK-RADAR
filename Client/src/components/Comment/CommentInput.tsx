@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useCreateComment } from '../../services/board';
-import { CreateComment } from '../../types/board';
+import { CommentData } from '../../types/board';
+import { formatDateTime } from '../../utils/formatDateTime';
+
 import {
   CommentInputContainer,
   CommentTextarea,
@@ -13,19 +15,22 @@ interface CommentInputProps {
 
 function CommentInput({ stockName }: CommentInputProps) {
   const [commentText, setCommentText] = useState<string>('');
+  const createTime: string = formatDateTime();
 
   console.log('CommentInput 렌더링');
 
-  const commentContent: CreateComment = {
+  const commentContent: CommentData = {
     comment_text: commentText,
     stock_id: stockName,
-    user_id: 'test',
+    user: 'test',
+    create_time: createTime,
   };
 
   const createCommentMutation = useCreateComment();
 
   const handleCreateComment = () => {
     createCommentMutation.mutate(commentContent);
+    setCommentText('');
   };
 
   const handleCommentChange = (
