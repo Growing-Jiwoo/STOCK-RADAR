@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { memo, ReactElement, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { commentIdState, modalState } from '../../recoil/board/atoms';
 import { useCommentList, useEditComment } from '../../services/board';
-import { CommentData, EditComment } from '../../types/board';
+import { CommentData } from '../../types/board';
 import { StockDetailParams } from '../../types/stock';
 import storage from '../../utils/localStorage';
 import Popup from './Popup';
@@ -23,7 +23,8 @@ import {
   CommentTextInput,
 } from './styled';
 
-function Comment() {
+function Comment(): ReactElement {
+  console.log('comment 렌더링');
   const username = storage.get('username');
   const { stockName } = useParams<StockDetailParams>();
   const [isModifyBtnClicked, setIsModifyBtnClicked] = useState<number | null>(
@@ -79,6 +80,7 @@ function Comment() {
           create_time: createTime,
           comment_text: comment,
         } = commentData;
+
         const isCurrentUser = user === username;
 
         return (
@@ -141,4 +143,4 @@ function Comment() {
   );
 }
 
-export default Comment;
+export default memo(Comment);

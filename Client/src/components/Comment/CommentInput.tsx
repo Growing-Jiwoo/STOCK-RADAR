@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { memo, ReactElement, useState } from 'react';
 import { useCreateComment } from '../../services/board';
 import { CommentData } from '../../types/board';
 import { formatDateTime } from '../../utils/formatDateTime';
@@ -12,11 +12,10 @@ interface CommentInputProps {
   stockName: string;
 }
 
-function CommentInput({ stockName }: CommentInputProps) {
+function CommentInput({ stockName }: CommentInputProps): ReactElement {
+  console.log('commentInput 렌더링');
   const [commentText, setCommentText] = useState<string>('');
   const createTime = formatDateTime();
-  console.log('CommentInput 렌더링');
-
   const commentContent: CommentData = {
     comment_text: commentText,
     stock_id: stockName,
@@ -54,4 +53,4 @@ function CommentInput({ stockName }: CommentInputProps) {
   );
 }
 
-export default CommentInput;
+export default memo(CommentInput);
