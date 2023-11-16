@@ -482,7 +482,7 @@ class StocksCommentInfo(APIView):
             user_id = request.data.get('user')
             create_time = request.data.get('create_time')
 
-            if not all([comment_text, stock_id, user_id]):
+            if not all([comment_text, stock_id, user_id, create_time]):
                 return Response({'error': 'Missing required parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
             comment = StocksComment.objects.create(
