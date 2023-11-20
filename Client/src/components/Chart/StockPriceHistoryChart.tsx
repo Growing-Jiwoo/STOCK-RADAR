@@ -37,6 +37,8 @@ export function StockPriceHistoryChart() {
     }
   }, [cachedData, stockCurrentPrice]);
 
+  console.log(minData, maxData);
+
   const options = {
     xAxis: {
       type: 'category',
@@ -44,6 +46,9 @@ export function StockPriceHistoryChart() {
     },
     yAxis: {
       type: 'value',
+      show: false,
+      min: minData - 5,
+      max: maxData + 5,
     },
     tooltip: {
       trigger: 'axis',
