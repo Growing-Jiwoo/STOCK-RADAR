@@ -37,8 +37,6 @@ export function StockPriceHistoryChart() {
     }
   }, [cachedData, stockCurrentPrice]);
 
-  console.log(minData, maxData);
-
   const options = {
     xAxis: {
       type: 'category',

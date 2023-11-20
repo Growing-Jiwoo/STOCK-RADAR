@@ -27,7 +27,7 @@ function CommentInput({ stockName }: CommentInputProps): ReactElement {
 
   const handleCreateComment = () => {
     createCommentMutation.mutate(commentContent);
-    setCommentText(''); //추가
+    setCommentText('');
   };
 
   const handleCommentChange = (
