@@ -1,16 +1,13 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Column } from 'react-table';
-import { useSetRecoilState } from 'recoil';
+import { handleLimitedClickStorage } from '../../utils/handleLimitedClickStorage';
 import { useTableInstance } from '../../hooks/useTableInstance';
-import { selectedStockAtom } from '../../recoil/stockInfo/atoms';
 import { useStockData } from '../../services/stockInfo';
 import { StockInformation } from '../../types/stock';
-import storage from '../../utils/localStorage';
 
 function StockTable() {
   const navigate = useNavigate();
-  const setSelectedStock = useSetRecoilState(selectedStockAtom);
   const { stockData } = useStockData();
   const stockTableColumns = useMemo<Column<StockInformation>[]>(
     () => [
@@ -23,27 +20,10 @@ function StockTable() {
     []
   );
 
-  const handleClick = (key: string, value: string) => {
-    const MAX_VIEWS = 5;
-    const storedData: string | null = storage.get('views');
-    const previousViews: Record<string, string> = storedData
-      ? JSON.parse(storedData)
-      : {};
-    const newData: Record<string, string> = { ...previousViews, [key]: value };
-    const keys = Object.keys(newData);
-
-    if (keys.length > MAX_VIEWS) {
-      const oldestKey = keys.shift();
-      if (oldestKey) {
-        delete newData[oldestKey];
-      }
-    }
-    storage.set('views', JSON.stringify(newData));
-
-    setSelectedStock(key);
-  };
-
   const handleRowClick = (rowData: StockInformation) => {
+    const MAX_VIEWS = 5;
+    const storageKey = 'views';
+    const handleClick = handleLimitedClickStorage(storageKey, MAX_VIEWS);
     const { name, id } = rowData;
     const stockURL = `/stock/${name}/${id}`;
 
