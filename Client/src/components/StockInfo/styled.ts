@@ -3,7 +3,7 @@ import { StyledCommonflexCenter } from '../../style/common.styled';
 import { ReactComponent as DeleteBtnImg } from '../../assets/icons/btn-close-gray.svg';
 import { ReactComponent as UpArrowIconImg } from '../../assets/icons/icon_up.svg';
 import { ReactComponent as DownArrowIconImg } from '../../assets/icons/icon_down.svg';
-import { StockPriceProps } from '../../types/stock';
+import { StockDetailTabButtonProps, StockPriceProps } from '../../types/stock';
 
 export const StockTableContainer = styled.div`
   width: 100%;
@@ -98,4 +98,39 @@ export const UpArrowIcon = styled(UpArrowIconImg)`
   height: 10px;
   margin-left: 3px;
   padding-bottom: 3px;
+`;
+
+export const CommentContainer = styled.div`
+  flex-flow: column wrap;
+  ${StyledCommonflexCenter}
+  width: 100%;
+`;
+
+export const ListTableContainer = styled.div`
+  flex-flow: column wrap;
+  ${StyledCommonflexCenter}
+  width: 100%;
+`;
+
+export const TabContainer = styled.div`
+  flex-flow: row wrap;
+  ${StyledCommonflexCenter}
+  width: 100%;
+`;
+
+export const TabButton = styled.button<StockDetailTabButtonProps>`
+  height: 50px;
+  background-color: transparent;
+  border: transparent;
+  font-family: var(--font-nanumfont);
+  font-size: 16px;
+  font-weight: 700;
+  color: ${(props) => (props.isActive ? 'black' : 'gray')};
+  border-bottom: ${(props) => (props.isActive ? '2px solid gray' : 'none')};
+
+  &:hover,
+  &:active {
+    color: black;
+    border-bottom: 2px solid gray;
+  }
 `;

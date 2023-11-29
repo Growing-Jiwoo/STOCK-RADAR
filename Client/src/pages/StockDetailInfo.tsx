@@ -7,8 +7,8 @@ import { StockPriceHistoryChart } from '../components/Chart/StockPriceHistoryCha
 import { Suspense } from 'react';
 import LoadingSpinner from '../components/Commons/Spinner';
 import { RateOfChange } from '../components/StockInfo/RateOfChange';
-import Comment from '../components/Comment/Comment';
-import CommentInput from '../components/Comment/CommentInput';
+import { StockDetailTab } from '../components/StockInfo/StockDetailTab';
+import { useCommentList } from '../services/board';
 
 function StockDetailInfo(): JSX.Element {
   const { stockName } = useParams<StockDetailParams>();
@@ -16,7 +16,8 @@ function StockDetailInfo(): JSX.Element {
     selectedStockDataState(stockName as string)
   );
   useStockPriceHistory(stockName as string, '30');
-  useStockData(); // 해당 함수가 계속 데이터가 바뀌면서 자식 컴포넌트 리렌더링을 유발하므로 차후에 수정 필요
+  useStockData();
+  useCommentList(stockName as string);
 
   if (!recoilData) {
     return <p>Error: Stock data is undefined.</p>;
@@ -28,9 +29,7 @@ function StockDetailInfo(): JSX.Element {
         <p>현재 가격</p>
         <RateOfChange keys={recoilData.name} />
         <StockPriceHistoryChart />
-
-        <CommentInput stockName={stockName as string} />
-        <Comment />
+        <StockDetailTab />
       </Suspense>
     </>
   );

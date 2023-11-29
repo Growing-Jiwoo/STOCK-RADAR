@@ -1,10 +1,12 @@
+import { useQuery } from '@tanstack/react-query';
 import { memo, ReactElement, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { commentIdState, modalState } from '../../recoil/board/atoms';
-import { useCommentList, useEditComment } from '../../services/board';
+import { useEditComment } from '../../services/board';
 import { CommentData } from '../../types/board';
 import { StockDetailParams } from '../../types/stock';
+import { QUERY_KEYS } from '../../utils/constants';
 import storage from '../../utils/localStorage';
 import Popup from './Popup';
 import {
@@ -31,7 +33,11 @@ function Comment(): ReactElement {
     null
   );
   const [commentText, setCommentText] = useState<string>('');
-  const getCommentList = useCommentList(stockName as string);
+  const { data: getCommentList } = useQuery<CommentData[]>([
+    `${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`,
+  ]);
+
+  console.log(getCommentList);
   const [, setModal] = useRecoilState(modalState);
   const [, setCommentId] = useRecoilState(commentIdState);
   const editCommentMutation = useEditComment(stockName || '');

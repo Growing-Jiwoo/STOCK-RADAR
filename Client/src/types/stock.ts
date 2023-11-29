@@ -28,3 +28,7 @@ export type StockPriceProps = {
 export interface RecentStockListItem {
   [key: string]: string;
 }
+
+export interface StockDetailTabButtonProps {
+  isActive: boolean;
+}
