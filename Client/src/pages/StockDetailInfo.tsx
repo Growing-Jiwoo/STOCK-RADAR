@@ -7,6 +7,7 @@ import { StockPriceHistoryChart } from '../components/Chart/StockPriceHistoryCha
 import { Suspense } from 'react';
 import LoadingSpinner from '../components/Commons/Spinner';
 import { RateOfChange } from '../components/StockInfo/RateOfChange';
+import { StockDetailTab } from '../components/StockInfo/StockDetailTab';
 import { useCommentList } from '../services/board';
 
 function StockDetailInfo(): JSX.Element {
@@ -28,6 +29,7 @@ function StockDetailInfo(): JSX.Element {
         <p>현재 가격</p>
         <RateOfChange keys={recoilData.name} />
         <StockPriceHistoryChart />
+        <StockDetailTab />
       </Suspense>
     </>
   );
