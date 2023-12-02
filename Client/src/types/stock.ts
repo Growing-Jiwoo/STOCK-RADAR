@@ -32,3 +32,12 @@ export interface RecentStockListItem {
 export interface StockDetailTabButtonProps {
   isActive: boolean;
 }
+
+export type StockTradingListType = Pick<
+  StockInformation,
+  'start_price' | 'yesterday_price' | 'current_price' | 'rate_of_change'
+>;
+
+export interface CellColorProps {
+  isNegative: boolean;
+}

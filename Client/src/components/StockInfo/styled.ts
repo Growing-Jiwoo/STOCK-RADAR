@@ -3,7 +3,11 @@ import { StyledCommonflexCenter } from '../../style/common.styled';
 import { ReactComponent as DeleteBtnImg } from '../../assets/icons/btn-close-gray.svg';
 import { ReactComponent as UpArrowIconImg } from '../../assets/icons/icon_up.svg';
 import { ReactComponent as DownArrowIconImg } from '../../assets/icons/icon_down.svg';
-import { StockDetailTabButtonProps, StockPriceProps } from '../../types/stock';
+import {
+  CellColorProps,
+  StockDetailTabButtonProps,
+  StockPriceProps,
+} from '../../types/stock';
 
 export const StockTableContainer = styled.div`
   width: 100%;
@@ -133,4 +137,12 @@ export const TabButton = styled.button<StockDetailTabButtonProps>`
     color: black;
     border-bottom: 2px solid gray;
   }
+`;
+
+export const StockTradingTable = styled.table`
+  width: 18%;
+`;
+
+export const StyledTableCell = styled.td<CellColorProps>`
+  color: ${(props) => (props.isNegative ? 'blue' : 'red')};
 `;
