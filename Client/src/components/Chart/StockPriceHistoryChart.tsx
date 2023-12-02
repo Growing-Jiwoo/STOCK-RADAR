@@ -1,9 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
 import ECharts from 'echarts-for-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { currentPriceState } from '../../recoil/stockInfo/atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  currentPriceState,
+  maxPriceState,
+  minPriceState,
+} from '../../recoil/stockInfo/atoms';
 import { StockDetailParams, StockPriceHistory } from '../../types/stock';
 import { getCurrentTimeStamp } from '../../utils/addMinutesAndFormat';
 import { ChartContainer, ChartWrapper } from './styled';
@@ -12,12 +16,14 @@ export function StockPriceHistoryChart() {
   const { stockName } = useParams<StockDetailParams>();
   const [prices, setPrices] = useState<number[]>([]);
   const [timeStamp, setTimeStamp] = useState<string[]>([]);
-  const queryKey = [`stockPriceHis/${stockName}/30`]; // days값은 테스트를 위한 임의의 값
+  const queryKey = [`stockPriceHis/${stockName}/30`];
   const queryClient = useQueryClient();
-  const minData: number = Math.min(...prices);
-  const maxData: number = Math.max(...prices);
+  const setMinPriceState = useSetRecoilState(minPriceState);
+  const setMaxPriceState = useSetRecoilState(maxPriceState);
   const cachedData = queryClient.getQueryData<StockPriceHistory[]>(queryKey);
   const stockCurrentPrice = useRecoilValue(currentPriceState);
+  const minPrice = useMemo<number>(() => Math.min(...prices), [prices]);
+  const maxPrice = useMemo<number>(() => Math.max(...prices), [prices]);
 
   useEffect(() => {
     if (cachedData) {
@@ -34,6 +40,9 @@ export function StockPriceHistoryChart() {
 
       setPrices(toDatePrices);
       setTimeStamp(toDateTimeStamp);
+
+      setMinPriceState(minPrice);
+      setMaxPriceState(maxPrice);
     }
   }, [cachedData, stockCurrentPrice]);
 
@@ -45,8 +54,8 @@ export function StockPriceHistoryChart() {
     yAxis: {
       type: 'value',
       show: false,
-      min: minData - 5,
-      max: maxData + 5,
+      min: minPrice - 5,
+      max: maxPrice + 5,
     },
     tooltip: {
       trigger: 'axis',
@@ -73,14 +82,14 @@ export function StockPriceHistoryChart() {
           symbol: 'none',
           data: [
             {
-              yAxis: minData,
+              yAxis: minPrice,
               lineStyle: { color: 'gray' },
-              label: { show: true, formatter: '$' + minData },
+              label: { show: true, formatter: '$' + minPrice },
             },
             {
-              yAxis: maxData,
+              yAxis: maxPrice,
               lineStyle: { color: 'gray' },
-              label: { show: true, formatter: '$' + maxData },
+              label: { show: true, formatter: '$' + maxPrice },
             },
           ],
         },
