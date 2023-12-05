@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Column } from 'react-table';
@@ -6,20 +7,26 @@ import { useTableInstance } from '../../hooks/useTableInstance';
 import { maxPriceState, minPriceState } from '../../recoil/stockInfo/atoms';
 import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
 import { StockDetailParams, StockTradingListType } from '../../types/stock';
+import { StockTradingTableRow } from './StockTradingTableRow';
 import { StockTradingTable, StyledTableCell } from './styled';
 
 function StockTradingListTable() {
   const { stockName } = useParams<StockDetailParams>();
+  const stockData: StockTradingListType =
+    useRecoilValue(selectedStockDataState(stockName as string)) ||
+    ({} as StockTradingListType);
+  const rateOfChange: number = stockData.rate_of_change;
+  const currentPrice: number = stockData.current_price;
 
   const stockTableColumns = useMemo<Column<StockTradingListType>[]>(
     () => [
       {
-        Header: '',
+        Header: 'Current Price',
         accessor: 'current_price',
         Cell: ({ value }) => <span>{`$${value}`}</span>,
       },
       {
-        Header: '',
+        Header: 'Rate of Change',
         accessor: 'rate_of_change',
         Cell: ({ value }) => <span>{`${value}%`}</span>,
       },
@@ -36,10 +43,6 @@ function StockTradingListTable() {
 
   const minPriceData = useRecoilValue(minPriceState); // 해당 주식의 오늘 하루 하한가
   const maxPriceData = useRecoilValue(maxPriceState); // 해당 주식의 오늘 하루 상한가
-
-  const stockData: StockTradingListType =
-    useRecoilValue(selectedStockDataState(stockName as string)) ||
-    ({} as StockTradingListType);
 
   const tableInstance = useTableInstance(
     [
@@ -72,16 +75,52 @@ function StockTradingListTable() {
           tableInstance.prepareRow(row);
 
           return (
-            <tr key={row.id}>
-              {row.cells.map((cell) => (
+            <React.Fragment key={row.id}>
+              <StockTradingTableRow
+                variation={rateOfChange + 4.5}
+                price={currentPrice * (1 + 4.5 / 100)}
+                isNegative={rateOfChange + 4.5 < 0}
+              />
+              <StockTradingTableRow
+                variation={rateOfChange + 3}
+                price={currentPrice * (1 + 3 / 100)}
+                isNegative={rateOfChange + 3 < 0}
+              />
+              <StockTradingTableRow
+                variation={rateOfChange + 1.5}
+                price={currentPrice * (1 + 1.5 / 100)}
+                isNegative={rateOfChange + 1.5 < 0}
+              />
+              <tr>
                 <StyledTableCell
-                  isNegative={stockData.rate_of_change < 0}
-                  {...cell.getCellProps()}
+                  isNegative={rateOfChange < 0}
+                  {...row.cells[0].getCellProps()}
                 >
-                  {cell.render('Cell')}
+                  {row.cells[0].render('Cell')}
                 </StyledTableCell>
-              ))}
-            </tr>
+                <StyledTableCell
+                  isNegative={rateOfChange < 0}
+                  {...row.cells[1].getCellProps()}
+                >
+                  {row.cells[1].render('Cell')} - 현재 가격
+                </StyledTableCell>
+              </tr>
+              <StockTradingTableRow
+                variation={rateOfChange - 1.5}
+                price={currentPrice * (1 - 1.5 / 100)}
+                isNegative={rateOfChange - 1.5 < 0}
+              />
+              <StockTradingTableRow
+                variation={rateOfChange - 3}
+                price={currentPrice * (1 - 3 / 100)}
+                isNegative={rateOfChange - 3 < 0}
+              />
+              <StockTradingTableRow
+                variation={rateOfChange - 4.5}
+                price={currentPrice * (1 - 4.5 / 100)}
+                isNegative={rateOfChange - 4.5 < 0}
+              />
+            </React.Fragment>
           );
         })}
       </tbody>
