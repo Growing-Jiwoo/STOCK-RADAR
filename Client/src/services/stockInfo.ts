@@ -4,16 +4,11 @@ import { getStockInfo, getStockPriceHistory } from '../apis/stockinfo';
 import { QUERY_KEYS } from '../utils/constants';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import {
-  stockDataState,
-  stockPriceHistoryState,
-} from '../recoil/stockInfo/atoms';
+import { stockPriceHistoryState } from '../recoil/stockInfo/atoms';
 import { AxiosError } from 'axios';
 import { QueryKey } from '../types/reactQuery';
 
 export const useStockData = () => {
-  const [, setRecoilStockData] = useRecoilState(stockDataState);
-
   const { data: stockData = [] } = useQuery<
     StockInformation[],
     AxiosError,
@@ -22,10 +17,6 @@ export const useStockData = () => {
   >([QUERY_KEYS.STOCK_INFO], getStockInfo, {
     refetchInterval: 1000,
   });
-
-  useEffect(() => {
-    setRecoilStockData(stockData);
-  }, [stockData, setRecoilStockData]);
 
   return { stockData };
 };
