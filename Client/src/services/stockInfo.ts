@@ -7,6 +7,9 @@ import { useRecoilState } from 'recoil';
 import { stockPriceHistoryState } from '../recoil/stockInfo/atoms';
 import { AxiosError } from 'axios';
 import { QueryKey } from '../types/reactQuery';
+import { useSuspenseQueries } from '@suspensive/react-query';
+import { getCommentList } from '../apis/board';
+import { stockDataState } from '../recoil/stockInfo/atoms';
 
 export const useStockData = () => {
   const { data: stockData = [] } = useQuery<
@@ -49,4 +52,39 @@ export const useStockPriceHistory = (
   }, [stockPrice, setRecoilStockData]);
 
   return { stockPriceHisData: recoilStockData };
+};
+
+export const useGetStockDetailInfos = (stockName: string, day: string) => {
+  const [
+    { data: stockData },
+    { data: commentData },
+    { data: stockPriceHistoryData },
+  ] = useSuspenseQueries({
+    queries: [
+      {
+        queryKey: [QUERY_KEYS.STOCK_INFO],
+        queryFn: () => getStockInfo(),
+        refetchInterval: 1000,
+      },
+      {
+        queryKey: [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
+        queryFn: () => getCommentList(stockName),
+      },
+      {
+        queryKey: [`${QUERY_KEYS.STOCK_PRICE_HISTORY}/${stockName}/${day}`],
+        queryFn: () => getStockPriceHistory(stockName, day),
+        refetchInterval: 1000,
+      },
+    ],
+  });
+
+  const [, setStockDataState] = useRecoilState(stockDataState);
+  const [, setStockPriceHistory] = useRecoilState(stockPriceHistoryState);
+
+  useEffect(() => {
+    setStockDataState(stockData);
+    setStockPriceHistory(stockPriceHistoryData);
+  }, [stockData, stockPriceHistoryData]);
+
+  return { stockData, commentData, stockPriceHistoryData };
 };
