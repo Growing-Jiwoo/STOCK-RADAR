@@ -42,3 +42,14 @@ export const TradingBtn = styled.button<CellColorProps>`
       ${(props) => (props.isNegative ? Colors.blue : Colors.gray)};
   }
 `;
+
+export const QuantityBtn = styled.button`
+  border: transparent;
+`;
+
+export const StockBuyContainer = styled.div`
+  font-size: 14px;
+  text-align: right;
+  margin-top: 20px;
+  font-family: var(--font-nanumfont);
+`;

@@ -7,4 +7,5 @@ export const ApiUrl = {
   signup: `${baseUrl}/signup`,
   refreshToken: `${baseUrl}/refreshToken`,
   comment: `${baseUrl}/stocks_comments`,
+  buyStock: `${baseUrl}/purchase_stock`,
 };
