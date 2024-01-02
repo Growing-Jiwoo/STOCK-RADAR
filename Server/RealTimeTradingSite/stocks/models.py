@@ -31,7 +31,8 @@ class UserStocks(models.Model):
     quantity = models.IntegerField()
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
     purchase_date = models.DateField()
-
+    individual_purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
+    
     class Meta:
         managed = False
         db_table = 'user_stocks'

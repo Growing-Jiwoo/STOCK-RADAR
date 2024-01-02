@@ -296,68 +296,41 @@ class UserStocksCreate(APIView):
         serializer = UserStocksSerializer(data=request.data)
         payload = authenticate_request(request)
         user_id = payload['user_id']
+        
         if serializer.is_valid():
-            user_id = payload['user_id']
             stock_id = serializer.validated_data['stock'].id
             quantity = serializer.validated_data['quantity']
 
             try:
-                existing_entries = UserStocks.objects.filter(user=user_id, stock=stock_id)
-                if existing_entries.exists():
-                    total_quantity = existing_entries.aggregate(total_quantity=Sum('quantity'))['total_quantity']
-                    total_quantity += quantity
-                    first_entry = existing_entries.first()
-                    first_entry.quantity = total_quantity
-                    first_entry.save()
-                    existing_entries.exclude(pk=first_entry.pk).delete()
-                    serializer = UserStocksSerializer(first_entry)
+                stock_info = StockInfo.objects.get(pk=stock_id)
+            except StockInfo.DoesNotExist:
+                return Response({
+                    'code': 404,
+                    'message': 'Stock with the provided ID does not exist'
+                }, status=status.HTTP_404_NOT_FOUND)
 
-                    current_price = Decimal(first_entry.stock.current_price)
-                    result = round(first_entry.purchase_price + (quantity * current_price), 2)
-                    first_entry.purchase_price = result
-                    first_entry.save()
+            user_instance = User.objects.get(pk=user_id)
+            serializer.validated_data['user'] = user_instance
+            serializer.validated_data['purchase_date'] = datetime.now()
+            serializer.validated_data['purchase_price'] = Decimal(stock_info.current_price) * quantity
+            serializer.validated_data['individual_purchase_price'] = stock_info.current_price
 
-                    data = serializer.data
-                    data['result'] = result
-                    response_data = {
-                        'code': 200,
-                        'data': data
-                    }
-                    return Response(response_data, status=status.HTTP_200_OK)
-                else:
-                    try:
-                        stock_info = StockInfo.objects.get(pk=stock_id)
-                        current_purchase_price = stock_info.current_price
-                        serializer.validated_data['purchase_price'] = Decimal(current_purchase_price) * quantity
-                    except StockInfo.DoesNotExist:
-                        return Response({
-                            'code': 404,
-                            'message': 'Stock with the provided ID does not exist'
-                        },status=status.HTTP_404_NOT_FOUND)
+            serializer.save()
 
-                    serializer.validated_data['purchase_date'] = datetime.now()
-                    serializer.save()
-
-                    current_price = Decimal(stock_info.current_price)
-                    result = round((quantity * current_price), 2)
-                    serializer.validated_data['purchase_price'] = result
-                    serializer.save()
-
-                    data = serializer.data
-                    data['result'] = result
-                    return Response({
-                        'code': 201,
-                        'data': data
-                    }, status=status.HTTP_201_CREATED)
-
-            except UserStocks.DoesNotExist:
-                pass
+            current_price = Decimal(stock_info.current_price)
+            result = round((quantity * current_price), 2)
+            
+            data = serializer.data
+            data['result'] = result
+            return Response({
+                'code': 201,
+                'data': data
+            }, status=status.HTTP_201_CREATED)
 
         return Response({
             'code': 400,
             'data': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
-
 
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -410,21 +383,17 @@ class SellStocksAPIView(APIView):
 
         current_date = datetime.now().date()
         response_data = {
-            'code': 200,
-            'data': {
                 'stock_name': stock_info.name,
                 'quantity_sold': quantity_to_sell,
                 'current_price': round(selling_price, 2),
                 'total_selling_amount': round(total_selling_amount, 2),
                 'purchase_price': round(user_stock.purchase_price, 2),
                 'date': current_date.strftime('%Y-%m-%d')
-            }
         }
         return Response({
-                'code': 400,
-                'message': 'You do not have any stocks of this type to sell',
+                'code': 200,
                 'data': response_data
-            }, status=status.HTTP_400_BAD_REQUEST)
+            }, status=status.HTTP_200_OK)
 
 
 class StocksCommentInfo(APIView):
