@@ -8,8 +8,11 @@ import {
   maxPriceState,
   minPriceState,
 } from '../../recoil/stockInfo/atoms';
+import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
+import { useGetStockDetailInfos } from '../../services/stockInfo';
 import { StockDetailParams, StockPriceHistory } from '../../types/stock';
 import { getCurrentTimeStamp } from '../../utils/addMinutesAndFormat';
+import { RateOfChange } from '../StockInfo/RateOfChange';
 import { ChartContainer, ChartWrapper } from './styled';
 
 export function StockPriceHistoryChart() {
@@ -24,6 +27,10 @@ export function StockPriceHistoryChart() {
   const stockCurrentPrice = useRecoilValue(currentPriceState);
   const minPrice = useMemo<number>(() => Math.min(...prices), [prices]);
   const maxPrice = useMemo<number>(() => Math.max(...prices), [prices]);
+  const selectedStockData = useRecoilValue(
+    selectedStockDataState(stockName as string)
+  );
+  useGetStockDetailInfos(stockName as string, '30');
 
   useEffect(() => {
     if (cachedData) {
@@ -99,14 +106,22 @@ export function StockPriceHistoryChart() {
     ],
   };
 
+  if (!selectedStockData) {
+    return <p>Error: Stock data is undefined.</p>;
+  }
+
   return (
-    <ChartContainer>
-      <ChartWrapper>
-        <ECharts
-          option={options}
-          opts={{ renderer: 'svg', width: 1200, height: 500 }}
-        />
-      </ChartWrapper>
-    </ChartContainer>
+    <>
+      <p>현재 가격</p>
+      <RateOfChange keys={selectedStockData.name} />
+      <ChartContainer>
+        <ChartWrapper>
+          <ECharts
+            option={options}
+            opts={{ renderer: 'svg', width: 1200, height: 500 }}
+          />
+        </ChartWrapper>
+      </ChartContainer>
+    </>
   );
 }
