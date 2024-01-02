@@ -16,6 +16,9 @@ class UserStocksSerializer(serializers.ModelSerializer):
         model = UserStocks
         fields = ['user', 'stock', 'quantity']
         read_only_fields = ('purchase_price',)
+        extra_kwargs = {
+            'user': {'required': False},
+        }
 
 class StockPriceHistorySerializer(serializers.ModelSerializer):
     timestamp = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
