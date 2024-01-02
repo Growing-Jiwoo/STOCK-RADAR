@@ -1,6 +1,3 @@
-import { useParams } from 'react-router-dom';
-import { StockDetailParams } from '../types/stock';
-import { useRecoilValue } from 'recoil';
 import { StockPriceHistoryChart } from '../components/Chart/StockPriceHistoryChart';
 import { Suspense } from 'react';
 import LoadingSpinner from '../components/Commons/Spinner';
