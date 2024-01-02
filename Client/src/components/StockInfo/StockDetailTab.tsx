@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { StockDetailParams } from '../../types/stock';
 import CommentInput from '../Comment/CommentInput';
 import Comment from '../Comment/Comment';
-import StockTradingListTable from './StockTradingListTable';
+import StockTradingListTable from '../StockTrading/StockTradingListTable';
 import {
   CommentContainer,
   ListTableContainer,

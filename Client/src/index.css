@@ -3,8 +3,20 @@
   src: url(./assets/fonts/NanumSquareR.ttf);
 }
 
+@font-face {
+  font-family: 'nanumfontB';
+  src: url(./assets/fonts/NanumSquareB.ttf);
+}
+
+@font-face {
+  font-family: 'nanumfontEB';
+  src: url(./assets/fonts/NanumSquareEB.ttf);
+}
+
 :root {
   --font-nanumfont: 'nanumfont';
+  --font-nanumfontB: 'nanumfontB';
+  --font-nanumfontEB: 'nanumfontEB';
 }
 
 body {

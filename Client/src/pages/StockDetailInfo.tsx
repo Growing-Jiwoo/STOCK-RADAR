@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 import LoadingSpinner from '../components/Commons/Spinner';
 import { RateOfChange } from '../components/StockInfo/RateOfChange';
 import { StockDetailTab } from '../components/StockInfo/StockDetailTab';
+import { StockTradingButton } from '../components/StockTrading/StockTradingButton';
 
 function StockDetailInfo(): JSX.Element {
   const { stockName } = useParams<StockDetailParams>();
@@ -27,6 +28,7 @@ function StockDetailInfo(): JSX.Element {
         <p>현재 가격</p>
         <RateOfChange keys={selectedStockData.name} />
         <StockPriceHistoryChart />
+        <StockTradingButton />
         <StockDetailTab />
       </Suspense>
     </>
