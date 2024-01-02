@@ -294,8 +294,10 @@ class UserStocksCreate(APIView):
 
     def post(self, request, format=None):
         serializer = UserStocksSerializer(data=request.data)
+        payload = authenticate_request(request)
+        user_id = payload['user_id']
         if serializer.is_valid():
-            user_id = serializer.validated_data['user'].id
+            user_id = payload['user_id']
             stock_id = serializer.validated_data['stock'].id
             quantity = serializer.validated_data['quantity']
 
