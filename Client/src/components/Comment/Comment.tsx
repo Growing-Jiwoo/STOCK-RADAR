@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { memo, ReactElement, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { commentIdState, modalState } from '../../recoil/board/atoms';
+import { commentIdState } from '../../recoil/board/atoms';
 import { useEditComment } from '../../services/board';
 import { CommentData } from '../../types/board';
 import { StockDetailParams } from '../../types/stock';
@@ -37,8 +37,7 @@ function Comment(): ReactElement {
     `${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`,
   ]);
 
-  console.log(getCommentList);
-  const [, setModal] = useRecoilState(modalState);
+  const [modalOpen, setModalOpen] = useState(false);
   const [, setCommentId] = useRecoilState(commentIdState);
   const editCommentMutation = useEditComment(stockName || '');
 
@@ -66,7 +65,7 @@ function Comment(): ReactElement {
   const openPopup = (commentId: number | undefined) => {
     if (commentId !== undefined) {
       setCommentId(commentId);
-      setModal({ isOpen: true });
+      setModalOpen(true);
     } else {
       console.error('Comment ID is undefined');
     }
@@ -78,7 +77,7 @@ function Comment(): ReactElement {
 
   return (
     <>
-      <Popup />
+      <Popup isOpen={modalOpen} closeModal={() => setModalOpen(false)} />
       {getCommentList?.map((commentData: CommentData, index: number) => {
         const {
           comment_id: commentId,
