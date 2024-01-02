@@ -140,9 +140,16 @@ export const TabButton = styled.button<StockDetailTabButtonProps>`
 `;
 
 export const StockTradingTable = styled.table`
-  width: 18%;
+  width: 30%;
 `;
 
 export const StyledTableCell = styled.td<CellColorProps>`
   color: ${(props) => (props.isNegative ? 'blue' : 'red')};
+`;
+
+export const TodayLimitPrice = styled.p`
+  font-size: 11px;
+  margin-bottom: 0.3rem;
+  width: 100%;
+  text-align: right;
 `;
