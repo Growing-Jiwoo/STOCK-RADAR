@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { Column } from 'react-table';
 import { useRecoilValue } from 'recoil';
 import { useTableInstance } from '../../hooks/useTableInstance';
-import { maxPriceState, minPriceState } from '../../recoil/stockInfo/atoms';
 import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
 import { StockDetailParams, StockTradingListType } from '../../types/stock';
 import { StockTradingTableRow } from './StockTradingTableRow';
@@ -33,16 +32,6 @@ function StockTradingListTable() {
     ],
     []
   );
-
-  /* to do list
-          1. 테이블에서 현재 주식의 오늘자 상한가 하한가를 테이블에 출력
-          2. 테이블에서 현재 주식을 구매 및 판매 하려할 때 가격을 테이블에 출력
-          3. 오늘 가격중에 제일 높았던 가격과 제일 낮았던 가격을 출력 
-          4. 해당 테이블은 차트 밑에 버튼을 만들어서 호가라는 탭에서 확인할 수 있게 하기 
-  */
-
-  const minPriceData = useRecoilValue(minPriceState); // 해당 주식의 오늘 하루 하한가
-  const maxPriceData = useRecoilValue(maxPriceState); // 해당 주식의 오늘 하루 상한가
 
   const tableInstance = useTableInstance(
     [

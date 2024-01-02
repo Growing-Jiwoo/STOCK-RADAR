@@ -40,11 +40,13 @@ export function StockPriceHistoryChart() {
 
       setPrices(toDatePrices);
       setTimeStamp(toDateTimeStamp);
-
-      setMinPriceState(minPrice);
-      setMaxPriceState(maxPrice);
     }
   }, [cachedData, stockCurrentPrice]);
+
+  useEffect(() => {
+    setMinPriceState(minPrice);
+    setMaxPriceState(maxPrice);
+  }, [prices]);
 
   const options = {
     xAxis: {
