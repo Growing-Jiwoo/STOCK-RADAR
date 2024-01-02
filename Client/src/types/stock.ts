@@ -41,3 +41,8 @@ export type StockTradingListType = Pick<
 export interface CellColorProps {
   isNegative: boolean;
 }
+
+export interface BuyStock {
+  stock: number;
+  quantity: number;
+}
