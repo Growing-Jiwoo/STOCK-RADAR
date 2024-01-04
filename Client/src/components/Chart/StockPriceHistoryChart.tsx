@@ -31,6 +31,7 @@ export function StockPriceHistoryChart() {
   const selectedStockData = useRecoilValue(
     selectedStockDataState(stockName as string)
   );
+
   useGetStockDetailInfos(stockName as string, '30');
 
   useEffect(() => {
