@@ -12,6 +12,8 @@ import { getCommentList } from '../apis/board';
 import { stockDataState } from '../recoil/stockInfo/atoms';
 
 export const useStockData = () => {
+  const [, setRecoilStockData] = useRecoilState(stockDataState);
+
   const { data: stockData = [] } = useQuery<
     StockInformation[],
     AxiosError,
@@ -20,6 +22,10 @@ export const useStockData = () => {
   >([QUERY_KEYS.STOCK_INFO], getStockInfo, {
     refetchInterval: 1000,
   });
+
+  useEffect(() => {
+    setRecoilStockData(stockData);
+  }, [stockData, setRecoilStockData]);
 
   return { stockData };
 };
@@ -69,11 +75,16 @@ export const useGetStockDetailInfos = (stockName: string, day: string) => {
       {
         queryKey: [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
         queryFn: () => getCommentList(stockName),
+        staleTime: 3 * 60 * 1000,
+        cacheTime: 10 * 60 * 1000,
       },
       {
         queryKey: [`${QUERY_KEYS.STOCK_PRICE_HISTORY}/${stockName}/${day}`],
         queryFn: () => getStockPriceHistory(stockName, day),
-        refetchInterval: 1000,
+
+        staleTime: 5 * 60 * 1000,
+        cacheTime: 10 * 60 * 1000,
+        refetchInterval: 10000,
       },
     ],
   });
