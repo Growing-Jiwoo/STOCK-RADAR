@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import Modal, { Styles } from 'react-modal';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useRecoilValue } from 'recoil';
-import { buyStock } from '../../apis/stockTrading';
+import { buyStock, sellStock } from '../../apis/stockTrading';
 import { currentPriceState } from '../../recoil/stockInfo/atoms';
-import { BuyStock, StockDetailParams } from '../../types/stock';
+import {
+  BuyStock,
+  SellStock,
+  StockDetailParams,
+  StockName,
+} from '../../types/stock';
 import {
   BtnContainer,
   CloseBtn,
@@ -13,7 +19,7 @@ import {
   Title,
 } from '../Comment/styled';
 import { AgreeButton } from '../Commons/styled';
-import { QuantityBtn, StockBuyContainer } from './styled';
+import { QuantityBtn, StockTradingContainer } from './styled';
 
 Modal.setAppElement('#root');
 
@@ -38,13 +44,17 @@ const customStyles: Styles = {
   },
 };
 
-export function StockBuyPopUp({
-  isOpen,
-  closeModal,
-}: {
+interface StockTradingPopupProps {
   isOpen: boolean;
   closeModal: () => void;
-}) {
+  actionType: 'buy' | 'sell';
+}
+
+export function StockTradingPopup({
+  isOpen,
+  closeModal,
+  actionType,
+}: StockTradingPopupProps) {
   const { stockName, stockDetailId } = useParams<StockDetailParams>();
   const stockCurrentPrice = useRecoilValue(currentPriceState);
   const [quantity, setQuantity] = useState(0);
@@ -57,16 +67,26 @@ export function StockBuyPopUp({
     setQuantity(quantity - 1);
   };
 
-  const handleStockBuy = async () => {
-    const buyStockRequestBody: BuyStock = {
-      stock: Number(stockDetailId),
-      quantity: quantity,
-    };
+  const handleStockTrading = async () => {
+    const stockTradingRequestBody: BuyStock | SellStock =
+      actionType === 'buy'
+        ? {
+            stock: Number(stockDetailId),
+            stock_name: stockName as StockName,
+            quantity,
+          }
+        : { stock_id: Number(stockDetailId), quantity };
 
-    await buyStock(buyStockRequestBody);
-
-    closeModal();
-    setQuantity(0);
+    try {
+      actionType === 'buy'
+        ? await buyStock(stockTradingRequestBody as BuyStock)
+        : await sellStock(stockTradingRequestBody as SellStock);
+      closeModal();
+      setQuantity(0);
+    } catch (error) {
+      console.error('Stock trading failed:', error);
+      toast.error(`Stock trading failed: ${error}`);
+    }
   };
 
   const calculateTotalPrice = () => {
@@ -77,19 +97,20 @@ export function StockBuyPopUp({
     <>
       <Modal isOpen={isOpen} contentLabel="Popup Modal" style={customStyles}>
         <Title>
-          주식 구매하기
+          주식 {actionType === 'buy' ? '구매' : '판매'}하기
           <CloseBtn onClick={closeModal} />
         </Title>
 
         <SubMentContainer>
           {stockName}의 현재 가격은 ${stockCurrentPrice} 입니다. <br />
-          <StockBuyContainer>
-            구매할 수량 선택
+          <StockTradingContainer>
+            {actionType === 'buy' ? '구매' : '판매'}할 수량 선택
             <QuantityBtn onClick={handleDecrement}>-</QuantityBtn>
             {quantity}
             <QuantityBtn onClick={handleIncrement}>+</QuantityBtn>
-            <br />총 구매 금액 : {calculateTotalPrice()}
-          </StockBuyContainer>
+            <br />총 {actionType === 'buy' ? '구매' : '판매'} 금액 :{' '}
+            {calculateTotalPrice()}
+          </StockTradingContainer>
         </SubMentContainer>
 
         <BtnContainer>
@@ -107,10 +128,10 @@ export function StockBuyPopUp({
             width="80px"
             height="38px"
             onClick={() => {
-              handleStockBuy();
+              handleStockTrading();
             }}
           >
-            구매
+            {actionType === 'buy' ? '구매' : '판매'}
           </AgreeButton>
         </BtnContainer>
       </Modal>

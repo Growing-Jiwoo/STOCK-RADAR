@@ -1,29 +1,49 @@
 import { memo, useState } from 'react';
-import { StockBuyPopUp } from './StockBuyPopUp';
+import { StockTradingPopup } from './StockTradingPopup';
 import { TradingBtn, TradingBtnContainer } from './styled';
 
 export function StockTradingButton() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [stockBuymodalOpen, setStockBuyModalOpen] = useState(false);
+  const [stockSellmodalOpen, setStockSellModalOpen] = useState(false);
 
-  const openPopup = () => {
-    setModalOpen(true);
+  const openBuyPopup = () => {
+    setStockBuyModalOpen(true);
   };
+
+  const openSellPopup = () => {
+    setStockSellModalOpen(true);
+  };
+
   return (
     <TradingBtnContainer>
       <TradingBtn
         isNegative={true}
         onClick={() => {
-          openPopup();
+          openBuyPopup();
         }}
       >
         구매
       </TradingBtn>
-      <StockBuyPopUp
-        isOpen={modalOpen}
-        closeModal={() => setModalOpen(false)}
+      <StockTradingPopup
+        isOpen={stockBuymodalOpen}
+        closeModal={() => setStockBuyModalOpen(false)}
+        actionType="buy"
       />
 
-      <TradingBtn isNegative={false}>판매</TradingBtn>
+      <TradingBtn
+        isNegative={false}
+        onClick={() => {
+          openSellPopup();
+        }}
+      >
+        판매
+      </TradingBtn>
+
+      <StockTradingPopup
+        isOpen={stockSellmodalOpen}
+        closeModal={() => setStockSellModalOpen(false)}
+        actionType="sell"
+      />
     </TradingBtnContainer>
   );
 }

@@ -47,7 +47,7 @@ export const QuantityBtn = styled.button`
   border: transparent;
 `;
 
-export const StockBuyContainer = styled.div`
+export const StockTradingContainer = styled.div`
   font-size: 14px;
   text-align: right;
   margin-top: 20px;
