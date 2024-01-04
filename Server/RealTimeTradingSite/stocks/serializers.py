@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StockInfo, User, UserStocks, StockPriceHistory, StocksComment
+from .models import StockInfo, User, UserStocks, StockPriceHistory, StocksComment, StockTradingHistory
 
 class StockInfoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserStocksSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserStocks
-        fields = ['user', 'stock', 'quantity']
+        fields = ['user', 'stock', 'quantity', 'stock_name']
         read_only_fields = ('purchase_price',)
         extra_kwargs = {
             'user': {'required': False},
@@ -31,4 +31,9 @@ class StockPriceHistorySerializer(serializers.ModelSerializer):
 class StocksCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = StocksComment
+        fields = '__all__'
+
+class StockTradingHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StockTradingHistory
         fields = '__all__'

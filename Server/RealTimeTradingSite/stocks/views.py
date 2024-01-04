@@ -3,7 +3,7 @@ from .models import User, UserStocks, StocksComment
 from rest_framework.permissions import BasePermission, AllowAny
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .authentication import authenticate_request, generate_refresh_token
-from .serializers import UserSerializer, UserStocksSerializer, StockPriceHistorySerializer, StocksCommentSerializer
+from .serializers import UserSerializer, UserStocksSerializer, StockPriceHistorySerializer, StocksCommentSerializer, StockTradingHistorySerializer
 from rest_framework import status
 from django.db.models import Sum
 from rest_framework.status import HTTP_404_NOT_FOUND
@@ -296,43 +296,101 @@ class UserStocksCreate(APIView):
         serializer = UserStocksSerializer(data=request.data)
         payload = authenticate_request(request)
         user_id = payload['user_id']
-        
         if serializer.is_valid():
+            user_id = payload['user_id']
             stock_id = serializer.validated_data['stock'].id
+            stock_name = serializer.validated_data['stock_name']
             quantity = serializer.validated_data['quantity']
+            current_price = StockInfo.objects.get(id=stock_id).current_price
 
             try:
-                stock_info = StockInfo.objects.get(pk=stock_id)
-            except StockInfo.DoesNotExist:
-                return Response({
-                    'code': 404,
-                    'message': 'Stock with the provided ID does not exist'
-                }, status=status.HTTP_404_NOT_FOUND)
+                trading_history_data = {
+                    "user": user_id,
+                    "stock_name": stock_name,
+                    "quantity": quantity,
+                    "stock_price_per_unit": current_price,
+                    "purchase_date": datetime.now().date(),
+                    "status": 0
+                }
 
-            user_instance = User.objects.get(pk=user_id)
-            serializer.validated_data['user'] = user_instance
-            serializer.validated_data['purchase_date'] = datetime.now()
-            serializer.validated_data['purchase_price'] = Decimal(stock_info.current_price) * quantity
-            serializer.validated_data['individual_purchase_price'] = stock_info.current_price
+                trading_history_serializer = StockTradingHistorySerializer(data=trading_history_data)
 
-            serializer.save()
+                if trading_history_serializer.is_valid():
+                    trading_history_serializer.save()
+                else:
+                    return Response({
+                        'code': 400,
+                        'data': trading_history_serializer.errors
+                    }, status=status.HTTP_400_BAD_REQUEST)
 
-            current_price = Decimal(stock_info.current_price)
-            result = round((quantity * current_price), 2)
-            
-            data = serializer.data
-            data['result'] = result
-            return Response({
-                'code': 201,
-                'data': data
-            }, status=status.HTTP_201_CREATED)
+                existing_entries = UserStocks.objects.filter(user=user_id, stock=stock_id)
+                if existing_entries.exists():
+                    total_quantity = existing_entries.aggregate(total_quantity=Sum('quantity'))['total_quantity']
+                    total_quantity += quantity
+                    first_entry = existing_entries.first()
+                    first_entry.quantity = total_quantity
+
+                    first_entry.save()
+                    existing_entries.exclude(pk=first_entry.pk).delete()
+                    serializer = UserStocksSerializer(first_entry)
+
+                    current_price = Decimal(first_entry.stock.current_price)
+                    result = round(first_entry.purchase_price + (quantity * current_price), 2)
+                    first_entry.purchase_price = result
+                    first_entry.save()
+
+                    data = serializer.data
+                    data['result'] = result
+                    response_data = {
+                        'code': 200,
+                        'data': data
+                    }
+                    return Response(response_data, status=status.HTTP_200_OK)
+                else:
+                    try:
+                        stock_info = StockInfo.objects.get(pk=stock_id)
+                        current_purchase_price = stock_info.current_price
+                        serializer.validated_data['purchase_price'] = Decimal(current_purchase_price) * quantity
+                    except StockInfo.DoesNotExist:
+                        return Response({
+                            'code': 404,
+                            'message': 'Stock with the provided ID does not exist'
+                        },status=status.HTTP_404_NOT_FOUND)
+
+                    user_instance = User.objects.get(pk=user_id)
+                    serializer.validated_data['user'] = user_instance
+                    serializer.validated_data['purchase_date'] = datetime.now()
+
+                    serializer.save()
+
+                    serializer.validated_data['stock_name'] = stock_name
+                    serializer.save()
+
+                    current_price = Decimal(stock_info.current_price)
+                    result = round((quantity * current_price), 2)
+                    serializer.validated_data['purchase_price'] = result
+                    serializer.save()
+
+                    data = serializer.data
+                    data['stock_name'] = stock_name
+                    data['result'] = result
+
+                    return Response({
+                        'code': 201,
+                        'data': data
+                    }, status=status.HTTP_201_CREATED)
+
+            except UserStocks.DoesNotExist:
+                pass
 
         return Response({
             'code': 400,
             'data': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
+
 from decimal import Decimal, ROUND_HALF_UP
+from django.db import transaction
 
 class SellStocksAPIView(APIView):
     def post(self, request, format=None):
@@ -373,28 +431,46 @@ class SellStocksAPIView(APIView):
         total_selling_amount = selling_price * quantity_to_sell
         remaining_quantity = user_stock.quantity - quantity_to_sell
 
-        if remaining_quantity > 0:
-            user_stock.purchase_price = Decimal(user_stock.purchase_price) - Decimal(total_selling_amount) * quantity_to_sell
-        else:
-            user_stock.purchase_price = 0
+        with transaction.atomic():
+            if remaining_quantity > 0:
+                user_stock.purchase_price = Decimal(user_stock.purchase_price) - Decimal(total_selling_amount) * quantity_to_sell
+                user_stock.quantity = remaining_quantity
+                user_stock.save()
+            else:
+                user_stock.delete()
 
-        user_stock.quantity = remaining_quantity
-        user_stock.save()
+        trading_history_data = {
+            "user": user_id,
+            "stock_name": stock_info.name,
+            "quantity": quantity_to_sell,
+            "stock_price_per_unit": stock_info.current_price,
+            "purchase_date": datetime.now().date(),
+            "status": 1
+        }
+
+        trading_history_serializer = StockTradingHistorySerializer(data=trading_history_data)
+
+        if trading_history_serializer.is_valid():
+            trading_history_serializer.save()
+        else:
+            return Response({
+                'code': 400,
+                'data': trading_history_serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         current_date = datetime.now().date()
         response_data = {
-                'stock_name': stock_info.name,
-                'quantity_sold': quantity_to_sell,
-                'current_price': round(selling_price, 2),
-                'total_selling_amount': round(total_selling_amount, 2),
-                'purchase_price': round(user_stock.purchase_price, 2),
-                'date': current_date.strftime('%Y-%m-%d')
+            'stock_name': stock_info.name,
+            'quantity_sold': quantity_to_sell,
+            'current_price': round(selling_price, 2),
+            'total_selling_amount': round(total_selling_amount, 2),
+            'purchase_price': round(user_stock.purchase_price, 2),
+            'date': current_date.strftime('%Y-%m-%d')
         }
         return Response({
-                'code': 200,
-                'data': response_data
-            }, status=status.HTTP_200_OK)
-
+            'code': 200,
+            'data': response_data
+        }, status=status.HTTP_200_OK)
 
 class StocksCommentInfo(APIView):
     def get(self, request, stock_id=None, format=None):
