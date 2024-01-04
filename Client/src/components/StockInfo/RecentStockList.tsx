@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { RecentStockListItem } from '../../types/stock';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetStockDetailInfos } from '../../services/stockInfo';
+import { RecentStockListItem, StockDetailParams } from '../../types/stock';
 import storage from '../../utils/localStorage';
 import { RateOfChange } from './RateOfChange';
 import {
@@ -19,6 +20,10 @@ export function RecentStockList() {
       return storedViews ? JSON.parse(storedViews) : {};
     }
   );
+
+  const { stockName } = useParams<StockDetailParams>();
+
+  useGetStockDetailInfos(stockName as string, '30');
 
   const keys = Object.keys(recentStockItem);
   const navigate = useNavigate();

@@ -1,16 +1,9 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   currentPriceState,
-  maxPriceState,
-  minPriceState,
   stockDataState,
 } from '../../recoil/stockInfo/atoms';
-import {
-  StockPrice,
-  DownArrowIcon,
-  UpArrowIcon,
-  TodayLimitPrice,
-} from './styled';
+import { StockPrice, DownArrowIcon, UpArrowIcon } from './styled';
 import { useEffect } from 'react';
 
 type KeysProps = {
@@ -20,8 +13,6 @@ type KeysProps = {
 export function RateOfChange(keys: KeysProps) {
   const [recoilStockData] = useRecoilState(stockDataState);
   const setCurrentPriceState = useSetRecoilState(currentPriceState);
-  const minPriceData = useRecoilValue(minPriceState);
-  const maxPriceData = useRecoilValue(maxPriceState);
 
   const getStockPrice = (key: string) => {
     const stockName = key;
@@ -60,8 +51,6 @@ export function RateOfChange(keys: KeysProps) {
         ${stockPriceData.currentPrice} / {stockPriceData.rateOfChange}%
         {stockPriceData.isLower ? <DownArrowIcon /> : <UpArrowIcon />}
       </StockPrice>
-      <TodayLimitPrice>오늘의 상한가 : {maxPriceData}</TodayLimitPrice>
-      <TodayLimitPrice>오늘의 하한가 : {minPriceData}</TodayLimitPrice>
     </>
   );
 }
