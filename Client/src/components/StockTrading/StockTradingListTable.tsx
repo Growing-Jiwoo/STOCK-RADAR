@@ -5,11 +5,8 @@ import { Column } from 'react-table';
 import { useRecoilValue } from 'recoil';
 import { useTableInstance } from '../../hooks/useTableInstance';
 import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
-import {
-  StockDetailParams,
-  StockName,
-  StockTradingListType,
-} from '../../types/stock';
+import { StockDetailParams, StockName } from '../../types/stock';
+import { StockTradingListType } from '../../types/stockTrading';
 import { StockTradingTableRow } from './StockTradingTableRow';
 import { StockTradingTable, StyledTableCell } from './styled';
 

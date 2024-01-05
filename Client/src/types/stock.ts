@@ -13,7 +13,7 @@ export type StockName =
 export interface StockInformation {
   id: string;
   current_price: number;
-  name: string;
+  name: StockName;
   percentage_diff?: number;
   rate_of_change: number;
   start_price: number;
@@ -22,7 +22,7 @@ export interface StockInformation {
 }
 
 export interface StockDetailParams extends Record<string, string> {
-  stockName: string;
+  stockName: StockName;
   stockDetailId: string;
 }
 
@@ -43,26 +43,4 @@ export interface RecentStockListItem {
 
 export interface StockDetailTabButtonProps {
   isActive: boolean;
-}
-
-export type StockTradingListType = Pick<
-  StockInformation,
-  'start_price' | 'yesterday_price' | 'current_price' | 'rate_of_change'
->;
-
-export interface CellColorProps {
-  isNegative: boolean;
-}
-
-export interface TradingStockInfo {
-  stock_id: number;
-  quantity: number;
-  stock_name: StockName;
-}
-
-export interface StockInPossession {
-  user: number;
-  quantity: number;
-  stock_name: StockName;
-  purchase_price: number;
 }
