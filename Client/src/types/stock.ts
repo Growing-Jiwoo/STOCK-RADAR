@@ -54,13 +54,15 @@ export interface CellColorProps {
   isNegative: boolean;
 }
 
-export interface BuyStock {
-  stock: number;
+export interface TradingStockInfo {
+  stock_id: number;
   quantity: number;
   stock_name: StockName;
 }
 
-export interface SellStock {
-  stock_id: number;
+export interface StockInPossession {
+  user: number;
   quantity: number;
+  stock_name: StockName;
+  purchase_price: number;
 }

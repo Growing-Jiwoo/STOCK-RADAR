@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal, { Styles } from 'react-modal';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -6,9 +6,9 @@ import { useRecoilValue } from 'recoil';
 import { buyStock, sellStock } from '../../apis/stockTrading';
 import { currentPriceState } from '../../recoil/stockInfo/atoms';
 import {
-  BuyStock,
-  SellStock,
+  TradingStockInfo,
   StockDetailParams,
+  StockInPossession,
   StockName,
 } from '../../types/stock';
 import {
@@ -19,7 +19,13 @@ import {
   Title,
 } from '../Comment/styled';
 import { AgreeButton } from '../Commons/styled';
-import { QuantityBtn, StockTradingContainer } from './styled';
+import {
+  QuantityBtn,
+  StockInPossessionText,
+  StockTradingContainer,
+} from './styled';
+import { queryClient } from '../../react-query/queryClient';
+import { QUERY_KEYS } from '../../utils/constants';
 
 Modal.setAppElement('#root');
 
@@ -58,8 +64,25 @@ export function StockTradingPopup({
   const { stockName, stockDetailId } = useParams<StockDetailParams>();
   const stockCurrentPrice = useRecoilValue(currentPriceState);
   const [quantity, setQuantity] = useState(0);
+  const [totalQuantity, setTotalQuantity] = useState<number>(0);
+
+  const stockInPossessionData = queryClient.getQueryData<StockInPossession[]>([
+    `${QUERY_KEYS.STOCK_IN_POSSESSION}/${stockName}`,
+  ]);
+
+  useEffect(() => {
+    if (stockInPossessionData) {
+      setTotalQuantity(
+        stockInPossessionData.reduce((sum, item) => sum + item.quantity, 0)
+      );
+    }
+  }, [stockInPossessionData]);
 
   const handleIncrement = () => {
+    if (actionType === 'sell' && quantity + 1 > totalQuantity) {
+      return;
+    }
+
     setQuantity(quantity + 1);
   };
 
@@ -68,19 +91,21 @@ export function StockTradingPopup({
   };
 
   const handleStockTrading = async () => {
-    const stockTradingRequestBody: BuyStock | SellStock =
-      actionType === 'buy'
-        ? {
-            stock: Number(stockDetailId),
-            stock_name: stockName as StockName,
-            quantity,
-          }
-        : { stock_id: Number(stockDetailId), quantity };
+    const stockTradingRequestBody: TradingStockInfo = {
+      stock_id: Number(stockDetailId),
+      stock_name: stockName as StockName,
+      quantity,
+    };
 
     try {
       actionType === 'buy'
-        ? await buyStock(stockTradingRequestBody as BuyStock)
-        : await sellStock(stockTradingRequestBody as SellStock);
+        ? await buyStock(stockTradingRequestBody as TradingStockInfo)
+        : await sellStock(stockTradingRequestBody as TradingStockInfo);
+
+      await queryClient.refetchQueries([
+        `${QUERY_KEYS.STOCK_IN_POSSESSION}/${stockName}`,
+      ]);
+
       closeModal();
       setQuantity(0);
     } catch (error) {
@@ -100,9 +125,13 @@ export function StockTradingPopup({
           주식 {actionType === 'buy' ? '구매' : '판매'}하기
           <CloseBtn onClick={closeModal} />
         </Title>
-
         <SubMentContainer>
           {stockName}의 현재 가격은 ${stockCurrentPrice} 입니다. <br />
+          {actionType === 'buy' ? null : (
+            <StockInPossessionText>
+              판매할 수 있는 주식 수량 : {totalQuantity}
+            </StockInPossessionText>
+          )}
           <StockTradingContainer>
             {actionType === 'buy' ? '구매' : '판매'}할 수량 선택
             <QuantityBtn onClick={handleDecrement}>-</QuantityBtn>

@@ -9,4 +9,5 @@ export const ApiUrl = {
   comment: `${baseUrl}/stocks_comments`,
   buyStock: `${baseUrl}/purchase_stock`,
   sellStock: `${baseUrl}/sell_stock`,
+  StockInPossession: `${baseUrl}/user_stocks`,
 };

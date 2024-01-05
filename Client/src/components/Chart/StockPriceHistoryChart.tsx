@@ -10,7 +10,12 @@ import {
 } from '../../recoil/stockInfo/atoms';
 import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
 import { useGetStockDetailInfos } from '../../services/stockInfo';
-import { StockDetailParams, StockPriceHistory } from '../../types/stock';
+import { prefetchStockInPossessionList } from '../../services/stockTrading';
+import {
+  StockDetailParams,
+  StockName,
+  StockPriceHistory,
+} from '../../types/stock';
 import { getCurrentTimeStamp } from '../../utils/addMinutesAndFormat';
 import { RateOfChange } from '../StockInfo/RateOfChange';
 import { TodayLimitPrice } from '../StockInfo/styled';
@@ -33,6 +38,7 @@ export function StockPriceHistoryChart() {
   );
 
   useGetStockDetailInfos(stockName as string, '30');
+  prefetchStockInPossessionList(stockName as StockName);
 
   useEffect(() => {
     if (cachedData) {
