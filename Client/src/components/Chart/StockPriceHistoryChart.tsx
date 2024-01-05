@@ -10,9 +10,15 @@ import {
 } from '../../recoil/stockInfo/atoms';
 import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
 import { useGetStockDetailInfos } from '../../services/stockInfo';
-import { StockDetailParams, StockPriceHistory } from '../../types/stock';
+import { prefetchStockInPossessionList } from '../../services/stockTrading';
+import {
+  StockDetailParams,
+  StockName,
+  StockPriceHistory,
+} from '../../types/stock';
 import { getCurrentTimeStamp } from '../../utils/addMinutesAndFormat';
 import { RateOfChange } from '../StockInfo/RateOfChange';
+import { TodayLimitPrice } from '../StockInfo/styled';
 import { ChartContainer, ChartWrapper } from './styled';
 
 export function StockPriceHistoryChart() {
@@ -30,7 +36,9 @@ export function StockPriceHistoryChart() {
   const selectedStockData = useRecoilValue(
     selectedStockDataState(stockName as string)
   );
+
   useGetStockDetailInfos(stockName as string, '30');
+  prefetchStockInPossessionList(stockName as StockName);
 
   useEffect(() => {
     if (cachedData) {
@@ -114,6 +122,8 @@ export function StockPriceHistoryChart() {
     <>
       <p>현재 가격</p>
       <RateOfChange keys={selectedStockData.name} />
+      <TodayLimitPrice>오늘의 상한가 : {maxPrice}</TodayLimitPrice>
+      <TodayLimitPrice>오늘의 하한가 : {minPrice}</TodayLimitPrice>
       <ChartContainer>
         <ChartWrapper>
           <ECharts
