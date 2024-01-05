@@ -1,8 +1,5 @@
-import {
-  StockInPossession,
-  StockName,
-  TradingStockInfo,
-} from './../types/stock';
+import { StockName } from './../types/stock';
+import { StockInPossession, TradingStockInfo } from './../types/stockTrading';
 import { ApiUrl } from './ApiUrl';
 import { instance } from './axios';
 

@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { commentIdState } from '../../recoil/board/atoms';
 import { useEditComment } from '../../services/board';
 import { CommentData } from '../../types/board';
-import { StockDetailParams } from '../../types/stock';
+import { StockDetailParams, StockName } from '../../types/stock';
 import { QUERY_KEYS } from '../../utils/constants';
 import storage from '../../utils/localStorage';
 import Popup from './Popup';
@@ -94,7 +94,7 @@ function Comment(): ReactElement {
               <CommentInfoContainer>
                 <CommentName>{user}</CommentName>
                 <CommentDate>
-                  작성 {formatCreateTime(createTime as string)}
+                  작성 {formatCreateTime(createTime as StockName)}
                 </CommentDate>
               </CommentInfoContainer>
               {isCurrentUser && (

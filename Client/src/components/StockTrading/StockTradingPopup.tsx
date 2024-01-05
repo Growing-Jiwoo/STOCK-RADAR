@@ -5,12 +5,8 @@ import { toast } from 'react-toastify';
 import { useRecoilValue } from 'recoil';
 import { buyStock, sellStock } from '../../apis/stockTrading';
 import { currentPriceState } from '../../recoil/stockInfo/atoms';
-import {
-  TradingStockInfo,
-  StockDetailParams,
-  StockInPossession,
-  StockName,
-} from '../../types/stock';
+import { StockDetailParams, StockName } from '../../types/stock';
+import { TradingStockInfo, StockInPossession } from '../../types/stockTrading';
 import {
   BtnContainer,
   CloseBtn,

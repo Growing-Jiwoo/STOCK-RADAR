@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { StockDetailParams } from '../../types/stock';
+import { StockDetailParams, StockName } from '../../types/stock';
 import CommentInput from '../Comment/CommentInput';
 import Comment from '../Comment/Comment';
 import StockTradingListTable from '../StockTrading/StockTradingListTable';
@@ -29,7 +29,7 @@ export function StockDetailTab() {
       </TabButton>
       {activeTab === 1 && (
         <CommentContainer>
-          <CommentInput stockName={stockName as string} />
+          <CommentInput stockName={stockName as StockName} />
           <Comment />
         </CommentContainer>
       )}

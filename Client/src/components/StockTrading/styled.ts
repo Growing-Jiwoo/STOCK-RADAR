@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Colors, StyledCommonflexCenter } from '../../style/common.styled';
-import { CellColorProps } from '../../types/stock';
+import { CellColorProps } from '../../types/stockTrading';
 
 export const StockTradingTable = styled.table`
   width: 30%;

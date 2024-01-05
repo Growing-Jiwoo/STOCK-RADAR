@@ -34,10 +34,10 @@ export function StockPriceHistoryChart() {
   const minPrice = useMemo<number>(() => Math.min(...prices), [prices]);
   const maxPrice = useMemo<number>(() => Math.max(...prices), [prices]);
   const selectedStockData = useRecoilValue(
-    selectedStockDataState(stockName as string)
+    selectedStockDataState(stockName as StockName)
   );
 
-  useGetStockDetailInfos(stockName as string, '30');
+  useGetStockDetailInfos(stockName as StockName, '30');
   prefetchStockInPossessionList(stockName as StockName);
 
   useEffect(() => {

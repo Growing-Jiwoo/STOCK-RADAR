@@ -4,7 +4,7 @@ import { QUERY_KEYS } from '../utils/constants';
 import { AxiosError } from 'axios';
 import { QueryKey } from '../types/reactQuery';
 import { getStockInPossession } from '../apis/stockTrading';
-import { StockInPossession } from '../types/stock';
+import { StockInPossession } from '../types/stockTrading';
 import { queryClient } from '../react-query/queryClient';
 
 export const useGetStockInPossessionList = (stockName: StockName | 'list') => {
