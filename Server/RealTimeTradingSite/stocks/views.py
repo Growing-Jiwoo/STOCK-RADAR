@@ -257,12 +257,19 @@ class StockInfoDetail(APIView):
 
         return Response(stock_data)
 
-class UserStocksCreate(APIView):
-    def get(self, request):
+
+class UserStocksList(APIView):
+    def get(self, request, stock_name, format=None):
         try:
             payload = authenticate_request(request)
             user_id = payload['user_id']
-            user_stocks = UserStocks.objects.filter(user_id=user_id)
+
+            if stock_name.lower() == 'list':
+                # Retrieve data for all stock names
+                user_stocks = UserStocks.objects.filter(user_id=user_id)
+            else:
+                # Retrieve data for the specified stock name
+                user_stocks = UserStocks.objects.filter(user_id=user_id, stock_name=stock_name)
 
             stock_data = []
             total_value = Decimal('0')
@@ -291,7 +298,7 @@ class UserStocksCreate(APIView):
                 'code': 404,
                 'message': 'UserStocks not found.'
             }, status=status.HTTP_404_NOT_FOUND)
-
+class UserStocksCreate(APIView):
     def post(self, request, format=None):
         serializer = UserStocksSerializer(data=request.data)
         payload = authenticate_request(request)
