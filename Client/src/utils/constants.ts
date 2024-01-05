@@ -15,4 +15,5 @@ export const QUERY_KEYS = {
   CREATE_COMMENT: 'createComment',
   EDIT_COMMENT: 'editComment',
   DELETE_COMMENT: 'deleteComment',
+  STOCK_IN_POSSESSION: 'stockInPossession',
 };

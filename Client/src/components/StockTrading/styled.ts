@@ -10,13 +10,6 @@ export const StyledTableCell = styled.td<CellColorProps>`
   color: ${(props) => (props.isNegative ? 'blue' : 'red')};
 `;
 
-export const TodayLimitPrice = styled.p`
-  font-size: 11px;
-  margin-bottom: 0.3rem;
-  width: 100%;
-  text-align: right;
-`;
-
 export const TradingBtnContainer = styled.div`
   ${StyledCommonflexCenter}
   width: 30%;
@@ -47,9 +40,15 @@ export const QuantityBtn = styled.button`
   border: transparent;
 `;
 
-export const StockBuyContainer = styled.div`
+export const StockTradingContainer = styled.div`
   font-size: 14px;
   text-align: right;
   margin-top: 20px;
   font-family: var(--font-nanumfont);
+`;
+
+export const StockInPossessionText = styled.div`
+  font-size: 14px;
+  margin-top: 5px;
+  font-family: var(--font-nanumfontEB);
 `;

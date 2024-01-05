@@ -1,3 +1,15 @@
+export type StockName =
+  | 'QuantumCorp'
+  | 'NebulaTech'
+  | 'CyberVista'
+  | 'BioSynth'
+  | 'SynthoDynamics'
+  | 'FutureNet'
+  | 'StellarTronics'
+  | 'TitanInvest'
+  | 'QuantumHorizon'
+  | 'BioGen';
+
 export interface StockInformation {
   id: string;
   current_price: number;
@@ -42,7 +54,15 @@ export interface CellColorProps {
   isNegative: boolean;
 }
 
-export interface BuyStock {
-  stock: number;
+export interface TradingStockInfo {
+  stock_id: number;
   quantity: number;
+  stock_name: StockName;
+}
+
+export interface StockInPossession {
+  user: number;
+  quantity: number;
+  stock_name: StockName;
+  purchase_price: number;
 }
