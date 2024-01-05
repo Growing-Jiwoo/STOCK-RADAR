@@ -5,14 +5,18 @@ import { Column } from 'react-table';
 import { useRecoilValue } from 'recoil';
 import { useTableInstance } from '../../hooks/useTableInstance';
 import { selectedStockDataState } from '../../recoil/stockInfo/selectors';
-import { StockDetailParams, StockTradingListType } from '../../types/stock';
+import {
+  StockDetailParams,
+  StockName,
+  StockTradingListType,
+} from '../../types/stock';
 import { StockTradingTableRow } from './StockTradingTableRow';
 import { StockTradingTable, StyledTableCell } from './styled';
 
 function StockTradingListTable() {
   const { stockName } = useParams<StockDetailParams>();
   const stockData: StockTradingListType =
-    useRecoilValue(selectedStockDataState(stockName as string)) ||
+    useRecoilValue(selectedStockDataState(stockName as StockName)) ||
     ({} as StockTradingListType);
   const rateOfChange: number = stockData.rate_of_change;
   const currentPrice: number = stockData.current_price;
