@@ -35,3 +35,36 @@ export const timeStampsSelector = selector<string[]>({
     return timeStamps;
   },
 });
+
+export const stockPriceSelector = selector({
+  key: 'stockPriceSelector',
+  get: ({ get }) => {
+    const recoilStockData = get(stockDataState);
+
+    return (key: string) => {
+      const stockName = key;
+
+      const selectedStock = recoilStockData.find(
+        (stock) => stock.name === stockName
+      );
+
+      if (selectedStock) {
+        const currentPrice = selectedStock.current_price;
+        const startPrice = selectedStock.start_price;
+        const rateOfChange = selectedStock.rate_of_change;
+
+        return {
+          currentPrice,
+          isLower: currentPrice < startPrice,
+          rateOfChange,
+        };
+      }
+
+      return {
+        currentPrice: 0,
+        isLower: false,
+        rateOfChange: 0,
+      };
+    };
+  },
+});

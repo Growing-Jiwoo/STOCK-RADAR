@@ -1,45 +1,18 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import {
-  currentPriceState,
-  stockDataState,
-} from '../../recoil/stockInfo/atoms';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { currentPriceState } from '../../recoil/stockInfo/atoms';
 import { StockPrice, DownArrowIcon, UpArrowIcon } from './styled';
 import { useEffect } from 'react';
+import { stockPriceSelector } from '../../recoil/stockInfo/selectors';
 
 type KeysProps = {
   keys: string;
 };
 
 export function RateOfChange(keys: KeysProps) {
-  const [recoilStockData] = useRecoilState(stockDataState);
   const setCurrentPriceState = useSetRecoilState(currentPriceState);
-
-  const getStockPrice = (key: string) => {
-    const stockName = key;
-
-    const selectedStock = recoilStockData.find(
-      (stock) => stock.name === stockName
-    );
-
-    if (selectedStock) {
-      const currentPrice = selectedStock.current_price;
-      const startPrice = selectedStock.start_price;
-      const rateOfChange = selectedStock.rate_of_change;
-
-      return {
-        currentPrice,
-        isLower: currentPrice < startPrice,
-        rateOfChange,
-      };
-    }
-
-    return {
-      currentPrice: 0,
-      isLower: false,
-      rateOfChange: 0,
-    };
-  };
-  const stockPriceData = getStockPrice(keys.keys);
+  const stockName: string = keys.keys;
+  const getStockPrice = useRecoilValue(stockPriceSelector);
+  const stockPriceData = getStockPrice(stockName);
 
   useEffect(() => {
     setCurrentPriceState(stockPriceData.currentPrice);
