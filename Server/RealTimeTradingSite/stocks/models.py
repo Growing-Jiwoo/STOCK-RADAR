@@ -27,11 +27,9 @@ class User(models.Model):
 class UserStocks(models.Model):
     portfolio_id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, models.DO_NOTHING)
-    stock = models.ForeignKey(StockInfo, models.DO_NOTHING)
     stock_name = models.CharField(max_length=100)
     quantity = models.IntegerField()
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
-    purchase_date = models.DateField()
     
     class Meta:
         managed = False
