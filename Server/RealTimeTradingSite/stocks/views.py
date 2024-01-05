@@ -257,12 +257,17 @@ class StockInfoDetail(APIView):
 
         return Response(stock_data)
 
-class UserStocksCreate(APIView):
-    def get(self, request):
+
+class UserStocksList(APIView):
+    def get(self, request, stock_name, format=None):
         try:
             payload = authenticate_request(request)
             user_id = payload['user_id']
-            user_stocks = UserStocks.objects.filter(user_id=user_id)
+
+            if stock_name.lower() == 'list':
+                user_stocks = UserStocks.objects.filter(user_id=user_id)
+            else:
+                user_stocks = UserStocks.objects.filter(user_id=user_id, stock_name=stock_name)
 
             stock_data = []
             total_value = Decimal('0')
@@ -272,9 +277,8 @@ class UserStocksCreate(APIView):
 
                 stock_data.append({
                     'user': user_stock.user_id,
-                    'stock': user_stock.stock_id,
                     'quantity': user_stock.quantity,
-                    'stock_name': user_stock.stock.name,
+                    'stock_name': user_stock.stock_name,
                     'purchase_price': user_stock.purchase_price
                 })
 
@@ -291,18 +295,18 @@ class UserStocksCreate(APIView):
                 'code': 404,
                 'message': 'UserStocks not found.'
             }, status=status.HTTP_404_NOT_FOUND)
-
+            
+class UserStocksCreate(APIView):
     def post(self, request, format=None):
         serializer = UserStocksSerializer(data=request.data)
         payload = authenticate_request(request)
         user_id = payload['user_id']
         if serializer.is_valid():
             user_id = payload['user_id']
-            stock_id = serializer.validated_data['stock'].id
+            stock_id = request.data.get('stock_id')
             stock_name = serializer.validated_data['stock_name']
             quantity = serializer.validated_data['quantity']
             current_price = StockInfo.objects.get(id=stock_id).current_price
-
             try:
                 trading_history_data = {
                     "user": user_id,
@@ -323,7 +327,7 @@ class UserStocksCreate(APIView):
                         'data': trading_history_serializer.errors
                     }, status=status.HTTP_400_BAD_REQUEST)
 
-                existing_entries = UserStocks.objects.filter(user=user_id, stock=stock_id)
+                existing_entries = UserStocks.objects.filter(user=user_id, stock_name = stock_name)
                 if existing_entries.exists():
                     total_quantity = existing_entries.aggregate(total_quantity=Sum('quantity'))['total_quantity']
                     total_quantity += quantity
@@ -334,11 +338,11 @@ class UserStocksCreate(APIView):
                     existing_entries.exclude(pk=first_entry.pk).delete()
                     serializer = UserStocksSerializer(first_entry)
 
-                    current_price = Decimal(first_entry.stock.current_price)
+                    current_price = Decimal(current_price)
                     result = round(first_entry.purchase_price + (quantity * current_price), 2)
                     first_entry.purchase_price = result
                     first_entry.save()
-
+                    
                     data = serializer.data
                     data['result'] = result
                     response_data = {
@@ -359,7 +363,6 @@ class UserStocksCreate(APIView):
 
                     user_instance = User.objects.get(pk=user_id)
                     serializer.validated_data['user'] = user_instance
-                    serializer.validated_data['purchase_date'] = datetime.now()
 
                     serializer.save()
 
@@ -395,10 +398,10 @@ from django.db import transaction
 class SellStocksAPIView(APIView):
     def post(self, request, format=None):
         stock_id = request.data.get('stock_id')
+        stock_name = request.data.get('stock_name')
         quantity_to_sell = request.data.get('quantity')
         payload = authenticate_request(request)
         user_id = payload['user_id']
-
         if not stock_id or not quantity_to_sell:
             return Response({
                 'code': 400,
@@ -414,7 +417,7 @@ class SellStocksAPIView(APIView):
             }, status=status.HTTP_404_NOT_FOUND)
 
         try:
-            user_stock = UserStocks.objects.get(user=user_id, stock=stock_info)
+            user_stock = UserStocks.objects.get(user=user_id, stock_name = stock_name)
         except UserStocks.DoesNotExist:
             return Response({
                 'code': 400,
@@ -433,7 +436,7 @@ class SellStocksAPIView(APIView):
 
         with transaction.atomic():
             if remaining_quantity > 0:
-                user_stock.purchase_price = Decimal(user_stock.purchase_price) - Decimal(total_selling_amount) * quantity_to_sell
+                user_stock.purchase_price = Decimal(user_stock.purchase_price) - Decimal(total_selling_amount)
                 user_stock.quantity = remaining_quantity
                 user_stock.save()
             else:
