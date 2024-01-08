@@ -15,15 +15,19 @@ export function RateOfChange(keys: KeysProps) {
   const stockPriceData = getStockPrice(stockName);
 
   useEffect(() => {
-    setCurrentPriceState(stockPriceData.currentPrice);
-  }, [keys, setCurrentPriceState]);
+    if (stockPriceData.length > 0) {
+      setCurrentPriceState(stockPriceData[0].currentPrice);
+    }
+  }, [keys, setCurrentPriceState, stockPriceData]);
 
   return (
     <>
-      <StockPrice isLower={stockPriceData.isLower}>
-        ${stockPriceData.currentPrice} / {stockPriceData.rateOfChange}%
-        {stockPriceData.isLower ? <DownArrowIcon /> : <UpArrowIcon />}
-      </StockPrice>
+      {stockPriceData.map((stock, index) => (
+        <StockPrice key={index} isLower={stock.isLower}>
+          ${stock.currentPrice} / {stock.rateOfChange}%
+          {stock.isLower ? <DownArrowIcon /> : <UpArrowIcon />}
+        </StockPrice>
+      ))}
     </>
   );
 }
