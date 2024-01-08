@@ -6,6 +6,7 @@ import SignUp from '../pages/SignUp';
 import StockInfo from '../pages/StockInfo';
 import { PATH_NAME } from '../utils/constants';
 import Auth from './Auth';
+import MyInfo from '../pages/myInfo';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <Main />,
+      },
+      {
+        path: PATH_NAME.MY_INFO,
+        element: <MyInfo />,
       },
       {
         path: PATH_NAME.STOCK_INFO,

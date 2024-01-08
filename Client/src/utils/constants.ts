@@ -6,6 +6,7 @@ export const PATH_NAME = {
   SIGN_UP: '/signup',
   STOCK_INFO: '/stock',
   MAIN: '/',
+  MY_INFO: '/myInfo',
 };
 
 export const QUERY_KEYS = {
