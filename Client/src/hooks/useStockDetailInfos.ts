@@ -33,7 +33,7 @@ export const useStockDetails = () => {
 
   useEffect(() => {
     const difference = Number(
-      (possessionStockTotalPrice - totalCurrentPrice).toFixed(2)
+      (totalCurrentPrice - possessionStockTotalPrice).toFixed(2)
     );
 
     setStockPriceDifference(difference);
