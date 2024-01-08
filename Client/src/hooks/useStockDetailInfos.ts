@@ -58,9 +58,13 @@ export const useStockDetails = () => {
   }, [stockPriceDifference, possessionStockTotalPrice]);
 
   return {
-    totalCurrentPrice,
-    possessionStockTotalPrice,
-    stockPriceDifference,
-    percentageDifference,
+    possessionStockTotalPrice: Number(
+      possessionStockTotalPrice.toFixed(2)
+    ).toLocaleString(),
+    totalCurrentPrice: Number(totalCurrentPrice.toFixed(2)).toLocaleString(),
+    stockPriceDifference: Number(
+      stockPriceDifference.toFixed(2)
+    ).toLocaleString(),
+    percentageDifference: percentageDifference.toFixed(2),
   };
 };
