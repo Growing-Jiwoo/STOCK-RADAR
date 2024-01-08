@@ -41,30 +41,34 @@ export const stockPriceSelector = selector({
   get: ({ get }) => {
     const recoilStockData = get(stockDataState);
 
-    return (key: string) => {
-      const stockName = key;
+    return (stockNames: string | string[]) => {
+      const namesArray = Array.isArray(stockNames) ? stockNames : [stockNames];
 
-      const selectedStock = recoilStockData.find(
-        (stock) => stock.name === stockName
-      );
+      return namesArray.map((stockName) => {
+        const selectedStock = recoilStockData.find(
+          (stock) => stock.name === stockName
+        );
 
-      if (selectedStock) {
-        const currentPrice = selectedStock.current_price;
-        const startPrice = selectedStock.start_price;
-        const rateOfChange = selectedStock.rate_of_change;
+        if (selectedStock) {
+          const currentPrice = selectedStock.current_price;
+          const startPrice = selectedStock.start_price;
+          const rateOfChange = selectedStock.rate_of_change;
+
+          return {
+            stockName,
+            currentPrice,
+            isLower: currentPrice < startPrice,
+            rateOfChange,
+          };
+        }
 
         return {
-          currentPrice,
-          isLower: currentPrice < startPrice,
-          rateOfChange,
+          stockName,
+          currentPrice: 0,
+          isLower: false,
+          rateOfChange: 0,
         };
-      }
-
-      return {
-        currentPrice: 0,
-        isLower: false,
-        rateOfChange: 0,
-      };
+      });
     };
   },
 });

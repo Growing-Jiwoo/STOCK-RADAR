@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Column } from 'react-table';
 import { handleLimitedClickStorage } from '../../utils/handleLimitedClickStorage';
 import { useTableInstance } from '../../hooks/useTableInstance';
-import { useStockData } from '../../services/stockInfo';
 import { StockInformation } from '../../types/stock';
+import { useRecoilValue } from 'recoil';
+import { stockDataState } from '../../recoil/stockInfo/atoms';
 
 function StockTable() {
   const navigate = useNavigate();
-  const { stockData } = useStockData();
+  const stockData = useRecoilValue(stockDataState);
   const stockTableColumns = useMemo<Column<StockInformation>[]>(
     () => [
       { Header: '주식명', accessor: 'name' },
