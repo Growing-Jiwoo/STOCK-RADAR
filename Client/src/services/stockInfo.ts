@@ -61,41 +61,31 @@ export const useStockPriceHistory = (
 };
 
 export const useGetStockDetailInfos = (stockName: string, day: string) => {
-  const [
-    { data: stockData },
-    { data: commentData },
-    { data: stockPriceHistoryData },
-  ] = useSuspenseQueries({
-    queries: [
-      {
-        queryKey: [QUERY_KEYS.STOCK_INFO],
-        queryFn: () => getStockInfo(),
-        refetchInterval: 1000,
-      },
-      {
-        queryKey: [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
-        queryFn: () => getCommentList(stockName),
-        staleTime: 3 * 60 * 1000,
-        cacheTime: 10 * 60 * 1000,
-      },
-      {
-        queryKey: [`${QUERY_KEYS.STOCK_PRICE_HISTORY}/${stockName}/${day}`],
-        queryFn: () => getStockPriceHistory(stockName, day),
+  const [{ data: commentData }, { data: stockPriceHistoryData }] =
+    useSuspenseQueries({
+      queries: [
+        {
+          queryKey: [`${QUERY_KEYS.GET_COMMENT_LIST}/${stockName}`],
+          queryFn: () => getCommentList(stockName),
+          staleTime: 3 * 60 * 1000,
+          cacheTime: 10 * 60 * 1000,
+        },
+        {
+          queryKey: [`${QUERY_KEYS.STOCK_PRICE_HISTORY}/${stockName}/${day}`],
+          queryFn: () => getStockPriceHistory(stockName, day),
 
-        staleTime: 5 * 60 * 1000,
-        cacheTime: 10 * 60 * 1000,
-        refetchInterval: 10000,
-      },
-    ],
-  });
+          staleTime: 5 * 60 * 1000,
+          cacheTime: 10 * 60 * 1000,
+          refetchInterval: 10000,
+        },
+      ],
+    });
 
-  const [, setStockDataState] = useRecoilState(stockDataState);
   const [, setStockPriceHistory] = useRecoilState(stockPriceHistoryState);
 
   useEffect(() => {
-    setStockDataState(stockData);
     setStockPriceHistory(stockPriceHistoryData);
-  }, [stockData, stockPriceHistoryData]);
+  }, [stockPriceHistoryData]);
 
-  return { stockData, commentData, stockPriceHistoryData };
+  return { commentData, stockPriceHistoryData };
 };
