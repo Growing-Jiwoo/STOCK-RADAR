@@ -82,7 +82,8 @@ export const DeleteBtn = styled(DeleteBtnImg)`
   padding-bottom: 4px;
 `;
 
-export const StockPrice = styled.p<StockPriceProps>`
+export const StockPrice = styled.span<StockPriceProps>`
+  width: 150px;
   color: ${(props) => (props.isLower ? 'blue' : 'red')};
 `;
 
