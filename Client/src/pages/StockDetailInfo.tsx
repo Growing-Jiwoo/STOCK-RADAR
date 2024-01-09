@@ -7,7 +7,7 @@ import { StockTradingButton } from '../components/StockTrading/StockTradingButto
 function StockDetailInfo(): JSX.Element {
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <StockPriceHistoryChart />
+      <StockPriceHistoryChart possessionStock={''} />
       <StockTradingButton />
       <StockDetailTab />
     </Suspense>

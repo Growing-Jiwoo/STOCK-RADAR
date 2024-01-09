@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface ChartWrapperProps {
+  hasStockName?: boolean;
+}
+
 export const ChartContainer = styled.div`
   height: 500px;
   display: flex;
@@ -7,7 +11,7 @@ export const ChartContainer = styled.div`
   align-items: center;
 `;
 
-export const ChartWrapper = styled.div`
+export const ChartWrapper = styled.div<ChartWrapperProps>`
   width: 100%;
-  height: 100%;
+  height: ${(props) => (props.hasStockName ? '100%' : '33%')};
 `;
