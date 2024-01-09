@@ -11,6 +11,7 @@ const Auth = () => {
   const PRIVATE_ROUTES = [
     PATH_NAME.STOCK_INFO,
     `${PATH_NAME.STOCK_INFO}/${stockName}/${stockDetailId}`,
+    PATH_NAME.MY_INFO,
   ];
   const PUBLIC_ROUTES = [PATH_NAME.MAIN, PATH_NAME.SIGN_IN, PATH_NAME.SIGN_UP];
   const { pathname } = useLocation();

@@ -18,6 +18,10 @@ const router = createBrowserRouter([
         element: <Main />,
       },
       {
+        path: PATH_NAME.MY_INFO,
+        element: <MyInfo />,
+      },
+      {
         path: PATH_NAME.STOCK_INFO,
         element: <StockInfo />,
       },
