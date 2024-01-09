@@ -1,5 +1,5 @@
 import { MyStockInPossession } from '../components/MyInfo/MyStockInPossession';
 
-export default function myInfo() {
+export default function MyInfo() {
   return <MyStockInPossession />;
 }
