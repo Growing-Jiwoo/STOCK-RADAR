@@ -8,7 +8,6 @@ import { PATH_NAME } from '../utils/constants';
 import Auth from './Auth';
 import MyInfo from '../pages/MyInfo';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
