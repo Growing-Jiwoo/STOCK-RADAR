@@ -1,13 +1,13 @@
 import { APIResponse } from '../types/api';
 import { CommentData, EditComment } from '../types/board';
-import { ApiUrl } from './ApiUrl';
+import { API_URL } from '../const/apiUrl';
 import { instance } from './axios';
 
 export const createComment = async (
   commentContent: CommentData
 ): Promise<CommentData> => {
   try {
-    const response = await instance.post(`${ApiUrl.comment}`, commentContent);
+    const response = await instance.post(`${API_URL.comment}`, commentContent);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -21,7 +21,7 @@ export const editComment = async (
 ): Promise<APIResponse<unknown>> => {
   try {
     const response = await instance.put(
-      `${ApiUrl.comment}/update/${commentId}`,
+      `${API_URL.comment}/update/${commentId}`,
       editCommentText
     );
 
@@ -37,7 +37,7 @@ export const deleteComment = async (
 ): Promise<APIResponse<unknown>> => {
   try {
     const response = await instance.delete(
-      `${ApiUrl.comment}/delete/${commentId}`
+      `${API_URL.comment}/delete/${commentId}`
     );
     return response.data;
   } catch (error) {
@@ -50,7 +50,7 @@ export const getCommentList = async (
   stockName: string
 ): Promise<CommentData[]> => {
   try {
-    const response = await instance.get(`${ApiUrl.comment}/${stockName}`);
+    const response = await instance.get(`${API_URL.comment}/${stockName}`);
     return response.data.data;
   } catch (error) {
     console.error(error);

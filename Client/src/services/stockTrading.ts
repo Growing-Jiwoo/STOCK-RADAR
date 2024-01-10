@@ -1,6 +1,6 @@
 import { StockName } from './../types/stock';
 import { useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../utils/constants';
+import { QUERY_KEYS } from '../const/queryKey';
 import { AxiosError } from 'axios';
 import { QueryKey } from '../types/reactQuery';
 import {

@@ -4,7 +4,7 @@ import { signin, signup } from '../apis/auth';
 import storage from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../const/path';
 
 export const useSignIn = () => {
   const navigate = useNavigate();

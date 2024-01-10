@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { StockInformation, StockPriceHistory } from '../types/stock';
 import { getStockInfo, getStockPriceHistory } from '../apis/stockinfo';
-import { QUERY_KEYS } from '../utils/constants';
+import { QUERY_KEYS } from '../const/queryKey';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { stockPriceHistoryState } from '../recoil/stockInfo/atoms';

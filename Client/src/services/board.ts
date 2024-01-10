@@ -11,7 +11,7 @@ import { queryClient } from '../react-query/queryClient';
 import { APIResponse } from '../types/api';
 import { CommentData, CommentListData } from '../types/board';
 import { StockDetailParams } from '../types/stock';
-import { QUERY_KEYS } from '../utils/constants';
+import { QUERY_KEYS } from '../const/queryKey';
 
 export const useCreateComment = () => {
   const { stockName } = useParams<StockDetailParams>();

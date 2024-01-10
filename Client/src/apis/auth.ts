@@ -1,9 +1,9 @@
 import { Auth } from '../types/auth';
-import { ApiUrl } from './ApiUrl';
+import { API_URL } from '../const/apiUrl';
 import { instance } from './axios';
 
 export const signin = async (req: Auth) => {
-  const { data } = await instance.post(ApiUrl.signin, {
+  const { data } = await instance.post(API_URL.signin, {
     username: req.username,
     password: req.password,
   });
@@ -12,7 +12,7 @@ export const signin = async (req: Auth) => {
 };
 
 export const signup = async (req: Auth) => {
-  const { data } = await instance.post(ApiUrl.signup, {
+  const { data } = await instance.post(API_URL.signup, {
     username: req.username,
     password: req.password,
   });

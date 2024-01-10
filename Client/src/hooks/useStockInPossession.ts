@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { queryClient } from '../react-query/queryClient';
 import { StockInPossession } from '../types/stockTrading';
-import { QUERY_KEYS } from '../utils/constants';
+import { QUERY_KEYS } from '../const/queryKey';
 
 export const useGetStockInPossessionInfoData = (
   key: keyof StockInPossession

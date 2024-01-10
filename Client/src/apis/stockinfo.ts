@@ -1,10 +1,10 @@
 import { StockInformation, StockPriceHistory } from '../types/stock';
-import { ApiUrl } from './ApiUrl';
+import { API_URL } from '../const/apiUrl';
 import { instance } from './axios';
 
 export const getStockInfo = async (): Promise<StockInformation[]> => {
   try {
-    const response = await instance.get(ApiUrl.stockinfo);
+    const response = await instance.get(API_URL.stockinfo);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -16,7 +16,7 @@ export const getStockDetailInfo = async (
   stockId: string
 ): Promise<StockInformation> => {
   try {
-    const response = await instance.get(`${ApiUrl.stockinfo}/${stockId}`);
+    const response = await instance.get(`${API_URL.stockinfo}/${stockId}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -30,7 +30,7 @@ export const getStockPriceHistory = async (
 ): Promise<StockPriceHistory[]> => {
   try {
     const response = await instance.get(
-      `${ApiUrl.stockPriceHistory}/${stockName}/${day}`
+      `${API_URL.stockPriceHistory}/${stockName}/${day}`
     );
     return response.data;
   } catch (error) {

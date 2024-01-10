@@ -1,6 +1,6 @@
 import { S } from './style';
 import { useNavigate } from 'react-router';
-import { PATH_NAME } from '../utils/constants';
+import { PATH_NAME } from '../const/path';
 import { MainLogo } from '../components/Main/Mainlogo';
 
 function Main() {

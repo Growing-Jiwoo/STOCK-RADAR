@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router';
 import token from '../utils/token';
-import { ACCESS_TOKEN, PATH_NAME } from '../utils/constants';
+import { ACCESS_TOKEN, PATH_NAME } from '../const/path';
 import NotFound from '../pages/NotFound';
 import NavBar from '../components/Commons/Navbar';
 import { useParams } from 'react-router-dom';
