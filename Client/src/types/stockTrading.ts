@@ -21,3 +21,11 @@ export interface StockInPossession {
   stock_name: StockName;
   purchase_price: number;
 }
+
+export interface StockTradingHistory {
+  stock_name: StockName;
+  quantity: number;
+  stock_price_per_unit: string;
+  purchase_date: string;
+  status: 0 | 1;
+}

@@ -10,4 +10,5 @@ export const ApiUrl = {
   buyStock: `${baseUrl}/purchase_stock`,
   sellStock: `${baseUrl}/sell_stock`,
   StockInPossession: `${baseUrl}/user_stocks`,
+  StockTradingHistory: `${baseUrl}/stock_trading_history`,
 };

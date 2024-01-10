@@ -1,5 +1,10 @@
+import { toast } from 'react-toastify';
 import { StockName } from './../types/stock';
-import { StockInPossession, TradingStockInfo } from './../types/stockTrading';
+import {
+  StockInPossession,
+  StockTradingHistory,
+  TradingStockInfo,
+} from './../types/stockTrading';
 import { ApiUrl } from './ApiUrl';
 import { instance } from './axios';
 
@@ -8,6 +13,7 @@ export const buyStock = async (
 ): Promise<TradingStockInfo> => {
   try {
     const response = await instance.post(`${ApiUrl.buyStock}`, buyStockInfo);
+    toast.success('성공적으로 주식을 구매했습니다.');
     return response.data;
   } catch (error) {
     console.error(error);
@@ -20,6 +26,7 @@ export const sellStock = async (
 ): Promise<TradingStockInfo> => {
   try {
     const response = await instance.post(`${ApiUrl.sellStock}`, sellStockInfo);
+    toast.success('성공적으로 주식을 판매했습니다.');
     return response.data;
   } catch (error) {
     console.error(error);
@@ -40,3 +47,14 @@ export const getStockInPossession = async (
     throw new Error('Failed to query stock information in possession.');
   }
 };
+
+export const getStockTradingHistory =
+  async (): Promise<StockTradingHistory> => {
+    try {
+      const response = await instance.get(`${ApiUrl.StockTradingHistory}`);
+      return response.data.data;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to Get Stock Trading History.');
+    }
+  };
