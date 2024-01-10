@@ -13,7 +13,7 @@ import pytz
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
-from .models import StockInfo, StockPriceHistory
+from .models import StockInfo, StockPriceHistory, StockTradingHistory
 import random
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -573,3 +573,14 @@ class StocksCommentInfo(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class StockTradingHistoryListView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            trading_history = StockTradingHistory.objects.all()
+            serializer = StockTradingHistorySerializer(trading_history, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({
+                'code': 404,
+                'message': 'Stock History not found'
+            }, status=status.HTTP_404_NOT_FOUND)
