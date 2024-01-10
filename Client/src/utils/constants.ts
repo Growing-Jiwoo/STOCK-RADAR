@@ -17,4 +17,5 @@ export const QUERY_KEYS = {
   EDIT_COMMENT: 'editComment',
   DELETE_COMMENT: 'deleteComment',
   STOCK_IN_POSSESSION: 'stockInPossession',
+  STOCK_TRADING_HISTORY: 'stockTradingHistory',
 };
