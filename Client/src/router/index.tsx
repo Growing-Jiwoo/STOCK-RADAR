@@ -4,7 +4,7 @@ import Main from '../pages/Main';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import StockInfo from '../pages/StockInfo';
-import { PATH_NAME } from '../utils/constants';
+import { PATH_NAME } from '../const/path';
 import Auth from './Auth';
 import MyInfo from '../pages/Myinfo';
 

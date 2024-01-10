@@ -5,14 +5,14 @@ import {
   StockTradingHistory,
   TradingStockInfo,
 } from './../types/stockTrading';
-import { ApiUrl } from './ApiUrl';
+import { API_URL } from '../const/apiUrl';
 import { instance } from './axios';
 
 export const buyStock = async (
   buyStockInfo: TradingStockInfo
 ): Promise<TradingStockInfo> => {
   try {
-    const response = await instance.post(`${ApiUrl.buyStock}`, buyStockInfo);
+    const response = await instance.post(`${API_URL.buyStock}`, buyStockInfo);
     toast.success('성공적으로 주식을 구매했습니다.');
     return response.data;
   } catch (error) {
@@ -25,7 +25,7 @@ export const sellStock = async (
   sellStockInfo: TradingStockInfo
 ): Promise<TradingStockInfo> => {
   try {
-    const response = await instance.post(`${ApiUrl.sellStock}`, sellStockInfo);
+    const response = await instance.post(`${API_URL.sellStock}`, sellStockInfo);
     toast.success('성공적으로 주식을 판매했습니다.');
     return response.data;
   } catch (error) {
@@ -39,7 +39,7 @@ export const getStockInPossession = async (
 ): Promise<StockInPossession> => {
   try {
     const response = await instance.get(
-      `${ApiUrl.StockInPossession}/${stockName}`
+      `${API_URL.StockInPossession}/${stockName}`
     );
     return response.data.data;
   } catch (error) {
@@ -51,7 +51,7 @@ export const getStockInPossession = async (
 export const getStockTradingHistory =
   async (): Promise<StockTradingHistory> => {
     try {
-      const response = await instance.get(`${ApiUrl.StockTradingHistory}`);
+      const response = await instance.get(`${API_URL.StockTradingHistory}`);
       return response.data.data;
     } catch (error) {
       console.error(error);

@@ -6,7 +6,7 @@ import { commentIdState } from '../../recoil/board/atoms';
 import { useEditComment } from '../../services/board';
 import { CommentData } from '../../types/board';
 import { StockDetailParams, StockName } from '../../types/stock';
-import { QUERY_KEYS } from '../../utils/constants';
+import { QUERY_KEYS } from '../../const/queryKey';
 import storage from '../../utils/localStorage';
 import Popup from './Popup';
 import {

@@ -1,9 +1,9 @@
 import axios, { InternalAxiosRequestConfig, AxiosError } from 'axios';
 import token from '../utils/token';
 import storage from '../utils/localStorage';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../const/path';
 import { APIError } from '../types/api';
-import { ApiUrl } from './ApiUrl';
+import { API_URL } from '../const/apiUrl';
 
 const host =
   window.location.hostname === 'localhost' ? 'http://127.0.0.1:8000' : 'api';
@@ -44,7 +44,7 @@ instance.interceptors.response.use(
       storage.set(ACCESS_TOKEN, refreshToken);
 
       // refresh token Post API 호출
-      return await instance.post(ApiUrl.refreshToken).then((res) => {
+      return await instance.post(API_URL.refreshToken).then((res) => {
         if (res.status === 200) {
           storage.set(ACCESS_TOKEN, res.data.refresh_token);
           Object.assign(config.headers, {

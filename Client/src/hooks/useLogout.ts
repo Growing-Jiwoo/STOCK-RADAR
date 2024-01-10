@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { ACCESS_TOKEN, PATH_NAME, REFRESH_TOKEN } from '../utils/constants';
+import { ACCESS_TOKEN, PATH_NAME, REFRESH_TOKEN } from '../const/path';
 import storage from '../utils/localStorage';
 
 const useLogout = () => {

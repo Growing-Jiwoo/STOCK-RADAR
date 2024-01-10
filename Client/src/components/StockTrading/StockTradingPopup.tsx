@@ -21,7 +21,7 @@ import {
   StockTradingContainer,
 } from './styled';
 import { queryClient } from '../../react-query/queryClient';
-import { QUERY_KEYS } from '../../utils/constants';
+import { QUERY_KEYS } from '../../const/queryKey';
 
 Modal.setAppElement('#root');
 
