@@ -36,4 +36,4 @@ class StocksCommentSerializer(serializers.ModelSerializer):
 class StockTradingHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = StockTradingHistory
-        fields = ['his_id', 'stock_name', 'quantity', 'stock_price_per_unit', 'purchase_date', 'status']
+        fields = ['stock_name', 'quantity', 'stock_price_per_unit', 'purchase_date', 'status']
