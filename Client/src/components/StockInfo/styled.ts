@@ -55,7 +55,7 @@ export const Container = styled.div`
 
 export const RecentListContainer = styled.div`
   ${StyledCommonflexCenter}
-  width: 55%;
+  width: 80%;
 `;
 
 export const StockContainer = styled.div`
