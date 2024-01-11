@@ -48,13 +48,14 @@ export const getStockInPossession = async (
   }
 };
 
-export const getStockTradingHistory =
-  async (): Promise<StockTradingHistory> => {
-    try {
-      const response = await instance.get(`${API_URL.StockTradingHistory}`);
-      return response.data.data;
-    } catch (error) {
-      console.error(error);
-      throw new Error('Failed to Get Stock Trading History.');
-    }
-  };
+export const getStockTradingHistory = async (): Promise<
+  StockTradingHistory[]
+> => {
+  try {
+    const response = await instance.get(`${API_URL.StockTradingHistory}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to Get Stock Trading History.');
+  }
+};

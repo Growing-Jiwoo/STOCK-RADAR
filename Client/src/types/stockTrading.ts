@@ -23,6 +23,7 @@ export interface StockInPossession {
 }
 
 export interface StockTradingHistory {
+  his_id: number;
   stock_name: StockName;
   quantity: number;
   stock_price_per_unit: string;
