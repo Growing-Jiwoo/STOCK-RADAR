@@ -29,17 +29,17 @@ export const useGetStockInPossessionList = (stockName: StockName | 'list') => {
 };
 
 export const useGetStockTradingHistory = () => {
-  const { data: stockInPossessionList } = useQuery<
-    StockTradingHistory,
+  const { data: stockTradingHistoryData } = useQuery<
+    StockTradingHistory[],
     AxiosError,
-    StockTradingHistory,
+    StockTradingHistory[],
     QueryKey
   >([`${QUERY_KEYS.STOCK_TRADING_HISTORY}`], () => getStockTradingHistory(), {
     staleTime: 3 * 60 * 1000,
     cacheTime: 5 * 60 * 1000,
   });
 
-  return { stockInPossessionList };
+  return stockTradingHistoryData;
 };
 
 export const prefetchStockInPossessionList = async (
