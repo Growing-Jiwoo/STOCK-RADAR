@@ -3,10 +3,14 @@ import Spinner from '../components/Commons/Spinner';
 import { RecentStockList } from '../components/StockInfo/RecentStockList';
 import StockTable from '../components/StockInfo/StockTable';
 import { StockTableContainer } from '../components/StockInfo/styled';
-import { prefetchStockInPossessionList } from '../services/stockTrading';
+import {
+  prefetchStockInPossessionList,
+  prefetchStockTradingHistory,
+} from '../services/stockTrading';
 
 export default function StockInfo() {
   prefetchStockInPossessionList('list');
+  prefetchStockTradingHistory();
 
   return (
     <Suspense fallback={<Spinner />}>
