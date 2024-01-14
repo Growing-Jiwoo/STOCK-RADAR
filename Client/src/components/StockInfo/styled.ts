@@ -101,13 +101,7 @@ export const UpArrowIcon = styled(UpArrowIconImg)`
   padding-bottom: 3px;
 `;
 
-export const CommentContainer = styled.div`
-  flex-flow: column wrap;
-  ${StyledCommonflexCenter}
-  width: 100%;
-`;
-
-export const ListTableContainer = styled.div`
+export const TabSubContainer = styled.div`
   flex-flow: column wrap;
   ${StyledCommonflexCenter}
   width: 100%;
