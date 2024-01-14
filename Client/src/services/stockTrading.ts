@@ -12,9 +12,9 @@ import { queryClient } from '../react-query/queryClient';
 
 export const useGetStockInPossessionList = (stockName: StockName | 'list') => {
   const { data: stockInPossessionList } = useQuery<
-    StockInPossession,
+    StockInPossession[],
     AxiosError,
-    StockInPossession,
+    StockInPossession[],
     QueryKey
   >(
     [`${QUERY_KEYS.STOCK_IN_POSSESSION}/${stockName}`],
