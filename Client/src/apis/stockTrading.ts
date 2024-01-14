@@ -36,7 +36,7 @@ export const sellStock = async (
 
 export const getStockInPossession = async (
   stockName: StockName | 'list'
-): Promise<StockInPossession> => {
+): Promise<StockInPossession[]> => {
   try {
     const response = await instance.get(
       `${API_URL.StockInPossession}/${stockName}`
