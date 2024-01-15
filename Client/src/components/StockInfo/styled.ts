@@ -144,3 +144,18 @@ export const TodayLimitPrice = styled.p`
   width: 100%;
   text-align: right;
 `;
+
+export const StockPossessionDetailContainer = styled.div`
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  width: 350px;
+`;
+
+export const ReturnStockContainer = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-end;
+`;

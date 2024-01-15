@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import { StockPriceHistoryChart } from '../Chart/StockPriceHistoryChart';
 import Spinner from '../Commons/Spinner';
-import { RateOfChange } from '../StockInfo/RateOfChange';
 import {
   StockListContainer,
   StockPossessionTitle,
@@ -47,24 +46,24 @@ export function MyPossessionStockList(): JSX.Element {
           </Suspense>
 
           <StockPossessionContainer>
-            <StockPossessionTitle>
+            <StockPossessionTitle fontSize="15px">
               {stockName} : {quantityInPossession?.[idx]}주 <br />
             </StockPossessionTitle>
-            <StockPossessionContent>
+            <StockPossessionContent fontSize="12px">
               내 평균 ${averageStockPrices?.[idx]}
             </StockPossessionContent>
-            <StockPossessionContent>
+            <StockPossessionContent fontSize="12px">
               원금 $
               {Number(stockInPossessionPrice?.[idx]).toLocaleString() || ''}
             </StockPossessionContent>
           </StockPossessionContainer>
 
           <StockPossessionContainer>
-            <StockPossessionTitle>수익</StockPossessionTitle>
-            <StockPossessionContent>
+            <StockPossessionTitle fontSize="15px">수익</StockPossessionTitle>
+            <StockPossessionContent fontSize="12px">
               ${stockReturnPricesprices?.[idx]?.toLocaleString() || ''}
             </StockPossessionContent>
-            <StockPossessionContent>
+            <StockPossessionContent fontSize="12px">
               <StockPrice isLower={returnPricePercentage?.[idx] <= 0}>
                 ${returnPrices(idx)} /{returnPricePercentage?.[idx]}%
                 {returnPricePercentage?.[idx] <= 0 ? (

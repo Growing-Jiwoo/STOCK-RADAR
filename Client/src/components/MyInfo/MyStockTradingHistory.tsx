@@ -19,7 +19,11 @@ export function MyStockTradingHistory() {
     () => [
       { Header: '일자', accessor: 'purchase_date' },
       { Header: '수량', accessor: 'quantity' },
-      { Header: '상태', accessor: 'status' },
+      {
+        Header: '상태',
+        accessor: 'status',
+        Cell: ({ value }) => <span>{value === 0 ? '구매' : '판매'}</span>,
+      },
       { Header: '주식명', accessor: 'stock_name' },
       { Header: '매수가', accessor: 'stock_price_per_unit' },
     ],

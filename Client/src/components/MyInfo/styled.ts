@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { Colors } from '../../style/common.styled';
 
+interface StockPossessionFontSize {
+  fontSize: string;
+}
+
 export const StockListContainer = styled.div`
   font-family: var(--font-nanumfont);
   border: 1px solid black;
@@ -18,15 +22,15 @@ export const StockPossessionContainer = styled.div`
   flex-flow: column wrap;
 `;
 
-export const StockPossessionTitle = styled.span`
+export const StockPossessionTitle = styled.span<StockPossessionFontSize>`
   width: 200px;
   font-family: var(--font-nanumfontB);
-  font-size: 15px;
+  font-size: ${(props) => props.fontSize};
   text-align: center;
 `;
 
-export const StockPossessionContent = styled.span`
-  font-size: 12px;
+export const StockPossessionContent = styled.span<StockPossessionFontSize>`
+  font-size: ${(props) => props.fontSize};
 `;
 export const MyInfoTitleContainer = styled.div``;
 
