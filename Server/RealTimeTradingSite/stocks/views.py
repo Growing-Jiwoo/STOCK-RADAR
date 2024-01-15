@@ -574,9 +574,13 @@ class StocksCommentInfo(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class StockTradingHistoryListView(APIView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, stock_name=None, *args, **kwargs):
         try:
-            trading_history = StockTradingHistory.objects.all()
+            if stock_name and 'list' in stock_name.lower():
+                trading_history = StockTradingHistory.objects.all()
+            elif stock_name:
+                trading_history = StockTradingHistory.objects.filter(stock_name=stock_name)
+
             serializer = StockTradingHistorySerializer(trading_history, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
