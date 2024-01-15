@@ -56,7 +56,7 @@ class StocksComment(models.Model):
 
 class StockTradingHistory(models.Model):
     his_id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user_id', to_field='id')
     stock_name = models.CharField(max_length=100)
     quantity = models.IntegerField()
     stock_price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
