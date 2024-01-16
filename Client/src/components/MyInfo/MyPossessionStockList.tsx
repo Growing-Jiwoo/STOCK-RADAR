@@ -9,7 +9,7 @@ import {
 } from './styled';
 import { StockName as StockNameType } from '../../types/stock';
 import { DownArrowIcon, StockPrice, UpArrowIcon } from '../StockInfo/styled';
-import useStockPossessionDetails from '../../hooks/useStockPossessionDetails';
+import { useStockPossessionDetailsArray } from '../../hooks/useStockPossessionDetailsArray';
 
 export function MyPossessionStockList(): JSX.Element {
   const {
@@ -20,7 +20,7 @@ export function MyPossessionStockList(): JSX.Element {
     stockReturnPricesprices,
     averageStockPrices,
     loading,
-  } = useStockPossessionDetails();
+  } = useStockPossessionDetailsArray();
 
   const returnPrices = (idx: number) => {
     if (stockReturnPricesprices && stockInPossessionPrice) {

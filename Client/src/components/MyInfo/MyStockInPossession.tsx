@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useStockDetails } from '../../hooks/useStockDetailInfos';
+import { useStockPossessionTotalData } from '../../hooks/useStockPossessionTotalData';
 import { DownArrowIcon, StockPrice, UpArrowIcon } from '../StockInfo/styled';
 import { MyPossessionStockList } from './MyPossessionStockList';
 import { MyStockTradingHistory } from './MyStockTradingHistory';
@@ -13,7 +13,7 @@ import {
 
 export function MyStockInPossession(): JSX.Element {
   const { totalCurrentPrice, possessionStockTotalPrice, percentageDifference } =
-    useStockDetails();
+    useStockPossessionTotalData();
 
   const [showStockList, setShowStockList] = useState(false);
   const [showOrderHistory, setShowOrderHistory] = useState(false);
