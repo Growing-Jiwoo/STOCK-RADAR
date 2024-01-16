@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { stockDataState } from '../recoil/stockInfo/atoms';
 import { stockPriceSelector } from '../recoil/stockInfo/selectors';
-import { useGetStockInPossessionInfoData } from './useStockInPossession';
+import { useStockPossessionList } from './useStockInPossession';
 
-export const useStockDetails = () => {
-  const quantityInPossession = useGetStockInPossessionInfoData('quantity');
-  const StockInPossession = useGetStockInPossessionInfoData('stock_name');
-  const StockInPossessionPrice =
-    useGetStockInPossessionInfoData('purchase_price');
+export const useStockPossessionTotalData = () => {
+  const quantityInPossession = useStockPossessionList('quantity');
+  const StockInPossession = useStockPossessionList('stock_name');
+  const StockInPossessionPrice = useStockPossessionList('purchase_price');
   const stockData = useRecoilValue(stockDataState);
   const [totalCurrentPrice, setTotalCurrentPrice] = useState(0);
   const [possessionStockTotalPrice, setPossessionStockTotalPrice] = useState(0);

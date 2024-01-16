@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useGetStockInPossessionInfoData } from './useStockInPossession';
 import { useRecoilValue } from 'recoil';
 import { stockPriceSelector } from '../recoil/stockInfo/selectors';
 import { stockDataState } from '../recoil/stockInfo/atoms';
+import { useStockPossessionList } from './useStockInPossession';
 
-const useStockPossessionDetails = () => {
-  const stockInPossessionList = useGetStockInPossessionInfoData('stock_name');
-  const quantityInPossession = useGetStockInPossessionInfoData('quantity');
-  const stockInPossessionPrice =
-    useGetStockInPossessionInfoData('purchase_price');
+export const useStockPossessionDetailsArray = () => {
+  const stockInPossessionList = useStockPossessionList('stock_name');
+  const quantityInPossession = useStockPossessionList('quantity');
+  const stockInPossessionPrice = useStockPossessionList('purchase_price');
   const getStockPrice = useRecoilValue(stockPriceSelector);
   const stockData = useRecoilValue(stockDataState);
   const [returnPricePercentage, setReturnPricePercentage] = useState<number[]>(
@@ -85,5 +84,3 @@ const useStockPossessionDetails = () => {
     loading,
   };
 };
-
-export default useStockPossessionDetails;

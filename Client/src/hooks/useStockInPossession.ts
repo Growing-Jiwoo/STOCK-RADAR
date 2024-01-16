@@ -3,9 +3,7 @@ import { queryClient } from '../react-query/queryClient';
 import { StockInPossession } from '../types/stockTrading';
 import { QUERY_KEYS } from '../const/queryKey';
 
-export const useGetStockInPossessionInfoData = (
-  key: keyof StockInPossession
-) => {
+export const useStockPossessionList = (key: keyof StockInPossession) => {
   const [totalData, setTotalData] = useState<string[] | undefined>();
 
   useEffect(() => {
