@@ -48,11 +48,13 @@ export const getStockInPossession = async (
   }
 };
 
-export const getStockTradingHistory = async (): Promise<
-  StockTradingHistory[]
-> => {
+export const getStockTradingHistory = async (
+  stockName: StockName | 'list'
+): Promise<StockTradingHistory[]> => {
   try {
-    const response = await instance.get(`${API_URL.StockTradingHistory}`);
+    const response = await instance.get(
+      `${API_URL.StockTradingHistory}/${stockName}`
+    );
     return response.data;
   } catch (error) {
     console.error(error);

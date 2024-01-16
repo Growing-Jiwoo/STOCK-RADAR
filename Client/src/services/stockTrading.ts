@@ -28,16 +28,20 @@ export const useGetStockInPossessionList = (stockName: StockName | 'list') => {
   return { stockInPossessionList };
 };
 
-export const useGetStockTradingHistory = () => {
+export const useGetStockTradingHistory = (stockName: StockName | 'list') => {
   const { data: stockTradingHistoryData } = useQuery<
     StockTradingHistory[],
     AxiosError,
     StockTradingHistory[],
     QueryKey
-  >([`${QUERY_KEYS.STOCK_TRADING_HISTORY}`], () => getStockTradingHistory(), {
-    staleTime: 3 * 60 * 1000,
-    cacheTime: 5 * 60 * 1000,
-  });
+  >(
+    [`${QUERY_KEYS.STOCK_TRADING_HISTORY}/${stockName}`],
+    () => getStockTradingHistory(stockName),
+    {
+      staleTime: 3 * 60 * 1000,
+      cacheTime: 5 * 60 * 1000,
+    }
+  );
 
   return stockTradingHistoryData;
 };
@@ -55,10 +59,12 @@ export const prefetchStockInPossessionList = async (
   );
 };
 
-export const prefetchStockTradingHistory = async () => {
+export const prefetchStockTradingHistory = async (
+  stockName: StockName | 'list'
+) => {
   await queryClient.prefetchQuery(
-    [`${QUERY_KEYS.STOCK_TRADING_HISTORY}`],
-    () => getStockTradingHistory(),
+    [`${QUERY_KEYS.STOCK_TRADING_HISTORY}/${stockName}`],
+    () => getStockTradingHistory(stockName),
     {
       staleTime: 5 * 60 * 1000,
       cacheTime: 15 * 60 * 1000,

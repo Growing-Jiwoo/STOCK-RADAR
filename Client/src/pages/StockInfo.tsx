@@ -10,7 +10,7 @@ import {
 
 export default function StockInfo() {
   prefetchStockInPossessionList('list');
-  prefetchStockTradingHistory();
+  prefetchStockTradingHistory('list');
 
   return (
     <Suspense fallback={<Spinner />}>
