@@ -8,7 +8,7 @@ import { usePagination } from '../../hooks/usePagination';
 
 export function MyStockTradingHistory() {
   const itemsPerPage = 10;
-  const historyList = useGetStockTradingHistory();
+  const historyList = useGetStockTradingHistory('list');
 
   const { currentPage, paginatedItems, handlePageChange } = usePagination(
     historyList ?? [],
