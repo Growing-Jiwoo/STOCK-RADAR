@@ -80,3 +80,44 @@ export const MyInfoButton = styled.button`
     background-color: ${Colors.gray};
   }
 `;
+
+export const StockTableContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-flow: column wrap;
+  align-items: center;
+  font-family: var(--font-nanumfont);
+
+  .stock-table {
+    margin-top: 10px;
+    width: 40%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+  }
+
+  .stock-table td,
+  .stock-table th {
+    border: transparent;
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .stock-table th {
+    text-align: left;
+    color: #fff;
+  }
+`;
+
+export const StockTraindingHistoryStatus = styled.p<StockPossessionStatus>`
+  font-family: var(--font-nanumfontB);
+  color: ${(props) =>
+    props.status === 0 ? Colors.vDeepGray : Colors.pastelBlue};
+  font-size: 10px;
+  text-align: center;
+`;
+
+export const PaginationContainer = styled.div`
+  .page-link {
+    font-size: 12px;
+  }
+`;
