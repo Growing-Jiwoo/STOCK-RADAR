@@ -5,6 +5,10 @@ interface StockPossessionFontSize {
   fontSize: string;
 }
 
+interface StockPossessionStatus {
+  status: number;
+}
+
 export const StockListContainer = styled.div`
   font-family: var(--font-nanumfont);
   border: 1px solid black;
@@ -26,7 +30,17 @@ export const StockPossessionTitle = styled.span<StockPossessionFontSize>`
   width: 200px;
   font-family: var(--font-nanumfontB);
   font-size: ${(props) => props.fontSize};
-  text-align: center;
+  text-align: left;
+`;
+
+export const StockPossessionStatus = styled.span<StockPossessionStatus>`
+  width: 200px;
+  font-family: var(--font-nanumfontB);
+  color: ${(props) =>
+    props.status === 0 ? Colors.vDeepGray : Colors.pastelBlue};
+  font-size: 15px;
+  text-align: left;
+  margin-left: 5px;
 `;
 
 export const StockPossessionContent = styled.span<StockPossessionFontSize>`

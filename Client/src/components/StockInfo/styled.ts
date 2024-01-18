@@ -1,3 +1,4 @@
+import { Colors } from './../../style/common.styled';
 import styled from 'styled-components';
 import { StyledCommonflexCenter } from '../../style/common.styled';
 import { ReactComponent as DeleteBtnImg } from '../../assets/icons/btn-close-gray.svg';
@@ -158,4 +159,48 @@ export const ReturnStockContainer = styled.div`
   display: flex;
   flex-flow: column wrap;
   align-items: flex-end;
+`;
+
+export const SeeMoreLine = styled.div`
+  position: relative;
+  width: 350px;
+  height: 2px;
+  background-color: black;
+  margin: 0 auto;
+  top: 21px;
+`;
+
+export const BoundaryLine = styled.div`
+  width: 350px;
+  height: 1px;
+  background-color: ${Colors.deepGray};
+  margin: 10px 0;
+`;
+
+export const SeeMoreText = styled.div`
+  cursor: pointer;
+  font-family: var(--font-nanumfontB);
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 5px;
+  z-index: 2;
+  margin-top: 20px;
+`;
+
+export const TraidngHistoryTitle = styled.span`
+  width: 350px;
+  font-size: 20px;
+  font-family: var(--font-nanumfontB);
+  text-align: center;
+`;
+
+export const TraidngHistorySubTitle = styled.span`
+  width: 350px;
+  font-size: 10px;
+  font-family: var(--font-nanumfontB);
+  text-align: center;
+  margin-bottom: 8px;
+  color: ${Colors.gray};
 `;
