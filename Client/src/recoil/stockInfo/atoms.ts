@@ -25,3 +25,14 @@ export const maxPriceState = atom({
   key: 'maxPriceState',
   default: 0,
 });
+
+export const StockPossessionState = atom({
+  key: 'StockPossessionState',
+  default: {
+    purchasePrice: 0,
+    quantity: 0,
+    averageStockPrice: 0,
+    currentPrice: 0,
+    returnPercentage: 0,
+  },
+});
