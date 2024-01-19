@@ -1,14 +1,14 @@
 import Modal, { Styles } from 'react-modal';
-import { AgreeButton } from '../Commons/styled';
+import {
+  AgreeButton,
+  BtnContainer,
+  CloseBtn,
+  ClosePopupButton,
+  SubMentContainer,
+  Title,
+} from '../Commons/styled';
 import { useRecoilValue } from 'recoil';
 import { commentIdState } from '../../recoil/board/atoms';
-import {
-  Title,
-  CloseBtn,
-  SubMentContainer,
-  BtnContainer,
-  ClosePopupButton,
-} from './styled';
 import { useDeleteComment } from '../../services/board';
 
 Modal.setAppElement('#root');
@@ -34,7 +34,7 @@ const customStyles: Styles = {
   },
 };
 
-function Popup({
+function CommentDeletePopup({
   isOpen,
   closeModal,
 }: {
@@ -82,4 +82,4 @@ function Popup({
   );
 }
 
-export default Popup;
+export default CommentDeletePopup;

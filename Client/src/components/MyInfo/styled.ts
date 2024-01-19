@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 import { Colors } from '../../style/common.styled';
-
-interface StockPossessionFontSize {
-  fontSize: string;
-}
+import { FontSize } from '../../types/stock';
 
 interface StockPossessionStatus {
   status: number;
@@ -26,11 +23,11 @@ export const StockPossessionContainer = styled.div`
   flex-flow: column wrap;
 `;
 
-export const StockPossessionTitle = styled.span<StockPossessionFontSize>`
+export const StockPossessionTitle = styled.span<FontSize>`
   width: 200px;
   font-family: var(--font-nanumfontB);
   font-size: ${(props) => props.fontSize};
-  text-align: left;
+  text-align: center;
 `;
 
 export const StockPossessionStatus = styled.span<StockPossessionStatus>`
@@ -43,7 +40,7 @@ export const StockPossessionStatus = styled.span<StockPossessionStatus>`
   margin-left: 5px;
 `;
 
-export const StockPossessionContent = styled.span<StockPossessionFontSize>`
+export const StockPossessionContent = styled.span<FontSize>`
   font-size: ${(props) => props.fontSize};
 `;
 export const MyInfoTitleContainer = styled.div``;
