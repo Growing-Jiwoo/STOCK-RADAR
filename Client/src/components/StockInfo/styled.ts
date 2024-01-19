@@ -1,11 +1,11 @@
-import { Colors } from './../../style/common.styled';
+import { Colors, StyledCommonflexCenter } from './../../style/common.styled';
 import styled from 'styled-components';
-import { StyledCommonflexCenter } from '../../style/common.styled';
 import { ReactComponent as DeleteBtnImg } from '../../assets/icons/btn-close-gray.svg';
 import { ReactComponent as UpArrowIconImg } from '../../assets/icons/icon_up.svg';
 import { ReactComponent as DownArrowIconImg } from '../../assets/icons/icon_down.svg';
 import { StockDetailTabButtonProps, StockPriceProps } from '../../types/stock';
 import { CellColorProps } from '../../types/stockTrading';
+import { FontSize } from '../MyInfo/styled';
 export const StockTableContainer = styled.div`
   width: 100%;
 
@@ -203,4 +203,73 @@ export const TraidngHistorySubTitle = styled.span`
   text-align: center;
   margin-bottom: 8px;
   color: ${Colors.gray};
+`;
+
+export const WateringCalculator = styled.button`
+  width: 85px;
+  height: 35px;
+  border: transparent;
+  font-family: var(--font-nanumfontEB);
+  font-size: 12px;
+  border-radius: 5px;
+  color: ${Colors.white};
+  background-color: ${Colors.gray};
+  margin: 8px 0 0 76%;
+
+  &:hover {
+    color: ${Colors.gray};
+    background-color: transparent;
+    border: 1px solid ${Colors.gray};
+  }
+`;
+
+export const QuantityInput = styled.input`
+  width: ${(props) => props.width}px;
+  border: transparent;
+  outline: transparent;
+`;
+
+export const WateringPopUpMent = styled.p<FontSize>`
+  font-size: ${(props) => props.fontSize};
+  font-family: var(--font-nanumfontB);
+  margin: 0 0 -3px 0;
+  padding-left: 10px;
+
+  span {
+    color: ${Colors.deepGray};
+    font-size: 15px;
+  }
+`;
+export const EstimatedPriceContainer = styled.div`
+  width: 100%;
+  background-color: ${Colors.lightGray};
+  ${StyledCommonflexCenter}
+  justify-content: space-evenly;
+  margin: 12px auto 0px auto;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: var(--font-nanumfont);
+`;
+
+export const EstimatedPriceSubContainer = styled.div`
+  ${StyledCommonflexCenter}
+  flex-flow: column wrap;
+
+  p {
+    margin: 2px 0;
+  }
+
+  p:nth-child(1) {
+    font-size: 13px;
+    color: black;
+  }
+  p:nth-child(3) {
+    color: ${Colors.vDeepGray};
+    font-family: var(--font-nanumfontB);
+  }
+`;
+
+export const EstimatedPrice = styled.p<StockPriceProps>`
+  color: ${(props) => (props.isLower ? 'blue' : 'red')};
+  font-family: var(--font-nanumfontB);
 `;
