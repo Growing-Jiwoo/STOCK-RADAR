@@ -44,3 +44,7 @@ export interface RecentStockListItem {
 export interface StockDetailTabButtonProps {
   isActive: boolean;
 }
+
+export interface FontSize {
+  fontSize: string;
+}

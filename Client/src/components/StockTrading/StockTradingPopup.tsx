@@ -8,13 +8,13 @@ import { currentPriceState } from '../../recoil/stockInfo/atoms';
 import { StockDetailParams, StockName } from '../../types/stock';
 import { TradingStockInfo, StockInPossession } from '../../types/stockTrading';
 import {
+  AgreeButton,
   BtnContainer,
   CloseBtn,
   ClosePopupButton,
   SubMentContainer,
   Title,
-} from '../Comment/styled';
-import { AgreeButton } from '../Commons/styled';
+} from '../Commons/styled';
 import {
   QuantityBtn,
   StockInPossessionText,

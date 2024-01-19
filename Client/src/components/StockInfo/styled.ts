@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import { ReactComponent as DeleteBtnImg } from '../../assets/icons/btn-close-gray.svg';
 import { ReactComponent as UpArrowIconImg } from '../../assets/icons/icon_up.svg';
 import { ReactComponent as DownArrowIconImg } from '../../assets/icons/icon_down.svg';
-import { StockDetailTabButtonProps, StockPriceProps } from '../../types/stock';
+import {
+  FontSize,
+  StockDetailTabButtonProps,
+  StockPriceProps,
+} from '../../types/stock';
 import { CellColorProps } from '../../types/stockTrading';
-import { FontSize } from '../MyInfo/styled';
 export const StockTableContainer = styled.div`
   width: 100%;
 

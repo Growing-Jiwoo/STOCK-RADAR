@@ -3,13 +3,13 @@ import Modal, { Styles } from 'react-modal';
 import { useRecoilValue } from 'recoil';
 import { StockPossessionState } from '../../recoil/stockInfo/atoms';
 import {
-  Title,
-  CloseBtn,
-  SubMentCenterContainer,
+  AgreeButton,
   BtnContainer,
+  CloseBtn,
   ClosePopupButton,
-} from '../Comment/styled';
-import { AgreeButton } from '../Commons/styled';
+  SubMentCenterContainer,
+  Title,
+} from '../Commons/styled';
 import {
   EstimatedPriceContainer,
   EstimatedPriceSubContainer,
