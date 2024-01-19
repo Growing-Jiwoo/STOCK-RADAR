@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { StockPossessionState } from '../recoil/stockInfo/atoms';
 import { stockPriceSelector } from '../recoil/stockInfo/selectors';
 import { useGetStockInPossessionList } from '../services/stockTrading';
 import { StockName } from '../types/stock';
@@ -15,6 +16,8 @@ export const useStockPossessionDetailsData = (stockName: StockName) => {
   const [returnPrice, setReturnPrice] = useState(0);
   const [returnPercentage, setReturnPercentage] = useState(0);
   const [currentTotalPrice, setCurrentTotalPrice] = useState(0);
+
+  const setStockPossessionState = useSetRecoilState(StockPossessionState);
 
   useEffect(() => {
     if (
@@ -36,8 +39,16 @@ export const useStockPossessionDetailsData = (stockName: StockName) => {
       setReturnPrice(+returnPrice);
       setReturnPercentage(+returnPercentage);
       setCurrentTotalPrice(+currentTotalPrice);
+
+      setStockPossessionState({
+        purchasePrice: purchasePrice,
+        quantity: quantity,
+        averageStockPrice: +(purchasePrice / quantity).toFixed(2),
+        currentPrice: stockPriceData[0]?.currentPrice || 0,
+        returnPercentage: +returnPercentage,
+      });
     }
-  }, [stockPriceData, quantity, purchasePrice]);
+  }, [stockPriceData, stockInPossessionList]);
 
   return {
     stockInPossessionList,
