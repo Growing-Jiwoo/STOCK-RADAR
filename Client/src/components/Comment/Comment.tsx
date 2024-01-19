@@ -8,7 +8,7 @@ import { CommentData } from '../../types/board';
 import { StockDetailParams, StockName } from '../../types/stock';
 import { QUERY_KEYS } from '../../const/queryKey';
 import storage from '../../utils/localStorage';
-import Popup from './Popup';
+import CommentDeletePopup from './CommentDeletePopup';
 import {
   CommentContainer,
   CommentInfo,
@@ -77,7 +77,10 @@ function Comment(): ReactElement {
 
   return (
     <>
-      <Popup isOpen={modalOpen} closeModal={() => setModalOpen(false)} />
+      <CommentDeletePopup
+        isOpen={modalOpen}
+        closeModal={() => setModalOpen(false)}
+      />
       {getCommentList?.map((commentData: CommentData, index: number) => {
         const {
           comment_id: commentId,

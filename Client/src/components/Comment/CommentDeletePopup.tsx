@@ -34,7 +34,7 @@ const customStyles: Styles = {
   },
 };
 
-function Popup({
+function CommentDeletePopup({
   isOpen,
   closeModal,
 }: {
@@ -82,4 +82,4 @@ function Popup({
   );
 }
 
-export default Popup;
+export default CommentDeletePopup;
