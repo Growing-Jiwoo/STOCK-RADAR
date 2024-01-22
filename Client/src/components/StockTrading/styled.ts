@@ -3,18 +3,6 @@ import { Colors, StyledCommonflexCenter } from '../../style/common.styled';
 import { StockPriceProps } from '../../types/stock';
 import { CellColorProps } from '../../types/stockTrading';
 
-export const StockTradingTable = styled.table`
-  width: 30%;
-
-  td {
-    width: 100px;
-  }
-`;
-
-export const StyledTableCell = styled.td<CellColorProps>`
-  color: ${(props) => (props.isNegative ? 'blue' : 'red')};
-`;
-
 export const TradingBtnContainer = styled.div`
   ${StyledCommonflexCenter}
   width: 30%;
