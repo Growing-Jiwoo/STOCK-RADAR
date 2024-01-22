@@ -8,7 +8,7 @@ import {
   StockPossessionDetailContainer,
   StockPrice,
 } from './styled';
-import { WateringCalculatorButton } from './WateringCalculatorButton';
+import { WateringCalculatorButton } from '../StockTrading/WateringCalculatorButton';
 
 export function MyStockDetailInfos() {
   const { stockName } = useParams<StockDetailParams>();
@@ -64,9 +64,6 @@ export function MyStockDetailInfos() {
 }
 
 // to do list
-// 1. 자세히 보기 누르면 투자 원금, 해당 주식에 대한 거래 히스토리(기존 hook 활용) 등등 세부 정보 출력 (완)
-// 2. 물타기 계산기 생성 (진행중)
-// 3. django 통해서 특정 주식에 대한 히스토리만 불러올 수 있도록 하게끔 api 수정 (완) -> api 호출 부분 수정해야함 (완)
-// 4. 보유중인 주식에 대한 hook들 이름 바꾸고 세부 정보 보는 커스텀 훅 생성 (useStockPossessionDetails, useStockDetailInfos)
-// -> 새로 만드는 커스텀 훅은 stockName을 매개변수로 받아야 함 (완))
-// 5. Navbar를 투명하게 만들고 Myinfo나 로그아웃 버튼을 좀 다르게 배치하기
+// 1. Navbar를 투명하게 만들고 Myinfo나 로그아웃 버튼을 좀 다르게 배치하기
+// 2. 조건 주문 기능 추가하기
+// 3. 차트 1일, 7일, 30일 차트로 구분해서 볼 수 있게끔 하기
