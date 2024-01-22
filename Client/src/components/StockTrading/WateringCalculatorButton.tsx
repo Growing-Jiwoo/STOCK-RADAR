@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { WateringCalculator } from './styled';
+import { WateringCalculator } from '../StockInfo/styled';
 import { WateringCalculatorPopUp } from './WateringCalculatorPopUp';
 
 export function WateringCalculatorButton(): JSX.Element {

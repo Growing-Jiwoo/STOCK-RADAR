@@ -11,14 +11,14 @@ import {
   Title,
 } from '../Commons/styled';
 import {
+  WateringPopUpMent,
+  QuantityInput,
   EstimatedPriceContainer,
   EstimatedPriceSubContainer,
-  QuantityInput,
   EstimatedPrice,
-  WateringPopUpMent,
   DownArrowIcon,
   UpArrowIcon,
-} from './styled';
+} from '../StockInfo/styled';
 
 Modal.setAppElement('#root');
 
