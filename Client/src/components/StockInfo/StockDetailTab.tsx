@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { StockDetailParams, StockName } from '../../types/stock';
 import CommentInput from '../Comment/CommentInput';
 import Comment from '../Comment/Comment';
-import StockTradingListTable from '../StockTrading/StockTradingListTable';
+import StockQuoteList from '../StockTrading/StockQuoteList';
 import { TabSubContainer, TabButton, TabContainer } from './styled';
 import { MyStockDetailInfos } from './MyStockDetailInfos';
 
@@ -34,7 +34,7 @@ export function StockDetailTab() {
       )}
       {activeTab === 2 && (
         <TabSubContainer>
-          <StockTradingListTable />
+          <StockQuoteList />
         </TabSubContainer>
       )}
       {activeTab === 3 && (

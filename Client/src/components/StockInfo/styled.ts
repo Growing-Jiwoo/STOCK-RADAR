@@ -91,6 +91,12 @@ export const StockPrice = styled.span<StockPriceProps>`
   color: ${(props) => (props.isLower ? 'blue' : 'red')};
 `;
 
+export const StockPriceCenterWide = styled.span<StockPriceProps>`
+  width: 250px;
+  color: ${(props) => (props.isLower ? 'blue' : 'red')};
+  text-align: center;
+`;
+
 export const DownArrowIcon = styled(DownArrowIconImg)`
   width: 12px;
   height: 10px;

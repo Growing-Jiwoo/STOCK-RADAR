@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 import { Colors, StyledCommonflexCenter } from '../../style/common.styled';
+import { StockPriceProps } from '../../types/stock';
 import { CellColorProps } from '../../types/stockTrading';
 
 export const StockTradingTable = styled.table`
   width: 30%;
+
+  td {
+    width: 100px;
+  }
 `;
 
 export const StyledTableCell = styled.td<CellColorProps>`
@@ -51,4 +56,19 @@ export const StockInPossessionText = styled.div`
   font-size: 14px;
   margin-top: 5px;
   font-family: var(--font-nanumfontEB);
+`;
+
+export const StockTradingListContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-size: 17px;
+  font-family: var(--font-nanumfontB);
+`;
+
+export const LimitPrice = styled.span<StockPriceProps>`
+  font-size: 15px;
+  font-family: var(--font-nanumfont);
+  margin: 7px 0;
+  color: ${(props) => (props.isLower ? 'blue' : 'red')};
 `;
