@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -23,6 +23,7 @@ import { prefetchStockInPossessionList } from '../../services/stockTrading';
 import { RateOfChange } from '../StockInfo/RateOfChange';
 import { TodayLimitPrice } from '../StockInfo/styled';
 import { ChartContainer, ChartWrapper } from './styled';
+import { ChartDaysButton } from './ChartDaysButton';
 
 interface StockPriceHistoryChartProps {
   possessionStock: StockName | '';
@@ -34,6 +35,7 @@ export function StockPriceHistoryChart({
   const { stockName } = useParams<StockDetailParams>();
   const [prices, setPrices] = useState<number[]>([]);
   const [timeStamp, setTimeStamp] = useState<string[]>([]);
+  const [chartDays, setChartDays] = useState(1);
   const queryClient = useQueryClient();
   const setMinPriceState = useSetRecoilState(minPriceState);
   const setMaxPriceState = useSetRecoilState(maxPriceState);
@@ -48,16 +50,20 @@ export function StockPriceHistoryChart({
   let cachedData: StockPriceHistory[] | undefined;
 
   if (stockName) {
-    queryKey = [`stockPriceHis/${stockName}/30`];
+    queryKey = [`stockPriceHis/${stockName}/${chartDays}`];
     cachedData = queryClient.getQueryData<StockPriceHistory[]>(queryKey);
-    useGetStockDetailInfos(stockName as StockName, '30');
+    useGetStockDetailInfos(stockName as StockName, `${chartDays}`);
     prefetchStockInPossessionList(stockName as StockName);
   } else if (possessionStock) {
-    queryKey = [`stockPriceHis/${possessionStock}/30`];
+    queryKey = [`stockPriceHis/${possessionStock}/7`];
     cachedData = queryClient.getQueryData<StockPriceHistory[]>(queryKey);
-    useStockPriceHistory(possessionStock as StockName, '30');
+    useStockPriceHistory(possessionStock as StockName, '7');
     prefetchStockInPossessionList(possessionStock as StockName);
   }
+
+  const handleSetChartDays = (day: number) => {
+    setChartDays(day);
+  };
 
   useEffect(() => {
     if (cachedData) {
@@ -148,6 +154,12 @@ export function StockPriceHistoryChart({
         </>
       )}
       <ChartContainer>
+        {stockName && (
+          <>
+            <ChartDaysButton chartDays={handleSetChartDays} />
+          </>
+        )}
+
         <ChartWrapper hasStockName={Boolean(stockName)}>
           <ECharts
             option={options}
