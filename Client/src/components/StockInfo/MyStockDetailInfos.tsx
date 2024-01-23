@@ -62,8 +62,3 @@ export function MyStockDetailInfos() {
     <span>보유중인 주식이 없습니다.</span>
   );
 }
-
-// to do list
-// 1. Navbar를 투명하게 만들고 Myinfo나 로그아웃 버튼을 좀 다르게 배치하기
-// 2. 조건 주문 기능 추가하기
-// 3. 차트 1일, 7일, 30일 차트로 구분해서 볼 수 있게끔 하기
