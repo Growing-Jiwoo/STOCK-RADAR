@@ -15,8 +15,8 @@ export default function StockInfo() {
   return (
     <Suspense fallback={<Spinner />}>
       <StockTableContainer>
-        <RecentStockList />
         <StockTable />
+        <RecentStockList />
       </StockTableContainer>
     </Suspense>
   );
