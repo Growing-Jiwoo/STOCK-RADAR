@@ -7,7 +7,7 @@ const Center = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  padding: 150px 0;
+  padding: 100px 0;
 `;
 
 export const S = {

@@ -6,6 +6,7 @@ import { useTableInstance } from '../../hooks/useTableInstance';
 import { StockInformation } from '../../types/stock';
 import { useRecoilValue } from 'recoil';
 import { stockDataState } from '../../recoil/stockInfo/atoms';
+import { DownArrowIcon, StockPrice, UpArrowIcon } from './styled';
 
 function StockTable() {
   const navigate = useNavigate();
@@ -15,7 +16,16 @@ function StockTable() {
       { Header: '주식명', accessor: 'name' },
       { Header: '시가', accessor: 'start_price' },
       { Header: '현재 가격', accessor: 'current_price' },
-      { Header: '+-%', accessor: 'rate_of_change' },
+      {
+        Header: '+-%',
+        accessor: 'rate_of_change',
+        Cell: ({ value }: { value: number }) => (
+          <>
+            <StockPrice isLower={value <= 0}>{value}%</StockPrice>
+            {value <= 0 ? <DownArrowIcon /> : <UpArrowIcon />}
+          </>
+        ),
+      },
       { Header: '어제 종가', accessor: 'yesterday_price' },
     ],
     []

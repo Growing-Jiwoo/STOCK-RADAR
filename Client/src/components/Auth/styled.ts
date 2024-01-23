@@ -36,6 +36,10 @@ const Input = styled.input`
     font-size: 1rem;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
+
+  &[type='password'] {
+    font-family: '굴림';
+  }
 `;
 
 const Button = styled.button<{ isValid?: boolean }>`

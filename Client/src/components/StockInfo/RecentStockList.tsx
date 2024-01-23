@@ -36,7 +36,7 @@ export function RecentStockList() {
 
   return (
     <Container>
-      최근 본 주식 리스트
+      <h4>최근 본 주식 리스트</h4>
       <RecentListContainer>
         {keys.map((key, index) => (
           <StockContainer key={key}>

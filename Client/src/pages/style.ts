@@ -6,11 +6,15 @@ import {
 import { ReactComponent as TitleLogo } from '../assets/icons/titleLogo_small.svg';
 
 const Container = styled(StyledCommonContainer)`
-  box-shadow: 0 0px 70px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  height: 70vh;
+  padding: 0 0 45px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0px 70px rgba(0, 0, 0, 0.1);
+  font-family: var(--font-nanumfont);
 `;
 
 const MainContainer = styled(Container)`

@@ -11,13 +11,24 @@ import {
 import { CellColorProps } from '../../types/stockTrading';
 export const StockTableContainer = styled.div`
   width: 100%;
+  display: flex;
+  margin-left: 20%;
 
   .stock-table {
-    margin-top: 20px;
+    margin-top: 5%;
     width: 100%;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-nanumfont);
     border-collapse: collapse;
-    font-size: 12px;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .stock-table th {
+    font-family: var(--font-nanumfontEB);
+  }
+
+  .stock-table td:nth-child(1) {
+    font-family: var(--font-nanumfontB);
   }
 
   .stock-table td,
@@ -35,9 +46,8 @@ export const StockTableContainer = styled.div`
   }
 
   .stock-table th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: #45bda9;
     color: #fff;
   }
@@ -47,24 +57,27 @@ export const StockTableContainer = styled.div`
   }
 
   .stock-table thead {
-    font-size: 16px;
+    font-size: 20px;
   }
 `;
 
 export const Container = styled.div`
   ${StyledCommonflexCenter}
-  width: 100%;
+  width: 40%;
   flex-flow: column;
 `;
 
 export const RecentListContainer = styled.div`
   ${StyledCommonflexCenter}
-  width: 80%;
+  flex-flow: column;
+  width: 30%;
+  font-family: var(--font-nanumfont);
+  font-size: 13px;
 `;
 
 export const StockContainer = styled.div`
   ${StyledCommonflexCenter}
-  width: 100%;
+  width: 150px;
   border: 1px solid #bfc2cb;
   flex-flow: column;
 `;
@@ -87,7 +100,6 @@ export const DeleteBtn = styled(DeleteBtnImg)`
 `;
 
 export const StockPrice = styled.span<StockPriceProps>`
-  width: 150px;
   color: ${(props) => (props.isLower ? 'blue' : 'red')};
 `;
 

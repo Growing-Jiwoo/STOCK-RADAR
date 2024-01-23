@@ -25,7 +25,7 @@ function StockPriceRenderer({
     const accumulatedRate = rateOfChange + index * (multiplier * 10);
 
     return (
-      <StockPriceCenterWide isLower={accumulatedRate <= 0}>
+      <StockPriceCenterWide key={index} isLower={accumulatedRate <= 0}>
         ${accumulatedCurrentPrice.toFixed(2)} / {accumulatedRate.toFixed(2)}%
       </StockPriceCenterWide>
     );
