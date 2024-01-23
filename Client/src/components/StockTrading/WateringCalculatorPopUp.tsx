@@ -54,7 +54,7 @@ export function WateringCalculatorPopUp({
   const { averageStockPrice, currentPrice, quantity, returnPercentage } =
     StockPossessionData;
   const [inputQuantity, setInputQuantity] = useState('10');
-  const [inputWidth, setInputWidth] = useState(28);
+  const [inputWidth, setInputWidth] = useState(33);
 
   const purchasePrice = averageStockPrice * quantity;
   const newInvestmentPrice = currentPrice * +inputQuantity;
@@ -79,7 +79,7 @@ export function WateringCalculatorPopUp({
 
     if (regex.test(inputValue)) {
       setInputQuantity(inputValue);
-      setInputWidth(Math.max(0, inputValue.length * 12));
+      setInputWidth(Math.max(0, inputValue.length * 15));
     }
   };
 
