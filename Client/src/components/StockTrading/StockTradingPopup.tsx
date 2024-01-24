@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import Modal, { Styles } from 'react-modal';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useRecoilValue } from 'recoil';
-import { buyStock, sellStock } from '../../apis/stockTrading';
 import { currentPriceState } from '../../recoil/stockInfo/atoms';
 import { StockDetailParams, StockName } from '../../types/stock';
 import { TradingStockInfo, StockInPossession } from '../../types/stockTrading';
@@ -22,6 +20,7 @@ import {
 } from './styled';
 import { queryClient } from '../../react-query/queryClient';
 import { QUERY_KEYS } from '../../const/queryKey';
+import { useStockTrading } from '../../hooks/useStockTrading';
 
 Modal.setAppElement('#root');
 
@@ -90,30 +89,13 @@ export function StockTradingPopup({
     const stockTradingRequestBody: TradingStockInfo = {
       stock_id: Number(stockDetailId),
       stock_name: stockName as StockName,
-      quantity,
+      quantity: quantity,
+      actionType: actionType,
     };
 
-    try {
-      actionType === 'buy'
-        ? await buyStock(stockTradingRequestBody as TradingStockInfo)
-        : await sellStock(stockTradingRequestBody as TradingStockInfo);
-
-      const stockChartAllQueryKeys = queryClient
-        .getQueryCache()
-        .findAll([`${QUERY_KEYS.STOCK_PRICE_HISTORY}/`]);
-
-      await queryClient.refetchQueries(stockChartAllQueryKeys);
-
-      await queryClient.refetchQueries([
-        `${QUERY_KEYS.STOCK_IN_POSSESSION}/${stockName}`,
-      ]);
-
-      closeModal();
-      setQuantity(0);
-    } catch (error) {
-      console.error('Stock trading failed:', error);
-      toast.error(`Stock trading failed: ${error}`);
-    }
+    useStockTrading(stockTradingRequestBody);
+    closeModal();
+    setQuantity(0);
   };
 
   const calculateTotalPrice = () => {
