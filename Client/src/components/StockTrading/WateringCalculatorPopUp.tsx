@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import Modal, { Styles } from 'react-modal';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { useStockTrading } from '../../hooks/useStockTrading';
 import { StockPossessionState } from '../../recoil/stockInfo/atoms';
+import { StockDetailParams, StockName } from '../../types/stock';
+import { TradingStockInfo } from '../../types/stockTrading';
 import {
   AgreeButton,
   BtnContainer,
@@ -50,6 +54,7 @@ export function WateringCalculatorPopUp({
   isOpen: boolean;
   closeModal: () => void;
 }) {
+  const { stockName, stockDetailId } = useParams<StockDetailParams>();
   const StockPossessionData = useRecoilValue(StockPossessionState);
   const { averageStockPrice, currentPrice, quantity, returnPercentage } =
     StockPossessionData;
@@ -81,6 +86,18 @@ export function WateringCalculatorPopUp({
       setInputQuantity(inputValue);
       setInputWidth(Math.max(0, inputValue.length * 15));
     }
+  };
+
+  const handleBuyStock = async () => {
+    const stockTradingRequestBody: TradingStockInfo = {
+      stock_id: Number(stockDetailId),
+      stock_name: stockName as StockName,
+      quantity: +inputQuantity,
+      actionType: 'buy',
+    };
+
+    useStockTrading(stockTradingRequestBody);
+    closeModal();
   };
 
   return (
@@ -139,7 +156,13 @@ export function WateringCalculatorPopUp({
           <ClosePopupButton width="80px" height="38px" onClick={closeModal}>
             취소
           </ClosePopupButton>
-          <AgreeButton width="80px" height="38px">
+          <AgreeButton
+            width="80px"
+            height="38px"
+            onClick={() => {
+              handleBuyStock();
+            }}
+          >
             구매
           </AgreeButton>
         </BtnContainer>

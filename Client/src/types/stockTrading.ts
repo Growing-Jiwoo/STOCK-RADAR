@@ -13,6 +13,7 @@ export interface TradingStockInfo {
   stock_id: number;
   quantity: number;
   stock_name: StockName;
+  actionType: 'buy' | 'sell';
 }
 
 export interface StockInPossession {
