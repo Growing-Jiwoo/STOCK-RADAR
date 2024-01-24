@@ -149,8 +149,8 @@ export function StockPriceHistoryChart({
         <>
           <p>현재 가격</p>
           <RateOfChange keys={selectedStockData?.name} />
-          <TodayLimitPrice>오늘의 상한가 : {maxPrice}</TodayLimitPrice>
-          <TodayLimitPrice>오늘의 하한가 : {minPrice}</TodayLimitPrice>
+          <TodayLimitPrice>상한가 : {maxPrice}</TodayLimitPrice>
+          <TodayLimitPrice>하한가 : {minPrice}</TodayLimitPrice>
         </>
       )}
       <ChartContainer>

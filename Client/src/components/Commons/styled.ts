@@ -2,6 +2,13 @@ import { Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Colors, StyledCommonflexCenter } from '../../style/common.styled';
 import { ReactComponent as CloseBtnImg } from '../../assets/icons/btn-close-gray.svg';
+import { ReactComponent as TitleLogo } from '../../assets/icons/titleLogo_small.svg';
+
+export const TitleLogoImg = styled(TitleLogo)`
+  width: 200px;
+  height: 70px;
+  cursor: pointer;
+`;
 
 const Header = styled(Navbar)`
   width: 100%;
@@ -11,18 +18,12 @@ const Header = styled(Navbar)`
 }
 `;
 
-const LogoutButton = styled.button`
-  position: absolute;
-  background-color: transparent;
-  border: none;
+export const MenuContainer = styled.div`
+  display: flex;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.7);
-  font-size: 16px;
-  letter-spacing: 0.5px;
-  right: 2%;
-  &:hover {
-    color: #000;
-  }
+  font-family: var(--font-nanumfontB);
+  color: ${Colors.vDeepGray};
+  gap: 20px;
 `;
 
 const SpinnerWrapper = styled.div`
@@ -132,7 +133,6 @@ export const ClosePopupButton = styled(DisagreeButton)`
 
 export const S = {
   Header,
-  LogoutButton,
   SpinnerWrapper,
   AgreeButton,
   DisagreeButton,
