@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Navbar, Container, Nav } from 'react-bootstrap';
-import { S } from './styled';
+import { Container } from 'react-bootstrap';
+import { S, TitleLogoImg, MenuContainer } from './styled';
 import useLogout from '../../hooks/useLogout';
 import { useStockData } from '../../services/stockInfo';
 
@@ -12,31 +12,22 @@ function NavBar() {
     <>
       <S.Header bg="light" variant="light">
         <Container>
-          <Navbar.Brand
+          <TitleLogoImg
             onClick={() => {
               navigate('/stock');
             }}
-          >
-            home
-          </Navbar.Brand>
-          <Nav className="me-auto">
-            {/* <Nav.Link
-              onClick={() => {
-                navigate('/trade');
-              }}
-            >
-              trade
-            </Nav.Link> */}
-            <Nav.Link
+          ></TitleLogoImg>
+          <MenuContainer>
+            <span
               onClick={() => {
                 navigate('/myInfo');
               }}
             >
-              myInfo
-            </Nav.Link>
-          </Nav>
+              내 정보
+            </span>
+            <span onClick={logout}>로그아웃</span>
+          </MenuContainer>
         </Container>
-        <S.LogoutButton onClick={logout}>Logout</S.LogoutButton>
       </S.Header>
     </>
   );
