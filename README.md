@@ -128,7 +128,7 @@
 
 ## 기술 스택
 
-[Client] - `React` `Typescript` `recoil` `React-Query` `styled-components` `echarts` `react-modal` `react-hook-form` `react-js-pagination` `react-table` `react-toastify`
+[Client] - `React` `Typescript` `recoil` `React-Query` `styled-components` `echarts` `react-modal` `react-hook-form`
 
 [SERVER] - `Django` `JWT`
 
